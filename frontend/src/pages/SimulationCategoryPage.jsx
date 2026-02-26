@@ -1,0 +1,738 @@
+import { useState, useEffect } from 'react'
+import { useParams, useNavigate, Link } from 'react-router-dom'
+import s from './SimulationCategoryPage.module.css'
+
+/* ─── SVG Icon system (consistent with rest of app) ─── */
+const paths = {
+  shield:      <path d="M12 2L3 7v5c0 5.25 3.75 10.15 9 11.25C17.25 22.15 21 17.25 21 12V7L12 2z"/>,
+  arrowLeft:   <><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></>,
+  arrowRight:  <><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></>,
+  lock:        <><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></>,
+  checkCircle: <><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></>,
+  clock:       <><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></>,
+  zap:         <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>,
+  target:      <><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></>,
+  bookOpen:    <><path d="M2 3h6a4 4 0 014 4v14a3 3 0 00-3-3H2z"/><path d="M22 3h-6a4 4 0 00-4 4v14a3 3 0 013-3h7z"/></>,
+  award:       <><circle cx="12" cy="8" r="6"/><path d="M15.477 12.89L17 22l-5-3-5 3 1.523-9.11"/></>,
+  bell:        <><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 01-3.46 0"/></>,
+  user:        <><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></>,
+  mail:        <><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M2 7l10 7 10-7"/></>,
+  phone:       <path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.81a19.79 19.79 0 01-3.07-8.63A2 2 0 012 1h3a2 2 0 012 1.72c.12 1.05.37 2.05.7 3.01a2 2 0 01-.45 2.11L6.09 9a16 16 0 006.91 6.91l1.16-1.16a2 2 0 012.11-.45c.96.33 1.96.58 3.01.7A2 2 0 0122 16.92z"/>,
+  cpu:         <><rect x="4" y="4" width="16" height="16" rx="2"/><rect x="9" y="9" width="6" height="6"/><path d="M9 2v2M15 2v2M9 20v2M15 20v2M2 9h2M2 15h2M20 9h2M20 15h2"/></>,
+  shoppingBag: <><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></>,
+  trendingUp:  <><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></>,
+  wifi:        <><path d="M5 12.55a11 11 0 0114.08 0"/><path d="M1.42 9a16 16 0 0121.16 0"/><path d="M8.53 16.11a6 6 0 016.95 0"/><line x1="12" y1="20" x2="12.01" y2="20"/></>,
+  activity:    <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/>,
+  eye:         <><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></>,
+  chevrRight:  <polyline points="9 18 15 12 9 6"/>,
+}
+
+function Icon({ name, size = 18, color = 'currentColor', w = 1.6 }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="none"
+      stroke={color} strokeWidth={w} strokeLinecap="round" strokeLinejoin="round">
+      {paths[name]}
+    </svg>
+  )
+}
+
+/* ─── Category metadata ─── */
+const CATEGORY_META = {
+  'financial-security': {
+    id: 'financial-security',
+    title: 'Financial Security',
+    subtitle: 'Recognise and resist fraud targeting your money, banking, and payment systems.',
+    icon: 'zap',
+  },
+  'identity-impersonation': {
+    id: 'identity-impersonation',
+    title: 'Identity & Impersonation',
+    subtitle: 'Understand how attackers steal identities and impersonate trusted sources.',
+    icon: 'eye',
+  },
+  'malware-device-safety': {
+    id: 'malware-device-safety',
+    title: 'Malware & Device Safety',
+    subtitle: 'Learn how malicious software infects devices and how to stay protected.',
+    icon: 'cpu',
+  },
+  'online-commerce-safety': {
+    id: 'online-commerce-safety',
+    title: 'Online Commerce Safety',
+    subtitle: 'Navigate e-commerce fraud, fake listings, and unsafe payment gateways safely.',
+    icon: 'shoppingBag',
+  },
+  'phishing-emerging-threats': {
+    id: 'phishing-emerging-threats',
+    title: 'Phishing & Emerging Threats',
+    subtitle: 'Identify phishing across email, SMS, and newer digital channels.',
+    icon: 'mail',
+  },
+  'opportunity-investment': {
+    id: 'opportunity-investment',
+    title: 'Opportunity & Investment',
+    subtitle: 'Spot fraudulent job offers, fake schemes, and investment scams before they strike.',
+    icon: 'trendingUp',
+  },
+}
+
+/* ─── Simulation content
+    Structure: SIMULATIONS[categoryId][ageGroup] = array of simulation objects
+    Each simulation: { id, level, difficulty, title, desc, duration, objectives }
+─── */
+const SIMULATIONS = {
+  'financial-security': {
+    student: [
+      {
+        id: 'fs-s-1', level: 1, difficulty: 'beginner',
+        title: 'The UPI Refund Trick',
+        desc: 'A peer sends you money by "mistake" and asks you to scan a QR code to return it. Learn why scanning sends money out, not in.',
+        duration: '8 min', objectives: ['Understand how UPI QR codes work', 'Identify reversal scam patterns', 'Know the correct steps to take'],
+      },
+      {
+        id: 'fs-s-2', level: 2, difficulty: 'beginner',
+        title: 'Fake Scholarship Payment',
+        desc: 'You receive a scholarship offer that requires a small "processing fee" before funds are released. Recognise this classic advance-fee trap.',
+        duration: '10 min', objectives: ['Spot advance-fee fraud indicators', 'Verify scholarship legitimacy', 'Report fraudulent offers'],
+      },
+      {
+        id: 'fs-s-3', level: 3, difficulty: 'intermediate',
+        title: 'College Fest Ticket Fraud',
+        desc: 'A seller on Instagram offers discounted event tickets. Payment is done. Tickets never arrive. Navigate this step by step.',
+        duration: '12 min', objectives: ['Identify unsafe payment channels', 'Evaluate seller credibility', 'Initiate a chargeback correctly'],
+      },
+      {
+        id: 'fs-s-4', level: 4, difficulty: 'advanced',
+        title: 'Crypto Investment Group',
+        desc: 'A WhatsApp group promises guaranteed returns on a crypto platform. Members post daily profit screenshots. Uncover the mechanics of this pump-and-dump scheme.',
+        duration: '15 min', objectives: ['Analyse investment red flags', 'Understand pump-and-dump mechanics', 'Identify organised fraud groups'],
+      },
+    ],
+    professional: [
+      {
+        id: 'fs-p-1', level: 1, difficulty: 'beginner',
+        title: 'Business Email Invoice Swap',
+        desc: 'Your accounts team receives an email from a known vendor with updated bank details. The domain is subtly spoofed. Catch it before the transfer.',
+        duration: '10 min', objectives: ['Identify domain spoofing', 'Verify payment instruction changes', 'Establish safe verification protocols'],
+      },
+      {
+        id: 'fs-p-2', level: 2, difficulty: 'intermediate',
+        title: 'Salary Account OTP Scam',
+        desc: 'A caller claiming to be from HR asks for your OTP to "update salary account details." Walk through the correct response in real time.',
+        duration: '12 min', objectives: ['Understand OTP security principles', 'Recognise authority impersonation', 'Know internal escalation steps'],
+      },
+      {
+        id: 'fs-p-3', level: 3, difficulty: 'intermediate',
+        title: 'CFO Fraud — Wire Transfer',
+        desc: 'You receive a message appearing to be from your CFO asking for an urgent wire transfer to a new account. This is a CEO/CFO fraud simulation.',
+        duration: '15 min', objectives: ['Identify CEO fraud patterns', 'Apply dual-authorisation thinking', 'Handle urgent-but-suspicious requests'],
+      },
+      {
+        id: 'fs-p-4', level: 4, difficulty: 'advanced',
+        title: 'Supply Chain Payment Diversion',
+        desc: 'Over three weeks, a fraudster builds rapport as a new supplier, then intercepts a large payment. Navigate the multi-step deception.',
+        duration: '20 min', objectives: ['Trace multi-step financial fraud', 'Identify long-con deception patterns', 'Implement financial controls'],
+      },
+    ],
+    elderly: [
+      {
+        id: 'fs-e-1', level: 1, difficulty: 'beginner',
+        title: 'The KYC Expiry Call',
+        desc: 'A caller says your bank account will be blocked unless you share your Aadhaar and OTP for "KYC renewal." Learn what banks actually do and do not ask for.',
+        duration: '8 min', objectives: ['Know what banks never ask for', 'Identify KYC fraud scripts', 'Safely end suspicious calls'],
+      },
+      {
+        id: 'fs-e-2', level: 2, difficulty: 'beginner',
+        title: 'Pension Benefit Scam',
+        desc: 'You receive an SMS about unclaimed pension benefits. A link asks for your account number to "transfer" the amount. Identify and avoid this trap.',
+        duration: '10 min', objectives: ['Spot SMS phishing patterns', 'Recognise government impersonation', 'Verify benefits through official channels'],
+      },
+      {
+        id: 'fs-e-3', level: 3, difficulty: 'intermediate',
+        title: 'Remote Access Banking Fraud',
+        desc: 'A "bank official" asks you to install an app to fix an account issue. The app gives full control of your device. Understand the attack step by step.',
+        duration: '12 min', objectives: ['Identify remote access tool misuse', 'Understand device takeover risks', 'Know safe alternatives to provide'],
+      },
+    ],
+  },
+
+  'identity-impersonation': {
+    student: [
+      {
+        id: 'ii-s-1', level: 1, difficulty: 'beginner',
+        title: 'Fake College Admin Account',
+        desc: 'An Instagram account impersonating your college admin is asking students to submit personal details for a "scholarship portal." Spot the fake.',
+        duration: '8 min', objectives: ['Verify official social accounts', 'Identify information harvesting', 'Report impersonation attempts'],
+      },
+      {
+        id: 'ii-s-2', level: 2, difficulty: 'intermediate',
+        title: 'WhatsApp Classmate Impersonation',
+        desc: 'A contact using your classmate\'s photo and name asks to borrow money urgently. Their real number was recently changed. Verify before you act.',
+        duration: '10 min', objectives: ['Verify identity through secondary channels', 'Recognise account takeover signs', 'Respond without escalating risk'],
+      },
+      {
+        id: 'ii-s-3', level: 3, difficulty: 'advanced',
+        title: 'Aadhaar Identity Theft',
+        desc: 'Your Aadhaar details were shared carelessly. Walk through how an attacker could misuse them and what protective steps you can take immediately.',
+        duration: '15 min', objectives: ['Understand Aadhaar misuse vectors', 'Lock Aadhaar biometrics correctly', 'File an identity theft complaint'],
+      },
+    ],
+    professional: [
+      {
+        id: 'ii-p-1', level: 1, difficulty: 'beginner',
+        title: 'LinkedIn Profile Cloning',
+        desc: 'Someone has cloned your LinkedIn profile and is approaching your contacts. Identify, report, and mitigate the reputational damage.',
+        duration: '10 min', objectives: ['Detect profile cloning', 'Alert contacts safely', 'Use LinkedIn reporting tools'],
+      },
+      {
+        id: 'ii-p-2', level: 2, difficulty: 'intermediate',
+        title: 'Vendor Impersonation Email',
+        desc: 'A fraudster impersonates a key vendor using a near-identical email domain and requests a contract renewal with changed payment terms.',
+        duration: '12 min', objectives: ['Spot domain spoofing techniques', 'Validate vendor communication channels', 'Implement verification protocols'],
+      },
+      {
+        id: 'ii-p-3', level: 3, difficulty: 'advanced',
+        title: 'Deep Fake Voice Call',
+        desc: 'A voice call from what sounds exactly like your manager requests an urgent account action. AI voice cloning has made this a real threat. Navigate it.',
+        duration: '18 min', objectives: ['Understand AI voice cloning risks', 'Establish a code-word verification system', 'Handle high-pressure impersonation'],
+      },
+    ],
+    elderly: [
+      {
+        id: 'ii-e-1', level: 1, difficulty: 'beginner',
+        title: 'Government Officer Impersonation',
+        desc: 'A caller claims to be from the Income Tax Department and says you owe a fine. They know your name and partial PAN number. Identify the script.',
+        duration: '8 min', objectives: ['Identify government impersonation tactics', 'Know what officials never ask over phone', 'File a complaint through correct channels'],
+      },
+      {
+        id: 'ii-e-2', level: 2, difficulty: 'intermediate',
+        title: 'Family Emergency Scam',
+        desc: 'Someone calls claiming your son or grandson is in legal trouble and needs money transferred immediately. This is a classic panic-based identity exploit.',
+        duration: '10 min', objectives: ['Recognise urgency manipulation', 'Verify family emergencies independently', 'Avoid panic-driven decisions'],
+      },
+    ],
+  },
+
+  'malware-device-safety': {
+    student: [
+      {
+        id: 'md-s-1', level: 1, difficulty: 'beginner',
+        title: 'The Cracked APK',
+        desc: 'A popular paid game app is available for free on a third-party site. You install it. Watch what the app actually does in the background.',
+        duration: '10 min', objectives: ['Understand APK sideloading risks', 'Identify malicious app permissions', 'Remove potentially harmful apps safely'],
+      },
+      {
+        id: 'md-s-2', level: 2, difficulty: 'intermediate',
+        title: 'Exam Notes Attachment',
+        desc: 'A WhatsApp forward promises leaked exam notes as a PDF attachment. Opening it installs a keylogger. Follow the infection chain step by step.',
+        duration: '12 min', objectives: ['Identify malicious document vectors', 'Understand keylogger behaviour', 'Scan and clean an infected device'],
+      },
+      {
+        id: 'md-s-3', level: 3, difficulty: 'advanced',
+        title: 'Campus Wi-Fi Man-in-the-Middle',
+        desc: 'You connect to "CollegeWiFi_Free" on campus. An attacker is intercepting all your traffic. Understand what gets exposed and how to stay safe.',
+        duration: '15 min', objectives: ['Understand MITM attack mechanics', 'Identify rogue access points', 'Use VPN and HTTPS correctly'],
+      },
+    ],
+    professional: [
+      {
+        id: 'md-p-1', level: 1, difficulty: 'beginner',
+        title: 'Work Email Malware Attachment',
+        desc: 'An email from an external partner contains a Word document with macros enabled. Enabling them triggers a payload. Identify and handle it safely.',
+        duration: '10 min', objectives: ['Understand macro malware risks', 'Handle suspicious email attachments', 'Report to IT security correctly'],
+      },
+      {
+        id: 'md-p-2', level: 2, difficulty: 'intermediate',
+        title: 'Ransomware: File Lockdown',
+        desc: 'A malicious download encrypts your local files and a ransom note appears. Walk through the isolation steps, backup recovery, and reporting process.',
+        duration: '15 min', objectives: ['Respond to an active ransomware event', 'Isolate infected systems correctly', 'Assess recovery options and reporting obligations'],
+      },
+      {
+        id: 'md-p-3', level: 3, difficulty: 'advanced',
+        title: 'USB Drop Attack',
+        desc: 'A USB drive labelled "Q3 Salaries" is found in the office parking lot. Someone plugs it in. Trace the full attack chain from initial access to exfiltration.',
+        duration: '18 min', objectives: ['Understand USB-based attack vectors', 'Implement physical media policies', 'Contain and investigate an insider-threat scenario'],
+      },
+    ],
+    elderly: [
+      {
+        id: 'md-e-1', level: 1, difficulty: 'beginner',
+        title: 'Fake Tech Support Pop-up',
+        desc: 'A full-screen warning says your computer is infected and displays a phone number to call. The number connects to scammers. Identify and close it safely.',
+        duration: '8 min', objectives: ['Identify tech support scam pop-ups', 'Safely close rogue browser warnings', 'Never call numbers shown in pop-ups'],
+      },
+      {
+        id: 'md-e-2', level: 2, difficulty: 'intermediate',
+        title: 'WhatsApp APK Installation',
+        desc: 'A message says your WhatsApp will expire unless you install the "new version" from a link. The link installs spyware. Walk through the warning signs.',
+        duration: '10 min', objectives: ['Identify fake app update messages', 'Understand spyware risks', 'Uninstall malicious apps safely'],
+      },
+    ],
+  },
+
+  'online-commerce-safety': {
+    student: [
+      {
+        id: 'oc-s-1', level: 1, difficulty: 'beginner',
+        title: 'Instagram Seller — No Delivery',
+        desc: 'You find a heavily discounted phone on an Instagram shop. You pay via UPI. The seller blocks you. Identify the red flags you missed.',
+        duration: '8 min', objectives: ['Evaluate online seller credibility', 'Identify unsafe payment methods', 'Use buyer-protected payment channels'],
+      },
+      {
+        id: 'oc-s-2', level: 2, difficulty: 'intermediate',
+        title: 'Fake Flash Sale Website',
+        desc: 'A website mimicking a major e-commerce platform runs a 90% off flash sale. You enter card details. Understand what happens next.',
+        duration: '12 min', objectives: ['Identify counterfeit e-commerce sites', 'Check SSL and domain authenticity', 'Report card compromise quickly'],
+      },
+      {
+        id: 'oc-s-3', level: 3, difficulty: 'advanced',
+        title: 'Second-hand Laptop OLX Scam',
+        desc: 'A seller insists on advance payment before showing the laptop. They provide a fake delivery tracking link. Trace the deception chain.',
+        duration: '14 min', objectives: ['Identify advance-payment scam patterns', 'Verify second-hand transaction safety', 'Safely meet and transact offline'],
+      },
+    ],
+    professional: [
+      {
+        id: 'oc-p-1', level: 1, difficulty: 'beginner',
+        title: 'Fake Vendor Portal',
+        desc: 'Your procurement team is directed to a vendor\'s "new portal" to renew a subscription. The portal steals corporate card details.',
+        duration: '10 min', objectives: ['Verify vendor portal authenticity', 'Check for secure payment indicators', 'Report fraudulent billing attempts'],
+      },
+      {
+        id: 'oc-p-2', level: 2, difficulty: 'intermediate',
+        title: 'Subscription Trap & Recurring Billing',
+        desc: 'A "free trial" SaaS tool signs the company up for a recurring subscription. The terms were buried in small print. Identify and mitigate.',
+        duration: '12 min', objectives: ['Read SaaS subscription terms carefully', 'Identify dark pattern billing', 'Dispute and cancel unauthorised charges'],
+      },
+    ],
+    elderly: [
+      {
+        id: 'oc-e-1', level: 1, difficulty: 'beginner',
+        title: 'Fake Online Medical Store',
+        desc: 'A website offers heavily discounted medicines with "no prescription needed." They collect payment and personal health data. Spot the danger.',
+        duration: '8 min', objectives: ['Identify unregulated online pharmacies', 'Verify medicine purchase safety', 'Protect health and payment data'],
+      },
+      {
+        id: 'oc-e-2', level: 2, difficulty: 'beginner',
+        title: 'Lucky Draw Prize Claim',
+        desc: 'An SMS says you\'ve won a prize from a major brand. To claim it, you need to pay a small "courier charge." Recognise this as a prize scam.',
+        duration: '10 min', objectives: ['Identify prize scam patterns', 'Verify brand contests through official channels', 'Never pay to claim a prize'],
+      },
+      {
+        id: 'oc-e-3', level: 3, difficulty: 'intermediate',
+        title: 'Reverse Pickup Delivery Fraud',
+        desc: 'A caller says a package you ordered needs to be returned. They ask for OTP to "initiate reverse pickup." That OTP is for your bank account.',
+        duration: '12 min', objectives: ['Understand OTP misuse in delivery scams', 'Verify delivery exceptions through official apps', 'Know when to hang up and verify'],
+      },
+    ],
+  },
+
+  'phishing-emerging-threats': {
+    student: [
+      {
+        id: 'pe-s-1', level: 1, difficulty: 'beginner',
+        title: 'University Login Page Clone',
+        desc: 'A link in a group chat leads to a page that looks exactly like your university portal. Spot the differences and avoid entering your credentials.',
+        duration: '8 min', objectives: ['Identify cloned login pages', 'Check URL authenticity', 'Use browser security indicators'],
+      },
+      {
+        id: 'pe-s-2', level: 2, difficulty: 'intermediate',
+        title: 'Smishing — Internship Offer',
+        desc: 'An SMS from a known company\'s apparent number offers a remote internship. A link asks for your resume and bank details to "process the stipend."',
+        duration: '12 min', objectives: ['Understand SMS phishing mechanics', 'Verify job offers through official channels', 'Identify personal data harvesting forms'],
+      },
+      {
+        id: 'pe-s-3', level: 3, difficulty: 'advanced',
+        title: 'QR Code Phishing in Cafeteria',
+        desc: 'A QR code on the cafeteria table links to a phishing site instead of the menu. Understand quishing (QR phishing) and how to verify QR destinations.',
+        duration: '14 min', objectives: ['Understand QR code phishing (quishing)', 'Preview QR destinations before opening', 'Identify contextual phishing placement'],
+      },
+    ],
+    professional: [
+      {
+        id: 'pe-p-1', level: 1, difficulty: 'beginner',
+        title: 'Spear Phishing — IT Department',
+        desc: 'An email from "IT Support" asks you to reset your corporate password via a link. The link mimics your company\'s SSO page. Spot the deception.',
+        duration: '10 min', objectives: ['Identify spear phishing characteristics', 'Verify IT communication through internal channels', 'Handle credential reset requests safely'],
+      },
+      {
+        id: 'pe-p-2', level: 2, difficulty: 'intermediate',
+        title: 'DocuSign Phishing Lure',
+        desc: 'You receive a DocuSign notification for an urgent contract. The document asks you to "verify identity" by entering your Microsoft 365 credentials.',
+        duration: '12 min', objectives: ['Identify brand-impersonation phishing', 'Verify document signing requests independently', 'Recognise credential harvesting pages'],
+      },
+      {
+        id: 'pe-p-3', level: 3, difficulty: 'advanced',
+        title: 'Multi-Stage Phishing Campaign',
+        desc: 'Over 5 days, a fraudster sends a series of legitimate-looking emails building rapport before the final credential-theft attempt. Trace the entire campaign.',
+        duration: '20 min', objectives: ['Identify long-form phishing campaigns', 'Detect rapport-building as an attack vector', 'Implement email security hygiene'],
+      },
+    ],
+    elderly: [
+      {
+        id: 'pe-e-1', level: 1, difficulty: 'beginner',
+        title: 'WhatsApp "Free Recharge" Link',
+        desc: 'A message from a contact shares a link claiming free mobile recharge from a telecom company. The link collects your number and installs tracking software.',
+        duration: '8 min', objectives: ['Identify forwarded phishing messages', 'Never click "too good to be true" offers', 'Warn contacts about forwarded scam links'],
+      },
+      {
+        id: 'pe-e-2', level: 2, difficulty: 'intermediate',
+        title: 'Fake TRAI Call — Number Block Threat',
+        desc: 'A robocall says your mobile number will be blocked in 2 hours for illegal activity unless you press 1. It connects to a scammer posing as a TRAI officer.',
+        duration: '12 min', objectives: ['Identify robocall phishing patterns', 'Know that TRAI never calls directly', 'Report telecom fraud correctly'],
+      },
+    ],
+  },
+
+  'opportunity-investment': {
+    student: [
+      {
+        id: 'oi-s-1', level: 1, difficulty: 'beginner',
+        title: 'Work-from-Home Data Entry Job',
+        desc: 'A Telegram channel promises ₹500 per task for simple data entry. After completing 10 tasks, you\'re asked to deposit ₹2,000 to "withdraw" your earnings.',
+        duration: '8 min', objectives: ['Identify task-based scam mechanics', 'Recognise deposit-to-withdraw traps', 'Report fraudulent job channels'],
+      },
+      {
+        id: 'oi-s-2', level: 2, difficulty: 'intermediate',
+        title: 'Fake Internship — Registration Fee',
+        desc: 'A prestigious-sounding company offers a paid internship via email. They request a ₹1,500 registration fee before issuing the offer letter.',
+        duration: '12 min', objectives: ['Know that legitimate employers never charge fees', 'Verify company existence independently', 'Identify impersonated brand names'],
+      },
+      {
+        id: 'oi-s-3', level: 3, difficulty: 'advanced',
+        title: 'Multi-Level Marketing Recruitment',
+        desc: 'A college senior invites you to join a "business opportunity." It requires recruiting others and buying a starter kit. Analyse the MLM structure and legality.',
+        duration: '15 min', objectives: ['Distinguish MLM from pyramid schemes', 'Evaluate product-based vs recruitment-based income', 'Understand legal boundaries of MLM in India'],
+      },
+    ],
+    professional: [
+      {
+        id: 'oi-p-1', level: 1, difficulty: 'beginner',
+        title: 'Fake Recruiter on LinkedIn',
+        desc: 'A recruiter from a top MNC reaches out with an unsolicited offer that\'s significantly above market. They ask for your personal details and a "background check fee."',
+        duration: '10 min', objectives: ['Verify recruiter and company legitimacy', 'Know that legitimate recruiters never charge candidates', 'Protect personal data during job search'],
+      },
+      {
+        id: 'oi-p-2', level: 2, difficulty: 'intermediate',
+        title: 'SEBI-Registered Advisor Impersonation',
+        desc: 'An investment advisor claims SEBI registration and promises 30% monthly returns on a stock tip group. Verify credentials and identify the scam.',
+        duration: '15 min', objectives: ['Verify SEBI registration on official site', 'Identify guaranteed-return fraud', 'Understand how stock tip groups operate'],
+      },
+      {
+        id: 'oi-p-3', level: 3, difficulty: 'advanced',
+        title: 'Pig Butchering Investment Scam',
+        desc: 'A stranger connects on a social platform, builds a weeks-long relationship, then introduces a crypto investment platform. Trace this long-con scam fully.',
+        duration: '20 min', objectives: ['Understand pig butchering scam anatomy', 'Identify relationship-based investment fraud', 'Recognise fake trading platforms'],
+      },
+    ],
+    elderly: [
+      {
+        id: 'oi-e-1', level: 1, difficulty: 'beginner',
+        title: 'Lottery Winning Notification',
+        desc: 'A letter and call inform you that you\'ve won a foreign lottery. To claim ₹25 lakh, you must pay ₹15,000 in taxes first. Identify every red flag.',
+        duration: '8 min', objectives: ['Identify advance-fee lottery fraud', 'Know you cannot win a lottery you did not enter', 'Report lottery fraud to cybercrime portal'],
+      },
+      {
+        id: 'oi-e-2', level: 2, difficulty: 'beginner',
+        title: 'Chit Fund Ponzi Scheme',
+        desc: 'A neighbour introduces a savings scheme promising 20% monthly returns. Early investors are paid using new member deposits. Recognise the Ponzi pattern.',
+        duration: '10 min', objectives: ['Understand Ponzi scheme mechanics', 'Identify unrealistic return promises', 'Verify investment schemes with RBI/SEBI'],
+      },
+      {
+        id: 'oi-e-3', level: 3, difficulty: 'intermediate',
+        title: 'Fake Property Investment',
+        desc: 'A agent offers discounted government plots via phone. Payment is collected, documents provided are forged. Learn how to verify property deals safely.',
+        duration: '14 min', objectives: ['Verify property ownership through RERA', 'Identify forged document warning signs', 'Never pay cash for property without legal verification'],
+      },
+    ],
+  },
+}
+
+/* ─── Difficulty label & colour ─── */
+const DIFF_META = {
+  beginner:     { label: 'Beginner',     color: '#2EB87A', bg: 'rgba(46,184,122,0.10)' },
+  intermediate: { label: 'Intermediate', color: '#D4891A', bg: 'rgba(212,137,26,0.10)' },
+  advanced:     { label: 'Advanced',     color: '#C94E4E', bg: 'rgba(201,78,78,0.10)' },
+}
+
+/* ─── Expertise → which difficulties are unlocked ─── */
+const UNLOCKED = {
+  beginner:     ['beginner'],
+  intermediate: ['beginner', 'intermediate'],
+  advanced:     ['beginner', 'intermediate', 'advanced'],
+}
+
+/* ─── Mock current user (replace with real auth context later) ─── */
+const MOCK_USER = {
+  name: 'User',
+  userId: 'CR-8802',
+  ageGroup: 'student',       // 'student' | 'professional' | 'elderly'
+  expertise: 'intermediate', // 'beginner' | 'intermediate' | 'advanced'
+  completedIds: ['fs-s-1'],  // IDs of completed simulations
+}
+
+/* ═══════════════════════════════════════
+   MAIN PAGE COMPONENT
+═══════════════════════════════════════ */
+export default function SimulationCategoryPage() {
+  const { categoryId } = useParams()
+  const navigate = useNavigate()
+
+  // In a real app these come from auth context / API
+  const user = MOCK_USER
+  const [completed, setCompleted] = useState(new Set(user.completedIds))
+
+  const meta = CATEGORY_META[categoryId]
+  const sims = SIMULATIONS[categoryId]?.[user.ageGroup] ?? []
+  const unlockedDiffs = UNLOCKED[user.expertise]
+
+  // Scroll to top on category change
+  useEffect(() => { window.scrollTo({ top: 0, behavior: 'smooth' }) }, [categoryId])
+
+  if (!meta) {
+    return (
+      <div className={s.notFound}>
+        <p>Category not found.</p>
+        <Link to="/dashboard">← Back to Dashboard</Link>
+      </div>
+    )
+  }
+
+  const handleComplete = (simId) => {
+    setCompleted(prev => {
+      const next = new Set(prev)
+      next.add(simId)
+      return next
+    })
+    // TODO: POST /api/progress/complete { simulation_id: simId }
+  }
+
+  const completedCount = sims.filter(sim => completed.has(sim.id)).length
+
+  return (
+    <div className={s.root}>
+      {/* Ambient background (consistent with other pages) */}
+      <div className={s.noiseBg} aria-hidden />
+      <div className={s.ambientTop} aria-hidden />
+
+      {/* ── TOPBAR ── */}
+      <header className={s.topbar}>
+        <div className={s.topbarWrap}>
+          <Link to="/" className={s.topbarLogo}>
+            <div className={s.logoMark}>
+              <Icon name="shield" size={14} color="#D4891A" w={2.2} />
+            </div>
+            <span>Cyber<strong>Raksha</strong></span>
+          </Link>
+
+          <div className={s.topbarRight}>
+            <button className={s.topbarIcon} aria-label="Notifications">
+              <Icon name="bell" size={18} color="var(--text-3)" />
+            </button>
+            <div className={s.topbarUser}>
+              <div className={s.topbarUserInfo}>
+                <span className={s.topbarUserName}>{user.name}</span>
+                <span className={s.topbarUserId}>ID: {user.userId}</span>
+              </div>
+              <div className={s.topbarAvatar}>
+                <Icon name="user" size={16} color="var(--text-2)" />
+              </div>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      {/* ── MAIN ── */}
+      <main className={s.main}>
+        <div className={s.mainWrap}>
+
+          {/* Breadcrumb */}
+          <nav className={s.breadcrumb}>
+            <Link to="/dashboard" className={s.breadcrumbBack}>
+              <Icon name="arrowLeft" size={14} color="var(--text-3)" />
+              Dashboard
+            </Link>
+            <span className={s.breadcrumbSep}>/</span>
+            <span className={s.breadcrumbCurrent}>{meta.title}</span>
+          </nav>
+
+          {/* Page header */}
+          <div className={s.pageHeader}>
+            <div className={s.pageHeaderLeft}>
+              <div className={s.categoryIconWrap}>
+                <Icon name={meta.icon} size={22} color="var(--amber)" w={1.5} />
+              </div>
+              <div>
+                <p className={s.eyebrow}>Simulation Category</p>
+                <h1 className={s.pageTitle}>{meta.title}</h1>
+                <p className={s.pageSubtitle}>{meta.subtitle}</p>
+              </div>
+            </div>
+
+            {/* Progress summary */}
+            <div className={s.progressSummary}>
+              <div className={s.progressRing}>
+                <svg viewBox="0 0 48 48" width="56" height="56">
+                  <circle cx="24" cy="24" r="20" fill="none" stroke="var(--border-lt)" strokeWidth="3.5"/>
+                  <circle cx="24" cy="24" r="20" fill="none" stroke="var(--amber)" strokeWidth="3.5"
+                    strokeDasharray={`${2 * Math.PI * 20}`}
+                    strokeDashoffset={`${2 * Math.PI * 20 * (1 - completedCount / Math.max(sims.length, 1))}`}
+                    strokeLinecap="round"
+                    transform="rotate(-90 24 24)"
+                    style={{ transition: 'stroke-dashoffset 0.6s ease' }}
+                  />
+                </svg>
+                <div className={s.progressRingText}>
+                  <span className={s.progressRingNum}>{completedCount}</span>
+                  <span className={s.progressRingDen}>/{sims.length}</span>
+                </div>
+              </div>
+              <div className={s.progressMeta}>
+                <span className={s.progressLabel}>Completed</span>
+                <span className={s.progressSub}>{sims.length - completedCount} remaining</span>
+              </div>
+            </div>
+          </div>
+
+          {/* User context pill */}
+          <div className={s.contextPill}>
+            <div className={s.contextItem}>
+              <Icon name="user" size={12} color="var(--text-3)" />
+              <span>{user.ageGroup === 'student' ? 'Student' : user.ageGroup === 'professional' ? 'Professional' : 'Senior Citizen'}</span>
+            </div>
+            <div className={s.contextDot} />
+            <div className={s.contextItem}>
+              <Icon name="target" size={12} color={DIFF_META[user.expertise].color} />
+              <span style={{ color: DIFF_META[user.expertise].color }}>
+                {DIFF_META[user.expertise].label} access
+              </span>
+            </div>
+            <div className={s.contextDot} />
+            <div className={s.contextItem}>
+              <Icon name="award" size={12} color="var(--text-3)" />
+              <span>Higher levels unlock as you progress</span>
+            </div>
+          </div>
+
+          {/* ── SIMULATION GRID ── */}
+          <section className={s.simSection}>
+            <h2 className={s.simSectionTitle}>
+              Choose your simulation
+            </h2>
+
+            <div className={s.simGrid}>
+              {sims.map((sim) => {
+                const isUnlocked = unlockedDiffs.includes(sim.difficulty)
+                const isDone = completed.has(sim.id)
+                const diff = DIFF_META[sim.difficulty]
+
+                return (
+                  <div
+                    key={sim.id}
+                    className={`${s.simCard} ${!isUnlocked ? s.simCardLocked : ''} ${isDone ? s.simCardDone : ''}`}
+                  >
+                    {/* Lock overlay */}
+                    {!isUnlocked && (
+                      <div className={s.lockOverlay}>
+                        <div className={s.lockIconWrap}>
+                          <Icon name="lock" size={20} color="var(--text-3)" w={1.8} />
+                        </div>
+                        <span className={s.lockMsg}>
+                          Reach <strong>{sim.difficulty}</strong> level to unlock
+                        </span>
+                      </div>
+                    )}
+
+                    {/* Done tick */}
+                    {isDone && (
+                      <div className={s.doneBadge}>
+                        <Icon name="checkCircle" size={14} color="#2EB87A" w={2} />
+                        Completed
+                      </div>
+                    )}
+
+                    {/* Card top row */}
+                    <div className={s.simCardTop}>
+                      <span className={s.simLevel}>Level {sim.level}</span>
+                      {isUnlocked && (
+                        <span className={s.simDiff} style={{ color: diff.color, background: diff.bg }}>
+                          {diff.label}
+                        </span>
+                      )}
+                    </div>
+
+                    {/* Title & desc */}
+                    <h3 className={s.simTitle}>{sim.title}</h3>
+                    <p className={s.simDesc}>{sim.desc}</p>
+
+                    {/* Objectives */}
+                    {isUnlocked && (
+                      <ul className={s.simObjectives}>
+                        {sim.objectives.map((obj, i) => (
+                          <li key={i}>
+                            <Icon name="chevrRight" size={12} color="var(--amber)" w={2} />
+                            {obj}
+                          </li>
+                        ))}
+                      </ul>
+                    )}
+
+                    {/* Footer */}
+                    <div className={s.simCardFooter}>
+                      {isUnlocked && (
+                        <div className={s.simMeta}>
+                          <Icon name="clock" size={13} color="var(--text-3)" />
+                          <span>{sim.duration}</span>
+                        </div>
+                      )}
+
+                      {isUnlocked ? (
+                        isDone ? (
+                          <button className={s.btnReview} onClick={() => navigate(`/simulation/${sim.id}`)}>
+                            Review <Icon name="arrowRight" size={13} />
+                          </button>
+                        ) : (
+                          <button className={s.btnStart} onClick={() => {
+                            // Mark as complete for demo; real app navigates to sim page
+                            handleComplete(sim.id)
+                            navigate(`/simulation/${sim.id}`)
+                          }}>
+                            Start <Icon name="arrowRight" size={13} />
+                          </button>
+                        )
+                      ) : (
+                        <button className={s.btnLocked} disabled>
+                          <Icon name="lock" size={13} color="var(--text-3)" />
+                          Locked
+                        </button>
+                      )}
+                    </div>
+                  </div>
+                )
+              })}
+            </div>
+          </section>
+
+          {/* ── OTHER CATEGORIES ── */}
+          <section className={s.otherSection}>
+            <h2 className={s.otherTitle}>Other categories</h2>
+            <div className={s.otherGrid}>
+              {Object.values(CATEGORY_META)
+                .filter(c => c.id !== categoryId)
+                .map(cat => (
+                  <Link key={cat.id} to={`/category/${cat.id}`} className={s.otherCard}>
+                    <div className={s.otherIconWrap}>
+                      <Icon name={cat.icon} size={16} color="var(--amber)" w={1.5} />
+                    </div>
+                    <span className={s.otherLabel}>{cat.title}</span>
+                    <Icon name="chevrRight" size={14} color="var(--text-3)" />
+                  </Link>
+                ))}
+            </div>
+          </section>
+
+        </div>
+      </main>
+    </div>
+  )
+}
