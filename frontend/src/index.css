@@ -1,0 +1,42 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300&family=JetBrains+Mono:wght@400;500&display=swap');
+
+:root {
+  --ink:        #0D1017;
+  --ink2:       #131922;
+  --ink3:       #1A2235;
+  --slate:      #242F42;
+  --slate2:     #2E3B52;
+  --amber:      #D4891A;
+  --amber-lt:   #F0A830;
+  --amber-dim:  rgba(212,137,26,0.10);
+  --amber-glow: rgba(212,137,26,0.18);
+  --text-1: #EDE8E0;
+  --text-2: #9AA3B2;
+  --text-3: #58657A;
+  --border:    rgba(255,255,255,0.06);
+  --border-lt: rgba(255,255,255,0.11);
+  --ok:   #2EB87A;
+  --bad:  #C94E4E;
+  --info: #4A85C4;
+  --serif: 'DM Serif Display', Georgia, serif;
+  --sans:  'DM Sans', system-ui, sans-serif;
+  --mono:  'JetBrains Mono', 'Courier New', monospace;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  background: var(--ink);
+  color: var(--text-2);
+  font-family: var(--sans);
+  line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+a { text-decoration: none; color: inherit; }
+button { cursor: pointer; border: none; background: none; font-family: inherit; }
+svg { display: block; }
+::-webkit-scrollbar { width: 3px; }
+::-webkit-scrollbar-track { background: var(--ink); }
+::-webkit-scrollbar-thumb { background: var(--slate2); border-radius: 99px; }
+::selection { background: var(--amber-dim); color: var(--amber-lt); }
