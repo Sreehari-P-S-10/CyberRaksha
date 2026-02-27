@@ -4,15 +4,17 @@ import LoginPage from './pages/LoginPage.jsx'
 import RegisterPage from './pages/RegisterPage.jsx'
 import DashboardPage from './pages/DashboardPage.jsx'
 import SimulationCategoryPage from './pages/SimulationCategoryPage.jsx'
+import SimulationPlayerPage from './pages/SimulationPlayerPage.jsx'
 
 export default function App() {
   return (
     <Routes>
-      <Route path="/" element={<LandingPage />} />
-      <Route path="/login" element={<LoginPage />} />
-      <Route path="/register" element={<RegisterPage />} />
-      <Route path="/dashboard" element={<DashboardPage />} />
-      <Route path="/category/:categoryId" element={<SimulationCategoryPage />} />
+      <Route path="/"                      element={<LandingPage />} />
+      <Route path="/login"                 element={<LoginPage />} />
+      <Route path="/register"              element={<RegisterPage />} />
+      <Route path="/dashboard"             element={<DashboardPage />} />
+      <Route path="/category/:categoryId"  element={<SimulationCategoryPage />} />
+      <Route path="/simulation/:simId"     element={<SimulationPlayerPage />} />
     </Routes>
   )
 }
