@@ -270,59 +270,155 @@ const SIMULATIONS = {
     ],
   },
 
+  /* ─── ONLINE COMMERCE SAFETY ───────────────────────────────────────────
+     Personalization rules (Task 3):
+       • Beginner  → all users
+       • Intermediate → unlocked only after user reaches intermediate expertise
+       • Scams are assigned to the ageGroup arrays that match their target audiences:
+           Fake E-commerce  → student, professional, elderly  (Beginner)
+           Courier Delivery → student, professional, elderly  (Beginner)
+           Fake Tech Support→ professional, elderly           (Intermediate)
+           Gaming Account   → student                         (Beginner)
+     The existing UNLOCKED map and ageGroup-based filtering in the page component
+     already enforces both level-locking and group-targeting automatically.
+  ─────────────────────────────────────────────────────────────────────── */
   'online-commerce-safety': {
+
+    /* ── STUDENT: sees Gaming Account + Fake E-commerce + Courier Delivery ── */
     student: [
       {
-        id: 'oc-s-1', level: 1, difficulty: 'beginner',
-        title: 'Instagram Seller — No Delivery',
-        desc: 'You find a heavily discounted phone on an Instagram shop. You pay via UPI. The seller blocks you. Identify the red flags you missed.',
-        duration: '8 min', objectives: ['Evaluate online seller credibility', 'Identify unsafe payment methods', 'Use buyer-protected payment channels'],
+        id: 'oc-gaming-1',
+        level: 1,
+        difficulty: 'beginner',
+        title: 'Gaming Account Scam',
+        desc: 'A Discord message promises free in-game skins via a giveaway link. Clicking it opens a fake gaming login page that harvests your credentials.',
+        duration: '10 min',
+        objectives: [
+          'Identify phishing via gaming chat platforms',
+          'Recognise fake login page indicators',
+          'Protect gaming account credentials',
+        ],
+        targetGroups: ['Students'],
       },
       {
-        id: 'oc-s-2', level: 2, difficulty: 'intermediate',
-        title: 'Fake Flash Sale Website',
-        desc: 'A website mimicking a major e-commerce platform runs a 90% off flash sale. You enter card details. Understand what happens next.',
-        duration: '12 min', objectives: ['Identify counterfeit e-commerce sites', 'Check SSL and domain authenticity', 'Report card compromise quickly'],
+        id: 'oc-ecommerce-1',
+        level: 2,
+        difficulty: 'beginner',
+        title: 'Fake E-commerce Scam',
+        desc: 'A social media ad promises 90% off on branded shoes. Clicking it opens a convincing fake store that collects payment details and never ships the product.',
+        duration: '12 min',
+        objectives: [
+          'Spot unrealistic discounts and fake urgency tactics',
+          'Verify e-commerce domain and seller authenticity',
+          'Identify fake reviews and countdown pressure',
+        ],
+        targetGroups: ['Students', 'Professionals', 'Elderly'],
       },
       {
-        id: 'oc-s-3', level: 3, difficulty: 'advanced',
-        title: 'Second-hand Laptop OLX Scam',
-        desc: 'A seller insists on advance payment before showing the laptop. They provide a fake delivery tracking link. Trace the deception chain.',
-        duration: '14 min', objectives: ['Identify advance-payment scam patterns', 'Verify second-hand transaction safety', 'Safely meet and transact offline'],
+        id: 'oc-courier-1',
+        level: 3,
+        difficulty: 'beginner',
+        title: 'Courier Delivery Scam',
+        desc: 'An SMS claims your package delivery failed and asks you to pay a ₹99 re-delivery fee via a link. The link leads to a fake courier site that steals your card details.',
+        duration: '10 min',
+        objectives: [
+          'Identify SMS phishing (smishing) in delivery contexts',
+          'Verify courier communication through official apps',
+          'Never pay re-delivery fees via SMS links',
+        ],
+        targetGroups: ['Students', 'Professionals', 'Elderly'],
       },
     ],
+
+    /* ── PROFESSIONAL: sees Fake E-commerce + Courier Delivery + Fake Tech Support ── */
     professional: [
       {
-        id: 'oc-p-1', level: 1, difficulty: 'beginner',
-        title: 'Fake Vendor Portal',
-        desc: 'Your procurement team is directed to a vendor\'s "new portal" to renew a subscription. The portal steals corporate card details.',
-        duration: '10 min', objectives: ['Verify vendor portal authenticity', 'Check for secure payment indicators', 'Report fraudulent billing attempts'],
+        id: 'oc-ecommerce-1',
+        level: 1,
+        difficulty: 'beginner',
+        title: 'Fake E-commerce Scam',
+        desc: 'A social media ad promises 90% off on branded shoes. Clicking it opens a convincing fake store that collects payment details and never ships the product.',
+        duration: '12 min',
+        objectives: [
+          'Spot unrealistic discounts and fake urgency tactics',
+          'Verify e-commerce domain and seller authenticity',
+          'Identify fake reviews and countdown pressure',
+        ],
+        targetGroups: ['Students', 'Professionals', 'Elderly'],
       },
       {
-        id: 'oc-p-2', level: 2, difficulty: 'intermediate',
-        title: 'Subscription Trap & Recurring Billing',
-        desc: 'A "free trial" SaaS tool signs the company up for a recurring subscription. The terms were buried in small print. Identify and mitigate.',
-        duration: '12 min', objectives: ['Read SaaS subscription terms carefully', 'Identify dark pattern billing', 'Dispute and cancel unauthorised charges'],
+        id: 'oc-courier-1',
+        level: 2,
+        difficulty: 'beginner',
+        title: 'Courier Delivery Scam',
+        desc: 'An SMS claims your package delivery failed and asks you to pay a ₹99 re-delivery fee via a link. The link leads to a fake courier site that steals your card details.',
+        duration: '10 min',
+        objectives: [
+          'Identify SMS phishing (smishing) in delivery contexts',
+          'Verify courier communication through official apps',
+          'Never pay re-delivery fees via SMS links',
+        ],
+        targetGroups: ['Students', 'Professionals', 'Elderly'],
+      },
+      {
+        id: 'oc-techsupport-1',
+        level: 3,
+        difficulty: 'intermediate', 
+        title: 'Fake Tech Support Scam',
+        desc: 'While browsing, a fullscreen popup warns your computer is infected and displays a tech support number. Calling it connects you to scammers who ask for remote access and payment.',
+        duration: '14 min',
+        objectives: [
+          'Identify fake security alert popups in browsers',
+          'Understand why legitimate companies never cold-call for support',
+          'Safely close rogue browser warnings without calling the number',
+        ],
+        targetGroups: ['Professionals', 'Elderly'],
       },
     ],
+
+    /* ── ELDERLY: sees Fake E-commerce + Courier Delivery + Fake Tech Support ── */
     elderly: [
       {
-        id: 'oc-e-1', level: 1, difficulty: 'beginner',
-        title: 'Fake Online Medical Store',
-        desc: 'A website offers heavily discounted medicines with "no prescription needed." They collect payment and personal health data. Spot the danger.',
-        duration: '8 min', objectives: ['Identify unregulated online pharmacies', 'Verify medicine purchase safety', 'Protect health and payment data'],
+        id: 'oc-ecommerce-1',
+        level: 1,
+        difficulty: 'beginner',
+        title: 'Fake E-commerce Scam',
+        desc: 'A social media ad promises 90% off on branded shoes. Clicking it opens a convincing fake store that collects payment details and never ships the product.',
+        duration: '12 min',
+        objectives: [
+          'Spot unrealistic discounts and fake urgency tactics',
+          'Verify e-commerce domain and seller authenticity',
+          'Identify fake reviews and countdown pressure',
+        ],
+        targetGroups: ['Students', 'Professionals', 'Elderly'],
       },
       {
-        id: 'oc-e-2', level: 2, difficulty: 'beginner',
-        title: 'Lucky Draw Prize Claim',
-        desc: 'An SMS says you\'ve won a prize from a major brand. To claim it, you need to pay a small "courier charge." Recognise this as a prize scam.',
-        duration: '10 min', objectives: ['Identify prize scam patterns', 'Verify brand contests through official channels', 'Never pay to claim a prize'],
+        id: 'oc-courier-1',
+        level: 2,
+        difficulty: 'beginner',
+        title: 'Courier Delivery Scam',
+        desc: 'An SMS claims your package delivery failed and asks you to pay a ₹99 re-delivery fee via a link. The link leads to a fake courier site that steals your card details.',
+        duration: '10 min',
+        objectives: [
+          'Identify SMS phishing (smishing) in delivery contexts',
+          'Verify courier communication through official apps',
+          'Never pay re-delivery fees via SMS links',
+        ],
+        targetGroups: ['Students', 'Professionals', 'Elderly'],
       },
       {
-        id: 'oc-e-3', level: 3, difficulty: 'intermediate',
-        title: 'Reverse Pickup Delivery Fraud',
-        desc: 'A caller says a package you ordered needs to be returned. They ask for OTP to "initiate reverse pickup." That OTP is for your bank account.',
-        duration: '12 min', objectives: ['Understand OTP misuse in delivery scams', 'Verify delivery exceptions through official apps', 'Know when to hang up and verify'],
+        id: 'oc-techsupport-1',
+        level: 3,
+        difficulty: 'intermediate',
+        title: 'Fake Tech Support Scam',
+        desc: 'While browsing, a fullscreen popup warns your computer is infected and displays a tech support number. Calling it connects you to scammers who ask for remote access and payment.',
+        duration: '14 min',
+        objectives: [
+          'Identify fake security alert popups in browsers',
+          'Understand why legitimate companies never cold-call for support',
+          'Safely close rogue browser warnings without calling the number',
+        ],
+        targetGroups: ['Professionals', 'Elderly'],
       },
     ],
   },
@@ -457,7 +553,7 @@ const DIFF_META = {
 
 /* ─── Expertise → which difficulties are unlocked ─── */
 const UNLOCKED = {
-  beginner:     ['beginner'],
+  beginner:     ['beginner',],
   intermediate: ['beginner', 'intermediate'],
   advanced:     ['beginner', 'intermediate', 'advanced'],
 }
@@ -466,7 +562,7 @@ const UNLOCKED = {
 const MOCK_USER = {
   name: 'User',
   userId: 'CR-8802',
-  ageGroup: 'student',       // 'student' | 'professional' | 'elderly'
+  ageGroup: 'professional',       // 'student' | 'professional' | 'elderly'
   expertise: 'intermediate', // 'beginner' | 'intermediate' | 'advanced'
   completedIds: ['fs-s-1'],  // IDs of completed simulations
 }
