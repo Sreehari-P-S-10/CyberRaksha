@@ -21,6 +21,7 @@ import { DiscordDMEnv, ColleagueScenarioEnv } from './components/ChatUI.jsx'
 import { BrowserWithPopupEnv } from './components/PopupAlert.jsx'
 import { OfficialEmailEnv, AuthorityCallEnv, FakeGovPortalEnv } from './components/AuthorityImpersonationUI.jsx'
 import { RelativeEmergencyCallEnv, FakeMedicalPortalEnv, UrgencyPressureEnv } from './components/SocialEngineeringUI.jsx'
+import { WindowsDesktopEnv, AndroidLockerEnv, TrojanInstallerEnv, VirusEmailEnv, VirusElderlyEnv, AdwareBrowserEnv, AndroidAdwareEnv } from './components/MalwareUI.jsx'
 
 /**
  * @param {object} step        — current step from simulationsData
@@ -91,6 +92,34 @@ export default function SimulationRenderer({ step, onInteract }) {
     /* ── Multi-channel urgency pressure attack ── */
     case 'urgencyPressure':
       return <UrgencyPressureEnv envProps={envProps} onInteract={onInteract} />
+
+    /* ── Windows desktop (ransomware) ── */
+    case 'windowsDesktop':
+      return <WindowsDesktopEnv envProps={envProps} onInteract={onInteract} />
+
+    /* ── Android screen locker (ransomware elderly) ── */
+    case 'androidLocker':
+      return <AndroidLockerEnv envProps={envProps} onInteract={onInteract} />
+
+    /* ── Trojan installer (students & professionals) ── */
+    case 'trojanInstaller':
+      return <TrojanInstallerEnv envProps={envProps} onInteract={onInteract} />
+
+    /* ── Virus via email macro (students/professionals) ── */
+    case 'virusEmail':
+      return <VirusEmailEnv envProps={envProps} onInteract={onInteract} />
+
+    /* ── Virus via email forward (elderly desktop) ── */
+    case 'virusElderly':
+      return <VirusElderlyEnv envProps={envProps} onInteract={onInteract} />
+
+    /* ── Adware / PUP browser (students) ── */
+    case 'adwareBrowser':
+      return <AdwareBrowserEnv envProps={envProps} onInteract={onInteract} />
+
+    /* ── Android adware / rogue app (elderly) ── */
+    case 'androidAdware':
+      return <AndroidAdwareEnv envProps={envProps} onInteract={onInteract} />
 
     default:
       return (
