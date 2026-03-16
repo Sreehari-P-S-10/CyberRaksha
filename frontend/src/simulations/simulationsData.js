@@ -354,116 +354,813 @@ export const SIMULATIONS = {
 
   /* ── MALWARE & DEVICE SAFETY ─────────────────────────── */
 
-  'md-p-2': {
-    title: 'Ransomware: File Lockdown',
-    category: 'Malware & Device Safety',
-    difficulty: 'Intermediate',
-    xp: 90,
-    type: 'text',
-    steps: [
-      {
-        id: 1,
-        situation: `A colleague opens an email attachment labelled "Q4_Invoice_Final.docx" sent from an external address. Within minutes, a message appears on their screen:\n\n"YOUR FILES HAVE BEEN ENCRYPTED. Pay 0.5 BTC to [wallet address] within 48 hours or your data will be permanently deleted. Do not restart. Do not contact authorities."\n\nYou are the first person to notice. Your colleague is panicking. Their system is on the company network.`,
-        choices: [
-          {
-            id: 'a', text: 'Pay the ransom immediately to recover the files before the deadline.',
-            isCorrect: false,
-            consequence: 'You advise paying. The IT manager is notified too late. The payment is made in Bitcoin — untraceable. Files are not recovered. Paying ransomware provides no guarantee of decryption and signals to attackers that your organisation pays, making you a future target.',
-            tip: 'Law enforcement agencies globally advise against paying ransomware. Payment does not guarantee file recovery, funds criminal operations, and marks your organisation as a "paying victim" for future attacks. Always isolate, report, and recover from backups instead.',
-            terminalState: true,
-          },
-          {
-            id: 'b', text: 'Immediately disconnect their machine from the network — unplug the ethernet cable or turn off Wi-Fi.',
-            isCorrect: true,
-            consequence: 'You disconnect the machine from the network within 90 seconds of detection. IT confirms that ransomware typically needs network access to encrypt files on shared drives and propagate to other machines. Your quick action limited the infection to a single device.',
-            tip: 'Isolation is the single most critical step in a ransomware incident. Every second the infected machine stays on the network, more files — including shared drives — are at risk. Physical disconnection (not just disabling Wi-Fi via software) is the fastest method.',
-          },
-          {
-            id: 'c', text: 'Restart the machine to clear the ransomware from memory.',
-            isCorrect: false,
-            consequence: 'Restarting triggers the ransomware\'s secondary payload, which finishes encrypting remaining files before the OS loads. The ransom note is now set as the desktop wallpaper on every reboot. The attacker\'s note specifically said not to restart — because a partial restart window is their one vulnerability.',
-            tip: 'Never restart a ransomware-infected machine without expert guidance. Some ransomware strains use the reboot window to complete encryption. Others install bootloaders that activate during restart. Isolation without restart is the correct first response.',
-            terminalState: true,
-          },
-        ],
-      },
-      {
-        id: 2,
-        situation: `The machine is isolated. IT has been notified. Now the IT manager asks you: "We have a full backup from last Tuesday. The infected machine has 3 days of new work. How should we proceed?"`,
-        choices: [
-          {
-            id: 'a', text: 'Restore from the Tuesday backup, accept the 3-day data loss, and wipe the infected machine.',
-            isCorrect: true,
-            consequence: 'The machine is wiped, reimaged, and restored from the clean backup. Three days of work are lost but all other company data is intact. IT also patches the vulnerability that allowed the macro to execute and conducts a phishing awareness session for all staff.',
-            tip: 'Restoring from a clean backup is the standard recovery path for ransomware. Data loss is unfortunate but recoverable. This outcome reinforces why regular, offline or air-gapped backups are a non-negotiable security control for any organisation.',
-          },
-          {
-            id: 'b', text: 'Try to decrypt the files using a free decryption tool found online before restoring.',
-            isCorrect: false,
-            consequence: 'The "free decryption tool" found via a search engine is itself malware — a second infection layered on top of the first. IT now has two incidents to contain. The legitimate decryption tools on nomoreransom.org were not checked first.',
-            tip: 'If decryption tools are needed, use only those from nomoreransom.org — the official joint initiative by Europol, Interpol, and cybersecurity firms. Never download tools from random search results. In most cases, restoring from backups is faster and safer than seeking decryption.',
-          },
-        ],
-      },
-    ],
-  },
-
-  'md-e-1': {
-    title: 'Fake Tech Support Pop-up',
+  /* RANSOMWARE — PROFESSIONAL — Windows desktop encryption attack */
+  'mal-virus-student': {
+    title: 'Computer Virus: USB Autorun',
     category: 'Malware & Device Safety',
     difficulty: 'Beginner',
-    xp: 50,
-    type: 'text',
+    xp: 60,
+    type: 'visual',
     steps: [
       {
         id: 1,
-        situation: `You are browsing a recipe website when suddenly the entire browser fills with a red warning screen. A loud alarm sound plays. The screen reads:\n\n"CRITICAL ALERT: Your computer has been infected with a dangerous virus. Your personal files, banking passwords, and photos are at risk. Call Microsoft Support immediately: 1800-XXX-XXXX. DO NOT CLOSE THIS WINDOW."\n\nYour computer seems fine — it is working normally — but the sound is alarming.`,
+        environment: 'virusFileManager',
+        envProps: {
+          usbLabel: 'USB Drive (E:) — "ClassNotes_Sem4"',
+          usbMessage: 'USB Drive inserted. What would you like to do?',
+        },
+        situation: 'Your classmate hands you a USB drive with "Semester 4 notes" on it. You plug it into your laptop and a notification pops up.',
         choices: [
           {
-            id: 'a', text: 'Call the number on the screen immediately — your computer might really be infected.',
+            id: 'opened_autorun',
+            text: 'Open the suspicious USB executable/autorun content to quickly view notes.',
             isCorrect: false,
-            consequence: 'You call the number. A polite, English-speaking "technician" answers. He asks you to install a remote access app called AnyDesk "to diagnose the issue." Once installed, he takes control of your computer, opens your banking website, and drains your account while keeping you talking on the phone.',
-            tip: 'Microsoft, Windows, and antivirus companies never display emergency phone numbers inside a browser window. This is called a "tech support scam pop-up." The alarm, the red screen, and the urgency are all fake — designed to panic you into calling a fraudster.',
-            terminalState: true,
+            consequence: 'The moment you open the USB, an autorun script executes silently. The virus copies itself into your Documents, Desktop, and Downloads folders — renaming your files with hidden extensions. Your classmate did not know the drive was infected.',
+            tip: 'Never use the autorun prompt for USB drives. Always open USB drives manually via File Explorer, and run an antivirus scan on the drive before opening any files. Autorun.inf scripts on USB drives are a classic virus delivery method.',
           },
           {
-            id: 'b', text: 'Close the browser using Task Manager (Ctrl + Shift + Esc) since the window won\'t close normally.',
+            id: 'scanned_usb',
+            text: 'Cancel autorun and scan the USB with antivirus first.',
             isCorrect: true,
-            consequence: 'You press Ctrl + Shift + Esc, find the browser in the list, and click "End Task." The alarming screen disappears. Your computer is completely fine. The website you visited was running a script that made it full-screen and played sounds — it had no actual access to your computer.',
-            tip: 'Tech support scam pop-ups make it hard to close the browser window using the normal X button. Task Manager always works. After closing, avoid revisiting that website. You may also run a scan with Windows Defender (pre-installed and free) for peace of mind.',
+            consequence: 'Good instinct. The antivirus scan detects "Autorun.inf" and a disguised executable named "ClassNotes.exe". The files are quarantined. Your system stays clean. Your classmate is surprised — they had no idea their drive was infected.',
+            tip: 'Always scan USB drives before opening them, especially shared drives from friends or colleagues. Right-click the drive in File Explorer and select "Scan with [Antivirus]". This takes 30 seconds and can prevent a full system infection.',
           },
           {
-            id: 'c', text: 'Turn off the computer immediately to stop the virus.',
-            isCorrect: false,
-            consequence: 'Turning off the computer does stop the alarm — but when you turn it back on and open the browser, it may reopen the same page (browser session restore). The "virus" was never on your computer — it was just a webpage script. Turning off the computer is unnecessary and does not address the root cause.',
-            tip: 'The pop-up is a webpage, not a virus. Closing the browser is sufficient. If the browser tries to restore the session when reopened, decline the restoration, or clear browsing history and cache.',
+            id: 'ejected_safely',
+            text: 'Cancel and give the drive back without opening it.',
+            isCorrect: true,
+            consequence: 'You hand back the drive without opening it. Safe choice. Later your classmate discovers the drive was infected after their home computer gets the virus from it. Your laptop is completely fine.',
+            tip: 'If you have any doubt about a USB drive\'s safety — especially one you didn\'t buy yourself — the safest choice is to not use it. Politely ask for the files to be sent via email or cloud storage instead.',
           },
         ],
       },
       {
         id: 2,
-        situation: `You safely closed the browser. Your daughter is visiting and tells you her friend installed something called "AnyDesk" after a similar pop-up and gave a stranger control of their laptop. She asks if there is anything her friend can do now.`,
+        situation: 'Your friend asks you to help. They opened the USB on their laptop and now their files are showing strange ".locked" extensions. Their antivirus is warning about "WORM.Autorun.Generic". What do you tell them to do first?',
         choices: [
           {
-            id: 'a', text: 'The laptop is already compromised — there is nothing to do except buy a new one.',
+            id: 'a',
+            text: 'Restart the laptop — it will clear the virus from memory.',
             isCorrect: false,
-            consequence: 'This is incorrect and unnecessarily alarming. The situation is serious but recoverable with the right steps. Buying a new laptop without addressing the core issue does not help if the banking credentials were already stolen.',
-            tip: 'A compromised device does not require replacement — it requires proper remediation. The priority is protecting financial accounts, then cleaning the device.',
+            consequence: 'Restarting does not remove the virus. Many worms write themselves to startup entries, so they re-execute on every reboot. After the restart, the virus continues scanning the system for more files to infect.',
+            tip: 'A restart does not remove malware. Worms and viruses typically persist through reboots by adding themselves to Windows startup registry keys or startup folders. Removal requires antivirus scanning in Safe Mode.',
           },
           {
-            id: 'b', text: 'Immediately change all passwords and banking PINs from a different, clean device, contact the bank, uninstall AnyDesk, and run a full antivirus scan.',
+            id: 'b',
+            text: 'Immediately disconnect from Wi-Fi and run a full antivirus scan in Safe Mode.',
             isCorrect: true,
-            consequence: 'The friend follows these steps. Bank account alerts are enabled immediately. The IT cell at school helps clean the laptop. No financial loss occurs because the passwords were changed before any fraudulent transactions could be completed.',
-            tip: 'After a remote access compromise: (1) Change all passwords from a different device immediately. (2) Call your bank and enable transaction alerts or freeze the account temporarily. (3) Uninstall the remote access tool. (4) Run a full scan with Windows Defender or a trusted antivirus. (5) Report to cybercrime.gov.in.',
+            consequence: 'Disconnecting stops the virus from sending copies via email or network shares. Safe Mode prevents the virus from loading at startup, making it easier for the antivirus to detect and remove it. Files with ".locked" extensions are restored after cleaning.',
+            tip: 'Safe Mode + disconnected internet is the correct environment for virus removal. In Safe Mode (press F8 at boot), fewer background processes run, so the antivirus can find and remove virus files that would normally be locked by the OS.',
+          },
+          {
+            id: 'c',
+            text: 'Format the USB drive to remove the virus source.',
+            isCorrect: false,
+            consequence: 'Formatting the USB drive removes the source, but the virus has already copied itself onto the laptop. The infection is now on the local disk — formatting the USB changes nothing about the laptop\'s infection status.',
+            tip: 'Formatting the source drive does not remove a virus that has already spread to a system. Once a virus has executed and copied itself to the hard drive, the source medium is irrelevant. Focus on cleaning the infected machine, not the delivery device.',
           },
         ],
       },
     ],
   },
 
-  /* ── IDENTITY & IMPERSONATION ───────────────────────── */
+  /* ── COMPUTER VIRUS — STUDENT (EMAIL ATTACHMENT) ──
+     Platform: Desktop
+     Environment: VirusEmailEnv
+     Steps: 2 — suspicious mail + macro prompt → containment
+  ── */
+  'mal-virus-student-email': {
+    title: 'Computer Virus: Email Attachment Trap',
+    category: 'Malware & Device Safety',
+    difficulty: 'Beginner',
+    xp: 62,
+    type: 'visual',
+    steps: [
+      {
+        id: 1,
+        environment: 'virusEmail',
+        envProps: {
+          senderName: 'Class Rep - ECE A',
+          senderEmail: 'classrep.materials@ece-share-drive.net',
+          emailSubject: 'Internal: Unit Test Notes + Lab Record Format',
+          emailBody: [
+            'Hi everyone,',
+            'Please use the attached file for Unit Test prep and lab record format.',
+            'The document is protected, so click Enable Content to view all pages correctly.',
+            'Share this with your project groups today.',
+          ],
+          attachmentName: 'UnitTest_Notes_Viewer.docm',
+          attachmentSize: '912 KB',
+          userDisplayName: 'Student User',
+          networkFiles: ['college_login_tokens.txt', 'saved_passwords.csv', 'project_report_draft.docx', 'photos_backup.zip', 'banking_shortcuts.url'],
+        },
+        situation: 'You receive a college-related email with an attachment that says macros must be enabled to view notes. The sender name looks familiar, but the domain is not your college domain.',
+        choices: [
+          {
+            id: 'reported_email',
+            text: 'Report the email and avoid opening the attachment.',
+            isCorrect: true,
+            consequence: 'You report it in time. The class group is alerted that the attachment is malicious, and multiple students avoid infection.',
+            tip: 'For academic emails, verify the exact domain. Familiar display names can be spoofed, but domains reveal the source.',
+          },
+          {
+            id: 'deleted_attachment',
+            text: 'Delete the email and ask for notes through the official class channel.',
+            isCorrect: true,
+            consequence: 'You avoid the trap and request notes on the official LMS/WhatsApp class group. The fake email was part of a broad phishing attempt.',
+            tip: 'Use official channels (LMS, class group, verified college ID) for study materials, not unknown attachment links.',
+          },
+          {
+            id: 'enabled_macros',
+            text: 'Enable content in the document to view all pages.',
+            isCorrect: false,
+            consequence: 'The macro runs a script that starts exfiltrating browser-saved credentials and sends copies to contacts. Infection spreads quickly.',
+            tip: 'Never enable macros in unexpected documents. Macro prompts are a common malware delivery tactic in student and corporate environments.',
+            terminalState: true,
+          },
+        ],
+      },
+      {
+        id: 2,
+        situation: 'A friend enabled macros on the same file. Their laptop now shows unusual outbound network activity and suspicious file access. What should be done first?',
+        choices: [
+          {
+            id: 'a',
+            text: 'Disconnect Wi-Fi immediately and run a full antivirus scan.',
+            isCorrect: true,
+            consequence: 'Correct first move. Isolating the machine prevents further spread and data exfiltration while antivirus cleanup starts.',
+            tip: 'Containment first, cleanup next. Disconnect network access immediately when malware activity is suspected.',
+          },
+          {
+            id: 'b',
+            text: 'Forward the attachment to classmates to ask if they can open it.',
+            isCorrect: false,
+            consequence: 'Forwarding spreads the malicious file to more people and increases the blast radius of the attack.',
+            tip: 'Never forward suspicious attachments. Report to class admins/IT support instead.',
+          },
+          {
+            id: 'c',
+            text: 'Restart and continue using the laptop if the popups stop.',
+            isCorrect: false,
+            consequence: 'The malware persists after reboot and may resume background exfiltration silently.',
+            tip: 'A reboot does not guarantee removal. Use isolation + scanning + password reset from a clean device.',
+          },
+        ],
+      },
+    ],
+  },
 
-  'ii-p-3': {
+  /* ── COMPUTER VIRUS — PROFESSIONAL ──
+     Platform: Desktop
+     Environment: VirusEmailEnv (office macro email)
+     Steps: 2 — macro email → containment decision
+  ── */
+  'mal-virus-pro': {
+    title: 'Computer Virus: Office Macro Attack',
+    category: 'Malware & Device Safety',
+    difficulty: 'Beginner',
+    xp: 65,
+    type: 'visual',
+    steps: [
+      {
+        id: 1,
+        environment: 'virusEmail',
+        envProps: {
+          senderName: 'Ravi Kumar',
+          senderEmail: 'ravi.kumar@techvend0r-india.com',
+          subject: 'Q3 Purchase Order — Final.docx',
+          body: 'Dear Team,\n\nPlease find attached the finalised Q3 purchase order for your review and approval. The document requires macros to be enabled for the interactive approval fields to function correctly.\n\nKindly review and revert by EOD.\n\nRegards,\nRavi Kumar\nTechVendor Solutions',
+          attachmentName: 'PurchaseOrder_Q3_Final.docx',
+          macroWarningText: 'SECURITY WARNING: Macros have been disabled. Enable content to use interactive features.',
+          infectionMsg: 'Virus spreading through your Outlook contacts list...',
+          infectedContacts: ['ceo@yourcompany.com', 'hr@yourcompany.com', 'finance@yourcompany.com', 'allstaff@yourcompany.com'],
+        },
+        situation: 'You receive an email at work. It looks like a routine vendor document. The sender\'s name is familiar but you haven\'t emailed this vendor recently.',
+        choices: [
+          {
+            id: 'enabled_macros',
+            text: 'Enable macros to view the approval form as requested.',
+            isCorrect: false,
+            consequence: 'Enabling macros executes a Visual Basic script. Within 3 seconds it accesses Outlook\'s contact list and sends a copy of the email — with the infected attachment — to every contact in your address book, including the CEO, HR, and Finance. The IT department gets 47 alerts.',
+            tip: 'Macro-enabled Office documents are the most common corporate malware delivery vector. Legitimate vendors never require you to enable macros. The email domain "techvend0r" (with a zero instead of o) is a telltale spoof. Always verify the sender domain carefully.',
+            terminalState: false,
+          },
+          {
+            id: 'reported_it',
+            text: 'Do not open the attachment — forward it to IT security and delete it.',
+            isCorrect: true,
+            consequence: 'IT Security confirms the email is a phishing attempt. The domain "techvend0r-india.com" (note the zero) is a spoofed lookalike of your actual vendor\'s domain. The attachment contained a macro virus. Your report triggers a company-wide warning. No damage done.',
+            tip: 'Before opening any unexpected attachment, verify the sender\'s exact email domain character by character. Attackers commonly substitute visually similar characters (0 for o, 1 for l). When in doubt, call the supposed sender directly — never reply to the suspicious email.',
+          },
+          {
+            id: 'called_vendor',
+            text: 'Call Ravi Kumar directly to verify before opening the attachment.',
+            isCorrect: true,
+            consequence: 'You call the real vendor. Ravi Kumar confirms he sent no such email. This is a Business Email Compromise (BEC) attack using a lookalike domain. You report it to IT Security. The attack is blocked before any damage.',
+            tip: 'Calling to verify is the gold standard for suspicious work emails — especially those requesting action on attachments. Always use contact details from your company\'s existing records, not from the suspicious email itself.',
+          },
+        ],
+      },
+      {
+        id: 2,
+        situation: 'A colleague in your office did enable macros on the same email. Their computer is now sending automated emails to contacts. IT Security asks you to help contain the spread. What is the single most important immediate action?',
+        choices: [
+          {
+            id: 'a',
+            text: 'Delete all the outgoing emails from the colleague\'s Sent folder.',
+            isCorrect: false,
+            consequence: 'Deleting sent emails does not stop the virus — it has already sent infected emails to dozens of contacts. The virus script is still running on the machine, and the recipients have already received the malicious attachment.',
+            tip: 'Deleting sent emails is ineffective after a macro virus has already executed. The virus script continues to run, and copies of the infected email are already in recipients\' inboxes. Email deletion is not a containment action.',
+          },
+          {
+            id: 'b',
+            text: 'Immediately disconnect the colleague\'s machine from the network — unplug ethernet and disable Wi-Fi.',
+            isCorrect: true,
+            consequence: 'Network isolation is correct. Disconnecting stops the macro virus from sending more emails, accessing shared drives, or communicating with its command-and-control server. IT Security can now clean the machine without risk of further spread.',
+            tip: 'Network isolation is always the first containment step for any spreading malware. Physically disconnecting — unplugging the ethernet cable, not just disabling Wi-Fi from the taskbar — is the most reliable method, as some malware can re-enable Wi-Fi via software.',
+          },
+          {
+            id: 'c',
+            text: 'Install a new antivirus on the colleague\'s machine immediately.',
+            isCorrect: false,
+            consequence: 'Installing new software on an already-infected machine while it is still on the network can be risky. The virus is actively running and may interfere with the install. More importantly, the machine continues spreading the infection across the network during this time.',
+            tip: 'Containment comes before remediation. A new antivirus installation cannot happen properly while the virus is actively running and the machine is network-connected. Isolate first, then clean with antivirus in Safe Mode.',
+          },
+        ],
+      },
+    ],
+  },
+
+  /* ── COMPUTER VIRUS — ELDERLY ──
+     Platform: Desktop
+     Environment: VirusEmailEnv (trusted contact forward)
+     Steps: 2 — forwarded email → response
+  ── */
+  'mal-virus-elderly': {
+    title: 'Computer Virus: Forwarded Email Trap',
+    category: 'Malware & Device Safety',
+    difficulty: 'Beginner',
+    xp: 55,
+    type: 'visual',
+    steps: [
+      {
+        id: 1,
+        environment: 'virusEmail',
+        envProps: {
+          senderName: 'Meena (Sister)',
+          senderEmail: 'meena.rao1952@gmail.com',
+          subject: 'Fwd: IMPORTANT — Government Health Scheme 2025 — Register Now',
+          body: 'Dear all,\n\nFwd from my friend. This is very important. The government has announced a new health scheme for senior citizens. You must register before 31st March to get free medicines and hospital coverage.\n\nPlease open the attachment to fill the form. Share with all family members.\n\nMeena',
+          attachmentName: 'HealthScheme_Registration_Form.exe',
+          macroWarningText: 'This program is from an unverified publisher. Run anyway?',
+          infectionMsg: 'The program is accessing your email contacts and bank bookmarks...',
+          infectedContacts: ['daughter@gmail.com', 'son.abroad@gmail.com', 'granddaughter@gmail.com', 'friend.raju@gmail.com'],
+        },
+        situation: 'You receive a forwarded email from your sister Meena about a government health scheme. The message looks helpful and was sent by someone you trust.',
+        choices: [
+          {
+            id: 'opened_attachment',
+            text: 'Open the attachment to fill the registration form.',
+            isCorrect: false,
+            consequence: 'The file "HealthScheme_Registration_Form.exe" is not a form — it is a virus. It immediately accesses your email contacts and sends itself to your daughter, son, granddaughter, and other family members. It also bookmarks your banking sites for a later credential-stealing payload.',
+            tip: 'Government forms are never .exe files. Government health schemes are announced on official sites like nhm.gov.in or pmjay.gov.in — never via forwarded email attachments. When you see a .exe file attached to an email, never open it — even if it came from a trusted contact.',
+          },
+          {
+            id: 'called_sister',
+            text: 'Call Meena directly and ask if she really sent this.',
+            isCorrect: true,
+            consequence: 'You call Meena. She says she just forwarded it without thinking — her friend sent it and it looked official. Neither of them opened the attachment yet. You both delete it. Meena\'s friend\'s computer was the original source of the virus.',
+            tip: 'Calling to verify is always the right move when a forwarded email asks you to open a file or click a link — even from people you trust. Viruses often spread through trusted contacts precisely because we lower our guard with family. A quick call takes 1 minute and can prevent infection.',
+          },
+          {
+            id: 'checked_gov_site',
+            text: 'Ignore the email and check the official government website directly for the scheme.',
+            isCorrect: true,
+            consequence: 'You go to nhm.gov.in directly in your browser. There is no such scheme registration open. The email was entirely fake. The attachment was a virus. Your computer is safe and you delete the email.',
+            tip: 'For any government scheme, always go directly to the official website — type the address yourself or use Google to find the official .gov.in domain. Never trust links or attachments in forwarded emails, however legitimate they look.',
+          },
+        ],
+      },
+      {
+        id: 2,
+        situation: 'Your daughter calls and says she opened the same forwarded email on her phone and clicked the attachment. Her phone is now showing strange behaviour — apps crashing and battery draining fast. What should she do?',
+        choices: [
+          {
+            id: 'a',
+            text: 'Delete the email from her phone and restart it.',
+            isCorrect: false,
+            consequence: 'Deleting the email and restarting does not remove the virus. The malicious app has already been installed and continues running. Simply restarting re-launches all startup apps, including the virus.',
+            tip: 'Deleting the source email after an app has already been installed does not remove the installed app. The infection is on the device, not in the email anymore. Restarting does not uninstall malicious apps.',
+          },
+          {
+            id: 'b',
+            text: 'Go to Settings → Apps, find the suspicious app, and uninstall it, then run a Play Protect scan.',
+            isCorrect: true,
+            consequence: 'Your daughter finds an app called "HealthScheme" in her installed apps list — one she never intentionally installed. She uninstalls it. Google Play Protect confirms the threat has been removed. She also changes her email password as a precaution.',
+            tip: 'After installing a suspicious app on Android, go to Settings → Apps → See all apps. Look for any recently installed app you do not recognise. Uninstall it, then run a Google Play Protect scan (Settings → Security → Play Protect). Also change passwords for any accounts you use on the device.',
+          },
+          {
+            id: 'c',
+            text: 'Tell her to immediately call the bank and inform them, then change all passwords.',
+            isCorrect: true,
+            consequence: 'Smart priority. Since the virus accessed banking bookmarks on the original computer, your daughter contacts her bank to flag potential credential theft and enables two-factor authentication. No fraudulent transactions occur because she acted quickly.',
+            tip: 'If a device has been infected and you use banking apps or have saved bank passwords on it, contacting your bank immediately is always the right call. Banks can put temporary holds, disable net banking access, or flag unusual transactions — acting within the first hour is critical.',
+          },
+        ],
+      },
+    ],
+  },
+
+  /* ── TROJAN — STUDENT ──
+     Platform: Desktop
+     Environment: TrojanInstallerEnv (cracked game download)
+     Steps: 2 — installer → task manager
+  ── */
+  'mal-trojan-student': {
+    title: 'Trojan Horse: Cracked Game Download',
+    category: 'Malware & Device Safety',
+    difficulty: 'Intermediate',
+    xp: 80,
+    type: 'visual',
+    steps: [
+      {
+        id: 1,
+        environment: 'trojanInstaller',
+        envProps: {
+          siteName: 'GameCrackZone',
+          siteUrl: 'gamecrackzone.net/download/progamer-deluxe',
+          softwareName: 'ProGamer Deluxe 2025',
+          softwareDesc: 'Full version with all DLCs unlocked. No activation key needed. Works offline.',
+          softwareSize: '2.4 GB',
+          downloads: '1,42,500',
+          reviews: '4.8',
+          reviewCount: '2,341',
+          installerTitle: 'ProGamer Deluxe Setup',
+          bundledItems: [
+            { name: 'Install ProGamer Deluxe 2025', checked: true, locked: true },
+            { name: 'Install SearchHelper Toolbar (Recommended)', checked: true, isMalware: false },
+            { name: 'Set MySearch as default browser homepage', checked: true, isMalware: false },
+            { name: 'Install System Performance Optimizer Pro', checked: true, isMalware: true, malwareNote: 'This installs a keylogger' },
+          ],
+          accentColor: '#4caf50',
+        },
+        situation: 'Your friends are all playing ProGamer Deluxe 2025. It costs ₹2,499. A classmate sends you a link to download the full game for free from "GameCrackZone". The site looks professional and has thousands of positive reviews.',
+        choices: [
+          {
+            id: 'unchecked_malware',
+            text: 'Read the installer carefully and uncheck "System Performance Optimizer Pro" before installing.',
+            isCorrect: true,
+            consequence: 'You notice "System Performance Optimizer Pro" is pre-checked but vaguely named. You uncheck it. The game installs but the keylogger payload is blocked. However, the site itself is still illegal and the game may contain other embedded malware not visible in the installer.',
+            tip: 'Always read every screen in an installer. Bundled items are often pre-checked and positioned to look like optional features. Unchecking is better than accepting blindly, but downloading cracked software from unofficial sites always carries risk — including malware not disclosed in the installer.',
+          },
+          {
+            id: 'cancelled_install',
+            text: 'Close the installer without installing anything.',
+            isCorrect: true,
+            consequence: 'Good decision. You close the installer and delete the downloaded file. The game\'s publisher sells a student discount version for ₹799 on Steam. You buy the legitimate version and can play without risk.',
+            tip: 'Cracked software from unofficial sites is never truly free — you pay with privacy or device security. Keyloggers from these installers can steal your college login, email passwords, and banking credentials silently for months. Student discounts on legitimate platforms like Steam, Amazon, or the developer\'s site are often available.',
+          },
+          {
+            id: 'ran_installer',
+            text: 'Click through the installer quickly without reading and install everything.',
+            isCorrect: false,
+            consequence: 'The "System Performance Optimizer" installs a keylogger that runs silently in the background. Over the next two weeks it captures your email password, college login credentials, and your parents\' UPI PIN when they use the laptop. The keylogger transmits everything to a remote server.',
+            tip: 'Clicking through installers without reading is how the majority of PUP (Potentially Unwanted Program) and Trojan infections happen. Attackers design installers to look routine so users skip reading. The most dangerous checkbox is always the one that looks most official.',
+            terminalState: true,
+          },
+        ],
+      },
+      {
+        id: 2,
+        situation: 'Your roommate installed the same cracked game last week. He shows you his Task Manager and you notice "svchost-helper.exe" and "keylog-driver.sys" running — processes you don\'t recognise. CPU is at 28% with no apps open. What should you do?',
+        choices: [
+          {
+            id: 'a',
+            text: 'Search for "svchost-helper.exe" online to check if it is dangerous.',
+            isCorrect: false,
+            consequence: 'Searching online while the keylogger is running means every keystroke — including the search — is being logged. You also find conflicting results because attackers seed fake "it\'s safe" posts for their malware names. Time is wasted while credential theft continues.',
+            tip: 'Do not type passwords or sensitive searches on a device you suspect has a keylogger. Every keystroke is being captured. If you need to research, use a different clean device. The suspicious process names were enough evidence to act immediately.',
+          },
+          {
+            id: 'b',
+            text: 'Immediately disconnect from internet, run a full antivirus scan, and change all passwords from a different device.',
+            isCorrect: true,
+            consequence: 'You disconnect the laptop from Wi-Fi to stop any live data transmission. The antivirus scan identifies and removes "keylog-driver.sys" and "svchost-helper.exe". Passwords are changed from your own clean device. No credential theft is confirmed.',
+            tip: 'If you suspect a keylogger: (1) Disconnect from internet immediately to stop live transmission. (2) Run a full antivirus scan. (3) Change all important passwords from a DIFFERENT device — not the infected one. (4) Enable two-factor authentication where possible so passwords alone are not sufficient.',
+          },
+          {
+            id: 'c',
+            text: 'Uninstall the cracked game and restart the computer.',
+            isCorrect: false,
+            consequence: 'Uninstalling the game does not remove the Trojan. The keylogger was installed as a separate "System Performance Optimizer" component — it persists after the game is uninstalled. Restarting the computer re-launches the keylogger from its startup entry.',
+            tip: 'Trojans install their malicious payload as a separate component from the software they disguise themselves as. Uninstalling the host software does not remove the Trojan. A dedicated antivirus scan is required to find and remove all components.',
+          },
+        ],
+      },
+    ],
+  },
+
+  /* ── TROJAN — PROFESSIONAL ──
+     Platform: Desktop
+     Environment: TrojanInstallerEnv (fake IT patch)
+     Steps: 2 — fake update installer → RAT detection
+  ── */
+  'mal-trojan-pro': {
+    title: 'Trojan Horse: Fake IT Security Patch',
+    category: 'Malware & Device Safety',
+    difficulty: 'Intermediate',
+    xp: 85,
+    type: 'visual',
+    steps: [
+      {
+        id: 1,
+        environment: 'trojanInstaller',
+        envProps: {
+          siteName: 'IT Security Update',
+          siteUrl: 'windows-security-patch.com/critical-update',
+          softwareName: 'Windows Security Patch KB5031356',
+          softwareDesc: 'Critical security update addressing CVE-2024-38112. Apply immediately to protect against remote code execution.',
+          softwareSize: '84 MB',
+          downloads: '2,18,000',
+          reviews: '4.9',
+          reviewCount: '1,105',
+          installerTitle: 'Windows Security Update',
+          bundledItems: [
+            { name: 'Apply Security Patch KB5031356', checked: true, locked: true },
+            { name: 'Enable Windows Telemetry (Recommended)', checked: true, isMalware: false },
+            { name: 'Install Remote Management Assistant', checked: true, isMalware: true, malwareNote: 'This installs a Remote Access Trojan' },
+          ],
+          accentColor: '#0078d4',
+        },
+        situation: 'You receive an email from "IT Support" saying a critical Windows security patch must be applied immediately. The link takes you to a page that looks like a Microsoft update portal. Your company\'s IT team sometimes sends patch notifications like this.',
+        choices: [
+          {
+            id: 'unchecked_malware',
+            text: 'Notice "Remote Management Assistant" is pre-checked and uncheck it before installing.',
+            isCorrect: false,
+            consequence: 'You uncheck the Remote Management Assistant, but the domain "windows-security-patch.com" is not Microsoft — it is a phishing site. Even with that component unchecked, the "patch" itself contains an embedded Trojan. The correct action was to verify the source first.',
+            tip: 'Even if you spot and uncheck the suspicious component, downloading software from a non-official domain is still dangerous. Microsoft Windows updates are always delivered through Windows Update (Settings → Windows Update) — never through a website link in an email.',
+          },
+          {
+            id: 'cancelled_install',
+            text: 'Close everything and verify the update through official Windows Update settings.',
+            isCorrect: true,
+            consequence: 'You go to Settings → Windows Update and check for updates. There is no pending patch KB5031356. You forward the email to IT Security. They confirm it is a spear-phishing attack targeting your department. The attack is blocked before installation.',
+            tip: 'Windows security patches are ONLY distributed through Windows Update (Settings → Update & Security → Windows Update) or your corporate WSUS server managed by IT. Any email with a link to download a "critical patch" is a social engineering attack. Always verify through official channels.',
+          },
+          {
+            id: 'ran_installer',
+            text: 'Install the patch as instructed — IT updates are always urgent.',
+            isCorrect: false,
+            consequence: 'The "Remote Management Assistant" installs a Remote Access Trojan (RAT). The attacker now has full control of your work computer — they can access company files, watch your screen live, use your credentials to log into internal systems, and move laterally to other machines on the network.',
+            tip: 'Urgency is the attacker\'s most powerful tool. Legitimate IT security patches are never delivered as email links requiring immediate manual download. When an IT message creates extreme urgency ("apply NOW", "critical breach"), slow down — that pressure is a red flag, not a reason to comply faster.',
+            terminalState: true,
+          },
+        ],
+      },
+      {
+        id: 2,
+        situation: 'Your colleague in the same department received the same email and installed the "patch" yesterday. IT Security confirms a RAT is installed on their machine and the attacker has been accessing company files for 18 hours. What is the most critical action for IT Security to take RIGHT NOW?',
+        choices: [
+          {
+            id: 'a',
+            text: 'Change the colleague\'s Windows login password immediately.',
+            isCorrect: false,
+            consequence: 'Changing the password while the RAT is still active is insufficient. The attacker already has a persistent backdoor via the RAT — they do not need the Windows password to maintain access. The RAT will continue operating until the machine is isolated and cleaned.',
+            tip: 'A Remote Access Trojan creates its own persistent access channel independent of your Windows login credentials. Changing passwords does not remove a RAT. The machine must be isolated from the network first to prevent ongoing access.',
+          },
+          {
+            id: 'b',
+            text: 'Isolate the machine from the network immediately and check which files and systems the attacker has accessed.',
+            isCorrect: true,
+            consequence: 'Network isolation cuts the attacker\'s live access. IT Security then analyses access logs and finds the attacker has been reading the HR salary database and client contract folder. No data has been exfiltrated yet. Isolation was made in time to prevent data theft.',
+            tip: 'After a RAT incident: (1) Isolate the machine to cut live attacker access. (2) Preserve logs — do not restart or clean before forensic analysis. (3) Check what the attacker accessed, downloaded, or modified. (4) Check if they moved laterally to other machines. (5) Report to CERT-IN if it involves sensitive data.',
+          },
+          {
+            id: 'c',
+            text: 'Run antivirus on the affected machine to remove the RAT.',
+            isCorrect: false,
+            consequence: 'Running antivirus while the machine is still connected to the network allows the attacker to receive an alert through the RAT and potentially exfiltrate data before access is cut. Isolation must come before any remediation steps.',
+            tip: 'The order matters: isolate first, remediate second. Running antivirus on an actively-controlled machine tips off the attacker and allows them to accelerate data exfiltration before you can act. Always isolate the network connection before beginning any cleanup.',
+          },
+        ],
+      },
+    ],
+  },
+
+  /* ── RANSOMWARE — PROFESSIONAL ──
+     Platform: Desktop
+     Environment: RansomwareDesktopEnv (Windows file encryption)
+     Steps: 2 — ransom note → recovery decision
+  ── */
+  'mal-ransomware-pro': {
+    title: 'Ransomware: Office File Encryption',
+    category: 'Malware & Device Safety',
+    difficulty: 'Advanced',
+    xp: 100,
+    type: 'visual',
+    steps: [
+      {
+        id: 1,
+        environment: 'ransomwareDesktop',
+        envProps: {
+          encryptDelayMs: 2500,
+          ransomBtc: '0.5 BTC',
+          ransomWallet: '1A1zP1eP5QGefi2DMPTfTL5SLmv7Divf4a',
+          countdownHours: 47,
+          attackerEmail: 'decrypt0r@protonmail.ch',
+        },
+        situation: 'You are working on quarterly reports when your screen suddenly dims. Files on your desktop begin renaming one by one to ".locked" extensions. A ransom note appears.',
+        choices: [
+          {
+            id: 'paid_ransom',
+            text: 'Pay 0.5 BTC immediately — you cannot lose these files.',
+            isCorrect: false,
+            consequence: 'You pay ₹3,40,000 in Bitcoin. The attackers take 48 hours to respond. When they do, the decryption key provided only works on 60% of your files. The rest remain permanently encrypted. You also now appear on a "paying victims" list sold to other ransomware groups.',
+            tip: 'Cybercrime authorities globally — including CERT-IN in India — advise against paying ransomware. Payment funds criminal operations, does not guarantee file recovery, and marks your organisation as one that pays — making you a target for future attacks.',
+            terminalState: true,
+          },
+          {
+            id: 'disconnected_network',
+            text: 'Disconnect from the network immediately — unplug ethernet and turn off Wi-Fi.',
+            isCorrect: true,
+            consequence: 'You disconnect within 45 seconds of the ransom note appearing. IT confirms that network isolation prevented the ransomware from encrypting shared drives on the server. Only files on your local desktop are affected — shared project files and databases are safe. Recovery begins from backup.',
+            tip: 'Network isolation is the single most critical first response to ransomware. Every second the infected machine stays connected, the ransomware encrypts more files — including shared network drives accessible by everyone in your organisation. Physical disconnection (pulling the cable) is faster and more reliable than software disabling.',
+          },
+          {
+            id: 'restarted_computer',
+            text: 'Restart the computer to clear the ransomware.',
+            isCorrect: false,
+            consequence: 'Restarting triggers the ransomware\'s secondary payload. During boot, it finishes encrypting the remaining files it had queued. After restart, the ransom note is now set as the desktop wallpaper and appears on every login. The encryption is complete.',
+            tip: 'Never restart a ransomware-infected machine without expert guidance. Some ransomware strains use the brief reboot window to complete their encryption queue. Others install bootloaders that activate during restart. Isolation without restart is always the correct first step.',
+            terminalState: true,
+          },
+        ],
+      },
+      {
+        id: 2,
+        situation: 'Your machine is isolated. IT confirms the last full backup was made three days ago. The ransomware has encrypted files created in the last three days — about 72 hours of work. IT Manager asks: how should we proceed with recovery?',
+        choices: [
+          {
+            id: 'a',
+            text: 'Restore from the three-day-old backup and accept the data loss.',
+            isCorrect: true,
+            consequence: 'The machine is wiped, reimaged from a clean OS image, and files are restored from the clean backup. Three days of work is lost but all company databases, client files, and shared resources are safe. IT patches the email gateway to block the exploit vector. A post-incident review is scheduled.',
+            tip: 'Restoring from a clean backup is the standard and recommended recovery path for ransomware. Three days of data loss is painful but recoverable. This outcome reinforces why daily backups — especially to offline or air-gapped storage — are a non-negotiable security control.',
+          },
+          {
+            id: 'b',
+            text: 'Search online for a free decryption tool for this ransomware variant.',
+            isCorrect: false,
+            consequence: 'A search finds several "free decryptors" from unknown sites. Two of them are themselves malware. The one legitimate tool (from nomoreransom.org) does not support this ransomware variant. Two hours are wasted while the encrypted machine remains unclean.',
+            tip: 'If a decryption tool is needed, use ONLY tools from nomoreransom.org — the official joint initiative by Europol, Interpol, and cybersecurity firms. Never download decryptors from random search results. In most cases, restoring from backups is faster and safer.',
+          },
+          {
+            id: 'c',
+            text: 'Attempt to recover the files using Windows Shadow Copy (Previous Versions).',
+            isCorrect: true,
+            consequence: 'IT checks Windows Shadow Copy. Some ransomware strains delete shadow copies — this one partially did, but files older than 5 days are recoverable. Combined with the backup, the team recovers 85% of the lost work. The remaining 15% must be recreated.',
+            tip: 'Windows Shadow Copy (right-click a folder → Properties → Previous Versions) can sometimes recover files before the ransomware reached them. However, sophisticated ransomware specifically targets and deletes shadow copies. Always check — it costs nothing and may save hours of recovery work.',
+          },
+        ],
+      },
+    ],
+  },
+
+  /* ── RANSOMWARE — ELDERLY ──
+     Platform: Mobile (Android screen-locker)
+     Environment: RansomwareMobileEnv (fake police notice)
+     Steps: 2 — phone locked → response
+  ── */
+  'mal-ransomware-elderly': {
+    title: 'Ransomware: Phone Locked by Fake Police',
+    category: 'Malware & Device Safety',
+    difficulty: 'Advanced',
+    xp: 90,
+    type: 'visual',
+    steps: [
+      {
+        id: 1,
+        environment: 'ransomwareMobile',
+        envProps: {
+          fineAmount: '3,500',
+          agencyName: 'Cyber Crime Investigation Bureau — MHA',
+          warningTitle: 'YOUR DEVICE HAS BEEN LOCKED',
+          lockDelayMs: 2500,
+        },
+        situation: 'You receive a WhatsApp message from an unknown number: "Govt health scheme APK — install for free medicines." You install the app. Minutes later, your phone screen goes black and then shows this.',
+        choices: [
+          {
+            id: 'paid_fine',
+            text: 'Pay ₹3,500 via UPI to unlock your phone.',
+            isCorrect: false,
+            consequence: 'You pay ₹3,500 to a UPI address shown on screen. Your phone remains locked — the payment option was fake. The attacker received your money but the ransomware is still running. You have now also confirmed that this UPI number is active, making you a target for follow-up calls.',
+            tip: 'The Indian government, police, and courts NEVER lock your phone and demand payment via UPI or gift cards. This is called "scareware ransomware" — it uses official logos and legal language to frighten victims into paying. A real legal notice is always delivered physically through official channels, never via a phone lock screen.',
+            terminalState: true,
+          },
+          {
+            id: 'force_restart',
+            text: 'Force restart the phone by holding the power button for 10 seconds.',
+            isCorrect: false,
+            consequence: 'Force restarting may give temporary relief on some Android devices. However, since you installed the ransomware as an APK app, it will restart with the phone and re-lock the screen. The restart bought you a few seconds of normal screen before the lock reappeared.',
+            tip: 'Force restarting does not remove installed malware. Android ransomware that was installed as an app persists through restarts because it has system boot permissions. The malicious app must be uninstalled — which requires Safe Mode on Android since the ransomware blocks normal app removal.',
+          },
+          {
+            id: 'contacted_support',
+            text: 'Call a trusted family member or visit a service centre to help remove the app.',
+            isCorrect: true,
+            consequence: 'Your son helps. He boots the phone into Android Safe Mode (hold Power → long press "Power off" → select Safe Mode). In Safe Mode, the ransomware app cannot run. You find and uninstall the suspicious APK. The phone returns to normal.',
+            tip: 'Android Safe Mode prevents third-party apps from launching — including ransomware. To enter: hold Power button → long press "Power off" option → tap "OK" for Safe Mode. In Safe Mode, go to Settings → Apps → find the suspicious recently installed app → Uninstall. Never pay screen-locker ransomware.',
+          },
+        ],
+      },
+      {
+        id: 2,
+        situation: 'The app is removed. Your neighbour Krishnama Aunty says she got the same WhatsApp message and also installed the app. Her phone is showing the same lock screen but she has already paid ₹3,500 to the UPI number. What should she do now?',
+        choices: [
+          {
+            id: 'a',
+            text: 'Pay more — the message says the fine is now ₹7,000 because of delay.',
+            isCorrect: false,
+            consequence: 'This is an escalation tactic. After the first payment, the attacker increased the demand. If she pays again, the same thing will happen. There is no legitimate authority behind this screen lock — every payment is lost money.',
+            tip: 'Escalating demands after initial payment are a classic extortion tactic. Attackers know that once a victim has paid once, they are more likely to pay again. Never pay a second time. There is no "fine" to pay — it was fraud from the start.',
+          },
+          {
+            id: 'b',
+            text: 'Remove the malicious app using Safe Mode, file a complaint on cybercrime.gov.in, and call the bank to flag the UPI payment.',
+            isCorrect: true,
+            consequence: 'She removes the app in Safe Mode. She files a complaint on cybercrime.gov.in with the UPI number and screenshot. She calls her bank to flag the fraudulent UPI transaction. The bank initiates a reversal request — UPI fraud complaints within 24 hours have a reasonable chance of recovery.',
+            tip: 'If you have paid a fraudster via UPI: (1) Call your bank immediately and report the transaction. UPI fraud reported within 24 hours can sometimes be reversed. (2) File a complaint on cybercrime.gov.in or call 1930. (3) Keep screenshots of the lock screen and UPI transaction as evidence. Report the UPI ID to NPCI via your bank.',
+          },
+          {
+            id: 'c',
+            text: 'Reset the phone to factory settings.',
+            isCorrect: true,
+            consequence: 'Factory reset removes all malware completely. The phone is clean. However, Krishnama Aunty also loses her photos and contacts since there was no backup. It works, but calling the bank about the fraudulent payment should also be done from another phone before the reset.',
+            tip: 'Factory reset is a reliable last resort when Safe Mode removal is not possible. However: (1) Back up contacts and photos if accessible before resetting. (2) Make all urgent calls (bank, cybercrime helpline) from another phone BEFORE factory resetting, as you may need the device for evidence. (3) After reset, only re-install apps from the official Google Play Store.',
+          },
+        ],
+      },
+    ],
+  },
+
+  /* ── ADWARE — STUDENT ──
+     Platform: Desktop
+     Environment: AdwareBrowserEnv (browser hijack + popup storm)
+     Steps: 2 — install → popup response
+  ── */
+  'mal-adware-student': {
+    title: 'Adware & PUP: Browser Hijack',
+    category: 'Malware & Device Safety',
+    difficulty: 'Beginner',
+    xp: 55,
+    type: 'visual',
+    steps: [
+      {
+        id: 1,
+        environment: 'adwareBrowser',
+        envProps: {
+          siteName: 'FreeDownloadHub',
+          siteUrl: 'freedownloadhub.net/video-converter',
+          softwareName: 'UltraVideoConverter Pro',
+          softwareDesc: 'Convert any video format for free. No watermark. No limits. Works on all browsers.',
+          fakeHomepage: 'search.mysearchengine.net',
+          toolbarName: 'VideoHelper Toolbar',
+        },
+        situation: 'You need to convert a video for a college presentation. A Google search leads you to "FreeDownloadHub" offering a free video converter. You download and run the installer.',
+        choices: [
+          {
+            id: 'opened_settings',
+            text: 'Open browser settings and remove hijacker changes immediately.',
+            isCorrect: true,
+            consequence: 'You move quickly to browser settings and remove the hijacker extension/homepage override before it fully entrenches itself. Popups drop and your search defaults are restored.',
+            tip: 'For browser hijacks, immediate settings cleanup + extension removal is the fastest containment step before deeper cleanup.',
+          },
+          {
+            id: 'closed_popups',
+            text: 'Close popup storm windows, then uninstall the bundled app and clean browser components.',
+            isCorrect: true,
+            consequence: 'You close the fake alerts, remove the bundled software, reset browser settings, and clear notification permissions. Hijack behavior stops.',
+            tip: 'Adware removal works best as a sequence: close fake prompts, uninstall bundle, remove extension, reset browser, then scan for leftovers.',
+          },
+          {
+            id: 'ran_cleanup',
+            text: 'Click popup-style security prompts and follow whatever they ask.',
+            isCorrect: false,
+            consequence: 'Your browser homepage changes to "search.mysearchengine.net". A "VideoHelper Toolbar" appears in your browser. Every search is now routed through an ad-injecting proxy. Within 30 minutes, popup ads start appearing — fake PC warnings, prize claims, and update prompts. Your browsing data is being sold.',
+            tip: 'Browser toolbars and homepage hijackers seem minor but they: (1) Track every website you visit. (2) Inject ads into pages. (3) Redirect your searches through their servers. (4) Are difficult to remove once installed. There is no "just a toolbar" — they are data collection tools masquerading as convenience features.',
+          },
+        ],
+      },
+      {
+        id: 2,
+        situation: 'Your browser has been hijacked — the homepage changed to "search.mysearchengine.net" and you cannot change it back through browser settings. Popup ads appear every 2 minutes. How do you properly remove the adware?',
+        choices: [
+          {
+            id: 'a',
+            text: 'Change the homepage manually in browser settings and reinstall the browser.',
+            isCorrect: false,
+            consequence: 'You change the homepage but it reverts after every restart. Reinstalling the browser does not help because the PUP wrote itself to Windows startup and a browser extension. It rewrites the homepage setting every time the browser launches.',
+            tip: 'Browser PUPs typically persist in three places: a browser extension, a Windows startup entry, and sometimes a scheduled task. Changing the homepage in browser settings without removing these underlying components has no lasting effect. You must find and remove all three.',
+          },
+          {
+            id: 'b',
+            text: 'Uninstall the video converter from Control Panel, remove the browser extension, and reset browser settings to default.',
+            isCorrect: true,
+            consequence: 'You uninstall "UltraVideoConverter Pro" from Control Panel (which removes the startup entry). You remove the "VideoHelper" extension from browser extensions. You reset Chrome settings (Settings → Reset → Restore settings to original defaults). The browser is clean.',
+            tip: 'Complete PUP removal requires: (1) Uninstall from Control Panel/Settings → Apps. (2) Remove the browser extension (chrome://extensions or Firefox Add-ons). (3) Reset browser settings to default. (4) Optionally: run Malwarebytes AdwCleaner (free tool) to catch any residual entries in the registry or scheduled tasks.',
+          },
+          {
+            id: 'c',
+            text: 'Run a full system antivirus scan.',
+            isCorrect: false,
+            consequence: 'Standard antivirus scans often miss PUPs (Potentially Unwanted Programs) because they are technically "consent-ware" — the user clicked "I Agree" during installation. The antivirus reports no threats, but the adware continues running and showing popups.',
+            tip: 'Standard antivirus tools are often not designed to detect PUPs because they were installed with user consent (buried in the installer). For adware removal specifically, use dedicated tools like Malwarebytes AdwCleaner or HitmanPro, which target PUPs differently than traditional antivirus.',
+          },
+        ],
+      },
+    ],
+  },
+
+  /* ── ADWARE — ELDERLY ──
+     Platform: Mobile (Android fake app)
+     Environment: AdwareMobileEnv (fake flashlight with ad storm)
+     Steps: 2 — app install → popup response
+  ── */
+  'mal-adware-elderly': {
+    title: 'Adware: Fake App from Outside Play Store',
+    category: 'Malware & Device Safety',
+    difficulty: 'Beginner',
+    xp: 55,
+    type: 'visual',
+    steps: [
+      {
+        id: 1,
+        environment: 'adwareMobile',
+        envProps: {
+          appName: 'Super Flashlight Pro',
+          packageName: 'com.superflash.free',
+          appIcon: 'flashlight',
+          permissionsRequested: ['Contacts', 'Location', 'Camera', 'Microphone', 'Storage', 'Phone', 'SMS'],
+          adFrequencySeconds: 15,
+        },
+        situation: 'Your grandchild sends you a WhatsApp message: "Dadi/Nana, install this — best torch app, very bright, free!". They share an APK file directly in WhatsApp (not a Play Store link).',
+        choices: [
+          {
+            id: 'accepted_permissions',
+            text: 'Install the app and accept all the permissions it requests.',
+            isCorrect: false,
+            consequence: 'The "flashlight" app works, but it asks for access to Contacts, Location, Microphone, Camera, SMS and Phone. After granting all of these, the app begins showing fullscreen ads every 15 seconds. Your contact list is uploaded to an ad server. Your location is tracked and sold. Fake security warnings appear asking you to call a number.',
+            tip: 'A flashlight app has no legitimate reason to access Contacts, Location, Microphone, Camera, or SMS. When an app requests permissions that have nothing to do with its advertised function, that is a major red flag. Legitimate flashlight apps need only Camera permission (to control the LED). Excessive permissions = data harvesting.',
+          },
+          {
+            id: 'declined_and_refused',
+            text: 'Tell your grandchild you prefer to get apps only from the Google Play Store.',
+            isCorrect: true,
+            consequence: 'You look for "Flashlight" on the Google Play Store directly. You find an app from Google with 4.8 stars and 500 million installs that requests only the Camera permission. It works perfectly with no ads and no suspicious permissions.',
+            tip: 'The Google Play Store is not perfect, but it provides baseline safety checks that sideloaded APKs do not. Never install APK files sent via WhatsApp, SMS, or websites — even from people you trust, as they may not know the file is dangerous. Always use the Play Store or App Store for downloads.',
+          },
+          {
+            id: 'checked_permissions',
+            text: 'Install the app but deny all permissions except Camera when it asks.',
+            isCorrect: true,
+            consequence: 'You install the app and when it asks for Contacts — you tap Deny. Location — Deny. Microphone — Deny. Camera — Allow. The flashlight works. The app still shows some ads, but without your personal data permissions, the harm is limited. You later uninstall it and find a Play Store alternative.',
+            tip: 'Denying unnecessary permissions limits the damage an adware app can do. On Android, you can also review and revoke permissions after installation: Settings → Apps → [App name] → Permissions. This is a good safety habit for all apps — not just suspicious ones.',
+          },
+        ],
+      },
+      {
+        id: 2,
+        situation: 'Your neighbour Suresh Uncle has had a "free games app" on his Android phone for a month. He says ads pop up every few minutes, his phone battery drains in 3 hours (used to last a day), and recently got a call from someone claiming to be "Google Support" saying his phone has a virus. What should Suresh Uncle do?',
+        choices: [
+          {
+            id: 'a',
+            text: 'Call the "Google Support" number back — they can help remove the ads.',
+            isCorrect: false,
+            consequence: 'The "Google Support" caller is a tech support scammer. They likely triggered fake pop-up ads on his phone specifically to generate these calls. If Suresh Uncle calls back, the scammer will ask him to install a remote access app — giving them full control of his phone and banking apps.',
+            tip: 'Google never calls users to inform them about phone viruses. Tech support scammers use adware and scare popups specifically to manufacture the problem they then offer to "fix". Never call numbers shown in pop-up warnings, and never accept calls from strangers claiming to be tech support for Google, Microsoft, or Apple.',
+          },
+          {
+            id: 'b',
+            text: 'Find the suspicious app in Settings → Apps and uninstall it, then run a Play Protect scan.',
+            isCorrect: true,
+            consequence: 'Suresh Uncle finds "FunGames Unlimited" installed 1 month ago — right when the problems started. He uninstalls it. Play Protect scan finds no further threats. Ads stop immediately. Battery returns to normal. He never calls the "Google Support" number.',
+            tip: 'Battery drain and constant popup ads are reliable symptoms of adware. The fix is almost always removing the offending app: Settings → Apps → See all apps → sort by Install Date. Find apps installed around when problems started. Uninstall them. Then run Play Protect (Settings → Security → Play Protect → Scan).',
+          },
+          {
+            id: 'c',
+            text: 'Turn off mobile data and Wi-Fi to stop the ads.',
+            isCorrect: false,
+            consequence: 'Turning off data reduces the number of ads temporarily (since most ads require internet to load), but the adware app is still installed and running. When he turns data back on, the ads return. The app is still collecting whatever local data it has access to.',
+            tip: 'Disabling internet stops ad loading but does not remove the app causing it. Some adware also caches ads locally to display even without internet. The solution is always to remove the offending app — disabling internet is only a temporary workaround.',
+          },
+        ],
+      },
+    ],
+  },
+
+
+    'ii-p-3': {
     title: 'Deep Fake Voice Call',
     category: 'Identity & Impersonation',
     difficulty: 'Advanced',
@@ -975,7 +1672,7 @@ export const SIMULATIONS = {
   'ii-authority-1': {
     title: 'Authority Impersonation Scam',
     category: 'Identity & Impersonation',
-    difficulty: 'Beginner',
+    difficulty: 'Intermediate',
     xp: 85,
     type: 'visual',
     steps: [
@@ -1637,12 +2334,8 @@ export const SIMULATIONS = {
     ],
   },
 
-  /* ══════════════════════════════════════════════════════════
-     IDENTITY & IMPERSONATION — Student Simulations
-  ══════════════════════════════════════════════════════════ */
 
-  /* ── Level 1: Fake College Admin Account — Beginner, Visual ── */
-  'ii-s-1': {
+'ii-s-1': {
     title: 'Fake College Admin Account',
     category: 'Identity & Impersonation',
     difficulty: 'Beginner',
@@ -1968,9 +2661,10 @@ export const SIMULATIONS = {
     ],
   },
 
+
 }
 
-
+/* Convenience: category route slug → display name */
 export const CATEGORY_ROUTE_MAP = {
   'Financial Security':          'financial-security',
   'Identity & Impersonation':    'identity-impersonation',

@@ -470,7 +470,7 @@ export function FakeMedicalPortalEnv({ envProps, onInteract }) {
             <div
               onClick={handleCheckUpi}
               style={{
-                background: '#f0fff4', border: '1px solid #b7ebc9',
+                border: '1px solid #b7ebc9',
                 borderRadius: 8, padding: '10px 14px', marginBottom: 14,
                 cursor: 'pointer',
                 borderColor: showUpiHint ? '#C94E4E' : '#b7ebc9',

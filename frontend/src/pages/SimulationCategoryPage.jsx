@@ -192,7 +192,13 @@ const SIMULATIONS = {
         duration: '10 min', objectives: ['Verify identity through secondary channels', 'Recognise account takeover signs', 'Respond without escalating risk'],
       },
       {
-        id: 'ii-fake-medical-1', level: 3, difficulty: 'intermediate',
+        id: 'ii-s-3', level: 3, difficulty: 'advanced',
+        title: 'Aadhaar Identity Theft',
+        desc: 'Your Aadhaar details were shared carelessly. Walk through how an attacker could misuse them and what protective steps you can take immediately.',
+        duration: '15 min', objectives: ['Understand Aadhaar misuse vectors', 'Lock Aadhaar biometrics correctly', 'File an identity theft complaint'],
+      },
+      {
+        id: 'ii-fake-medical-1', level: 4, difficulty: 'intermediate',
         title: 'Fake Medical Assistance Scam',
         desc: 'A spoofed hospital billing portal demands urgent payment or a procedure is cancelled. Inspect the domain, verify the UPI ID, and call the hospital directly.',
         duration: '12 min', objectives: [
@@ -202,12 +208,6 @@ const SIMULATIONS = {
         ],
         targetGroups: ['Professionals', 'Elderly', 'Students'],
         badge: 'New',
-      },
-      {
-        id: 'ii-s-3', level: 4, difficulty: 'advanced',
-        title: 'Aadhaar Identity Theft',
-        desc: 'Your Aadhaar details were shared carelessly. Walk through how an attacker could misuse them and what protective steps you can take immediately.',
-        duration: '15 min', objectives: ['Understand Aadhaar misuse vectors', 'Lock Aadhaar biometrics correctly', 'File an identity theft complaint'],
       },
       {
         id: 'ii-urgency-pressure-1', level: 5, difficulty: 'advanced',
@@ -254,7 +254,13 @@ const SIMULATIONS = {
         badge: 'New',
       },
       {
-        id: 'ii-urgency-pressure-1', level: 4, difficulty: 'advanced',
+        id: 'ii-p-2', level: 4, difficulty: 'intermediate',
+        title: 'Vendor Impersonation Email',
+        desc: 'A fraudster impersonates a key vendor using a near-identical email domain and requests a contract renewal with changed payment terms.',
+        duration: '12 min', objectives: ['Spot domain spoofing techniques', 'Validate vendor communication channels', 'Implement verification protocols'],
+      },
+      {
+        id: 'ii-urgency-pressure-1', level: 5, difficulty: 'advanced',
         title: 'Urgency Pressure Attack',
         desc: 'Simultaneous email, SMS and phone calls claim your account will be frozen in 10 minutes. A live countdown runs as you decide. Test your response under maximum pressure.',
         duration: '15 min', objectives: [
@@ -265,10 +271,22 @@ const SIMULATIONS = {
         targetGroups: ['Professionals', 'Elderly', 'Students'],
         badge: 'New',
       },
+      {
+        id: 'ii-p-3', level: 6, difficulty: 'advanced',
+        title: 'Deep Fake Voice Call',
+        desc: 'A voice call from what sounds exactly like your manager requests an urgent account action. AI voice cloning has made this a real threat. Navigate it.',
+        duration: '18 min', objectives: ['Understand AI voice cloning risks', 'Establish a code-word verification system', 'Handle high-pressure impersonation'],
+      },
     ],
     elderly: [
       {
-        id: 'ii-authority-1', level: 1, difficulty: 'beginner',
+        id: 'ii-e-1', level: 1, difficulty: 'beginner',
+        title: 'Government Officer Impersonation',
+        desc: 'A caller claims to be from the Income Tax Department and says you owe a fine. They know your name and partial PAN number. Identify the script.',
+        duration: '8 min', objectives: ['Identify government impersonation tactics', 'Know what officials never ask over phone', 'File a complaint through correct channels'],
+      },
+      {
+        id: 'ii-authority-1', level: 2, difficulty: 'intermediate',
         title: 'Authority Impersonation Scam',
         desc: 'A threatening Income Tax email, a TRAI officer\'s call, and a fake government portal — all in one scam campaign. Walk through each interactive step.',
         duration: '15 min', objectives: [
@@ -280,7 +298,7 @@ const SIMULATIONS = {
         badge: 'New',
       },
       {
-        id: 'ii-relative-emergency-1', level: 2, difficulty: 'intermediate',
+        id: 'ii-relative-emergency-1', level: 3, difficulty: 'intermediate',
         title: 'Relative Emergency Scam',
         desc: 'A WhatsApp message and call claim your son is at the police station needing urgent bail money. Panic sets in — but so does suspicion. Navigate it.',
         duration: '10 min', objectives: [
@@ -292,7 +310,13 @@ const SIMULATIONS = {
         badge: 'New',
       },
       {
-        id: 'ii-fake-medical-1', level: 3, difficulty: 'intermediate',
+        id: 'ii-e-2', level: 4, difficulty: 'intermediate',
+        title: 'Family Emergency Scam',
+        desc: 'Someone calls claiming your son or grandson is in legal trouble and needs money transferred immediately. This is a classic panic-based identity exploit.',
+        duration: '10 min', objectives: ['Recognise urgency manipulation', 'Verify family emergencies independently', 'Avoid panic-driven decisions'],
+      },
+      {
+        id: 'ii-fake-medical-1', level: 5, difficulty: 'intermediate',
         title: 'Fake Medical Assistance Scam',
         desc: 'A spoofed hospital billing portal demands urgent payment or a procedure is cancelled. The domain, UPI and timer are all fabricated.',
         duration: '12 min', objectives: [
@@ -304,7 +328,7 @@ const SIMULATIONS = {
         badge: 'New',
       },
       {
-        id: 'ii-urgency-pressure-1', level: 4, difficulty: 'advanced',
+        id: 'ii-urgency-pressure-1', level: 6, difficulty: 'advanced',
         title: 'Urgency Pressure Attack',
         desc: 'Simultaneous email, SMS and phone calls claim your account will be frozen in 10 minutes. A live countdown runs as pressure mounts. Test your composure.',
         duration: '15 min', objectives: [
@@ -319,75 +343,88 @@ const SIMULATIONS = {
   },
 
   'malware-device-safety': {
+    /* ── STUDENT: Virus (USB + email), Adware, Trojan ── */
     student: [
       {
-        id: 'md-s-1', level: 1, difficulty: 'beginner',
-        title: 'The Cracked APK',
-        desc: 'A popular paid game app is available for free on a third-party site. You install it. Watch what the app actually does in the background.',
-        duration: '10 min', objectives: ['Understand APK sideloading risks', 'Identify malicious app permissions', 'Remove potentially harmful apps safely'],
+        id: 'mal-virus-student', level: 1, difficulty: 'beginner',
+        title: 'Computer Virus: USB Autorun',
+        desc: 'A classmate hands you a USB drive with "notes". Plugging it in triggers an autorun script that tries to spread across your folders. See what happens before you click.',
+        duration: '10 min', objectives: ['Understand USB autorun virus mechanics', 'Identify autorun-based infection vectors', 'Respond correctly to a friend\'s infected device'],
+        badge: 'Interactive',
       },
       {
-        id: 'md-s-2', level: 2, difficulty: 'intermediate',
-        title: 'Exam Notes Attachment',
-        desc: 'A WhatsApp forward promises leaked exam notes as a PDF attachment. Opening it installs a keylogger. Follow the infection chain step by step.',
-        duration: '12 min', objectives: ['Identify malicious document vectors', 'Understand keylogger behaviour', 'Scan and clean an infected device'],
+        id: 'mal-virus-student-email', level: 2, difficulty: 'beginner',
+        title: 'Computer Virus: Email Attachment Trap',
+        desc: 'A forwarded exam-material email includes a "viewer" attachment that asks for macros. Interact with the inbox and document warning before the virus spreads.',
+        duration: '11 min', objectives: ['Identify suspicious email domains and attachments', 'Handle macro warnings safely on desktop', 'Contain spread after a macro-based infection'],
+        badge: 'Interactive',
       },
       {
-        id: 'md-s-3', level: 3, difficulty: 'advanced',
-        title: 'Campus Wi-Fi Man-in-the-Middle',
-        desc: 'You connect to "CollegeWiFi_Free" on campus. An attacker is intercepting all your traffic. Understand what gets exposed and how to stay safe.',
-        duration: '15 min', objectives: ['Understand MITM attack mechanics', 'Identify rogue access points', 'Use VPN and HTTPS correctly'],
+        id: 'mal-adware-student', level: 3, difficulty: 'beginner',
+        title: 'Adware & PUP: Browser Hijack',
+        desc: 'A free desktop converter bundles a toolbar and search hijacker. Use the browser-style simulation to spot red flags and prevent popup-storm infections.',
+        duration: '10 min', objectives: ['Identify bundled adware in free installers', 'Recognise browser hijack indicators', 'Remove PUPs and restore browser settings safely'],
+        badge: 'Interactive',
+      },
+      {
+        id: 'mal-trojan-student', level: 4, difficulty: 'intermediate',
+        title: 'Trojan Horse: Cracked Game Download',
+        desc: 'A free download of a paid game looks professional — verified badges, thousands of reviews. Click through the installer and watch what silently installs alongside the game.',
+        duration: '14 min', objectives: ['Identify Trojan payloads in free software installers', 'Read installer screens before clicking Next', 'Detect and remove a keylogger from your system'],
+        badge: 'Interactive',
       },
     ],
+    /* ── PROFESSIONAL: Virus (beginner) + Trojan (intermediate) + Ransomware (advanced) ── */
     professional: [
       {
-        id: 'md-p-1', level: 1, difficulty: 'beginner',
-        title: 'Work Email Malware Attachment',
-        desc: 'An email from an external partner contains a Word document with macros enabled. Enabling them triggers a payload. Identify and handle it safely.',
-        duration: '10 min', objectives: ['Understand macro malware risks', 'Handle suspicious email attachments', 'Report to IT security correctly'],
+        id: 'mal-virus-pro', level: 1, difficulty: 'beginner',
+        title: 'Computer Virus: Office Macro Attack',
+        desc: 'A vendor email arrives with a Word attachment that "requires macros". Enabling them triggers a virus that spreads itself across your organisation\'s contact list in seconds.',
+        duration: '10 min', objectives: ['Identify spoofed sender domains', 'Understand how macro viruses spread', 'Contain an active email virus in a corporate setting'],
+        badge: 'Interactive',
       },
       {
-        id: 'md-p-2', level: 2, difficulty: 'intermediate',
-        title: 'Ransomware: File Lockdown',
-        desc: 'A malicious download encrypts your local files and a ransom note appears. Walk through the isolation steps, backup recovery, and reporting process.',
-        duration: '15 min', objectives: ['Respond to an active ransomware event', 'Isolate infected systems correctly', 'Assess recovery options and reporting obligations'],
+        id: 'mal-trojan-pro', level: 2, difficulty: 'intermediate',
+        title: 'Trojan Horse: Fake IT Security Patch',
+        desc: 'An urgent email from "IT Support" links to a critical Windows patch. The installer looks like Microsoft. A Remote Access Trojan installs alongside — giving attackers full system control.',
+        duration: '14 min', objectives: ['Verify patch authenticity before installing', 'Identify Remote Access Trojan (RAT) behaviour', 'Execute incident response for a RAT compromise'],
+        badge: 'Interactive',
       },
       {
-        id: 'md-p-3', level: 3, difficulty: 'advanced',
-        title: 'USB Drop Attack',
-        desc: 'A USB drive labelled "Q3 Salaries" is found in the office parking lot. Someone plugs it in. Trace the full attack chain from initial access to exfiltration.',
-        duration: '18 min', objectives: ['Understand USB-based attack vectors', 'Implement physical media policies', 'Contain and investigate an insider-threat scenario'],
+        id: 'mal-ransomware-pro', level: 3, difficulty: 'advanced',
+        title: 'Ransomware: Office File Encryption',
+        desc: 'Files on your work desktop begin locking one by one. A ransom note appears with a countdown timer. Every second you stay connected, more files — including shared drives — are at risk.',
+        duration: '18 min', objectives: ['Respond to live ransomware encryption in real time', 'Isolate the infected machine before network spread', 'Recover using backups — not by paying the ransom'],
+        badge: 'Interactive',
       },
     ],
+    /* ── ELDERLY: Virus (beginner) + Ransomware (advanced) + Adware (beginner) ── */
     elderly: [
       {
-        id: 'md-e-1', level: 1, difficulty: 'beginner',
-        title: 'Fake Tech Support Pop-up',
-        desc: 'A full-screen warning says your computer is infected and displays a phone number to call. The number connects to scammers. Identify and close it safely.',
-        duration: '8 min', objectives: ['Identify tech support scam pop-ups', 'Safely close rogue browser warnings', 'Never call numbers shown in pop-ups'],
+        id: 'mal-virus-elderly', level: 1, difficulty: 'beginner',
+        title: 'Computer Virus: Forwarded Email Trap',
+        desc: 'A trusted family member forwards a "government health scheme" email with an attachment. The file is a virus that silently spreads itself to your contact list the moment you open it.',
+        duration: '10 min', objectives: ['Recognise virus delivery through trusted contacts', 'Verify government scheme authenticity before opening', 'Help a family member clean an infected device'],
+        badge: 'Interactive',
       },
       {
-        id: 'md-e-2', level: 2, difficulty: 'intermediate',
-        title: 'WhatsApp APK Installation',
-        desc: 'A message says your WhatsApp will expire unless you install the "new version" from a link. The link installs spyware. Walk through the warning signs.',
-        duration: '10 min', objectives: ['Identify fake app update messages', 'Understand spyware risks', 'Uninstall malicious apps safely'],
+        id: 'mal-adware-elderly', level: 2, difficulty: 'beginner',
+        title: 'Adware: Fake App from Outside Play Store',
+        desc: 'A "free flashlight app" arrives as an APK via WhatsApp. After install it floods your screen with ads every 15 seconds, requests access to your contacts and location, and triggers fake support calls.',
+        duration: '12 min', objectives: ['Identify dangerous app permissions', 'Understand APK sideloading risks', 'Remove adware apps and stop fake support scams'],
+        badge: 'Interactive',
+      },
+      {
+        id: 'mal-ransomware-elderly', level: 3, difficulty: 'advanced',
+        title: 'Ransomware: Phone Locked by Fake Police',
+        desc: 'A WhatsApp APK installs ransomware that locks your Android screen with a fake Ministry of Home Affairs notice demanding ₹3,500. It looks official. It is entirely fake.',
+        duration: '14 min', objectives: ['Identify government impersonation screen-locker ransomware', 'Remove mobile ransomware using Android Safe Mode', 'Report UPI fraud and recover from a payment mistake'],
+        badge: 'Interactive',
       },
     ],
   },
 
-  /* ─── ONLINE COMMERCE SAFETY ───────────────────────────────────────────
-     Personalization rules (Task 3):
-       • Beginner  → all users
-       • Intermediate → unlocked only after user reaches intermediate expertise
-       • Scams are assigned to the ageGroup arrays that match their target audiences:
-           Fake E-commerce  → student, professional, elderly  (Beginner)
-           Courier Delivery → student, professional, elderly  (Beginner)
-           Fake Tech Support→ professional, elderly           (Intermediate)
-           Gaming Account   → student                         (Beginner)
-     The existing UNLOCKED map and ageGroup-based filtering in the page component
-     already enforces both level-locking and group-targeting automatically.
-  ─────────────────────────────────────────────────────────────────────── */
-  'online-commerce-safety': {
+    'online-commerce-safety': {
 
     /* ── STUDENT: sees Gaming Account + Fake E-commerce + Courier Delivery ── */
     student: [
@@ -703,7 +740,7 @@ const MOCK_USER = {
   name: 'User',
   userId: 'CR-8802',
   ageGroup: 'professional',       // 'student' | 'professional' | 'elderly'
-  expertise: 'advanced', // 'beginner' | 'intermediate' | 'advanced'
+  expertise: 'intermediate', // 'beginner' | 'intermediate' | 'advanced'
   completedIds: ['fs-s-1'],  // IDs of completed simulations
 }
 

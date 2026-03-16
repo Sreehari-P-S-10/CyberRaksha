@@ -23,6 +23,10 @@ import { OfficialEmailEnv, AuthorityCallEnv, FakeGovPortalEnv } from './componen
 import { RelativeEmergencyCallEnv, FakeMedicalPortalEnv, UrgencyPressureEnv } from './components/SocialEngineeringUI.jsx'
 import { InstagramFakeAdminEnv, WhatsappImpersonationEnv } from './components/StudentImpersonationUI.jsx'
 import { LinkedInCloneEnv } from './components/ProfessionalImpersonationUI.jsx'
+import { RansomwareDesktopEnv, RansomwareMobileEnv } from './components/RansomwareUI.jsx'
+import { TrojanInstallerEnv } from './components/TrojanUI.jsx'
+import { VirusFileManagerEnv, VirusEmailEnv } from './components/VirusUI.jsx'
+import { AdwareBrowserEnv, AdwareMobileEnv } from './components/AdwareUI.jsx'
 
 /**
  * @param {object} step        — current step from simulationsData
@@ -105,6 +109,34 @@ export default function SimulationRenderer({ step, onInteract }) {
     /* ── LinkedIn profile clone ── */
     case 'linkedInClone':
       return <LinkedInCloneEnv envProps={envProps} onInteract={onInteract} />
+
+    /* ── Ransomware: Windows desktop file encryption ── */
+    case 'ransomwareDesktop':
+      return <RansomwareDesktopEnv envProps={envProps} onInteract={onInteract} />
+
+    /* ── Ransomware: Android screen-locker (elderly) ── */
+    case 'ransomwareMobile':
+      return <RansomwareMobileEnv envProps={envProps} onInteract={onInteract} />
+
+    /* ── Trojan: fake download page + installer wizard ── */
+    case 'trojanInstaller':
+      return <TrojanInstallerEnv envProps={envProps} onInteract={onInteract} />
+
+    /* ── Virus: USB autorun file manager spread ── */
+    case 'virusFileManager':
+      return <VirusFileManagerEnv envProps={envProps} onInteract={onInteract} />
+
+    /* ── Virus: email attachment with macro payload ── */
+    case 'virusEmail':
+      return <VirusEmailEnv envProps={envProps} onInteract={onInteract} />
+
+    /* ── Adware: browser PUP bundle + popup storm ── */
+    case 'adwareBrowser':
+      return <AdwareBrowserEnv envProps={envProps} onInteract={onInteract} />
+
+    /* ── Adware: malicious mobile flashlight app ── */
+    case 'adwareMobile':
+      return <AdwareMobileEnv envProps={envProps} onInteract={onInteract} />
 
     default:
       return (
