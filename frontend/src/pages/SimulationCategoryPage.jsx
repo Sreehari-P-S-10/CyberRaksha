@@ -192,13 +192,7 @@ const SIMULATIONS = {
         duration: '10 min', objectives: ['Verify identity through secondary channels', 'Recognise account takeover signs', 'Respond without escalating risk'],
       },
       {
-        id: 'ii-s-3', level: 3, difficulty: 'advanced',
-        title: 'Aadhaar Identity Theft',
-        desc: 'Your Aadhaar details were shared carelessly. Walk through how an attacker could misuse them and what protective steps you can take immediately.',
-        duration: '15 min', objectives: ['Understand Aadhaar misuse vectors', 'Lock Aadhaar biometrics correctly', 'File an identity theft complaint'],
-      },
-      {
-        id: 'ii-fake-medical-1', level: 4, difficulty: 'intermediate',
+        id: 'ii-fake-medical-1', level: 3, difficulty: 'intermediate',
         title: 'Fake Medical Assistance Scam',
         desc: 'A spoofed hospital billing portal demands urgent payment or a procedure is cancelled. Inspect the domain, verify the UPI ID, and call the hospital directly.',
         duration: '12 min', objectives: [
@@ -208,6 +202,12 @@ const SIMULATIONS = {
         ],
         targetGroups: ['Professionals', 'Elderly', 'Students'],
         badge: 'New',
+      },
+      {
+        id: 'ii-s-3', level: 4, difficulty: 'advanced',
+        title: 'Aadhaar Identity Theft',
+        desc: 'Your Aadhaar details were shared carelessly. Walk through how an attacker could misuse them and what protective steps you can take immediately.',
+        duration: '15 min', objectives: ['Understand Aadhaar misuse vectors', 'Lock Aadhaar biometrics correctly', 'File an identity theft complaint'],
       },
       {
         id: 'ii-urgency-pressure-1', level: 5, difficulty: 'advanced',
@@ -254,13 +254,7 @@ const SIMULATIONS = {
         badge: 'New',
       },
       {
-        id: 'ii-p-2', level: 4, difficulty: 'intermediate',
-        title: 'Vendor Impersonation Email',
-        desc: 'A fraudster impersonates a key vendor using a near-identical email domain and requests a contract renewal with changed payment terms.',
-        duration: '12 min', objectives: ['Spot domain spoofing techniques', 'Validate vendor communication channels', 'Implement verification protocols'],
-      },
-      {
-        id: 'ii-urgency-pressure-1', level: 5, difficulty: 'advanced',
+        id: 'ii-urgency-pressure-1', level: 4, difficulty: 'advanced',
         title: 'Urgency Pressure Attack',
         desc: 'Simultaneous email, SMS and phone calls claim your account will be frozen in 10 minutes. A live countdown runs as you decide. Test your response under maximum pressure.',
         duration: '15 min', objectives: [
@@ -271,22 +265,10 @@ const SIMULATIONS = {
         targetGroups: ['Professionals', 'Elderly', 'Students'],
         badge: 'New',
       },
-      {
-        id: 'ii-p-3', level: 6, difficulty: 'advanced',
-        title: 'Deep Fake Voice Call',
-        desc: 'A voice call from what sounds exactly like your manager requests an urgent account action. AI voice cloning has made this a real threat. Navigate it.',
-        duration: '18 min', objectives: ['Understand AI voice cloning risks', 'Establish a code-word verification system', 'Handle high-pressure impersonation'],
-      },
     ],
     elderly: [
       {
-        id: 'ii-e-1', level: 1, difficulty: 'beginner',
-        title: 'Government Officer Impersonation',
-        desc: 'A caller claims to be from the Income Tax Department and says you owe a fine. They know your name and partial PAN number. Identify the script.',
-        duration: '8 min', objectives: ['Identify government impersonation tactics', 'Know what officials never ask over phone', 'File a complaint through correct channels'],
-      },
-      {
-        id: 'ii-authority-1', level: 2, difficulty: 'intermediate',
+        id: 'ii-authority-1', level: 1, difficulty: 'beginner',
         title: 'Authority Impersonation Scam',
         desc: 'A threatening Income Tax email, a TRAI officer\'s call, and a fake government portal — all in one scam campaign. Walk through each interactive step.',
         duration: '15 min', objectives: [
@@ -298,7 +280,7 @@ const SIMULATIONS = {
         badge: 'New',
       },
       {
-        id: 'ii-relative-emergency-1', level: 3, difficulty: 'intermediate',
+        id: 'ii-relative-emergency-1', level: 2, difficulty: 'intermediate',
         title: 'Relative Emergency Scam',
         desc: 'A WhatsApp message and call claim your son is at the police station needing urgent bail money. Panic sets in — but so does suspicion. Navigate it.',
         duration: '10 min', objectives: [
@@ -310,13 +292,7 @@ const SIMULATIONS = {
         badge: 'New',
       },
       {
-        id: 'ii-e-2', level: 4, difficulty: 'intermediate',
-        title: 'Family Emergency Scam',
-        desc: 'Someone calls claiming your son or grandson is in legal trouble and needs money transferred immediately. This is a classic panic-based identity exploit.',
-        duration: '10 min', objectives: ['Recognise urgency manipulation', 'Verify family emergencies independently', 'Avoid panic-driven decisions'],
-      },
-      {
-        id: 'ii-fake-medical-1', level: 5, difficulty: 'intermediate',
+        id: 'ii-fake-medical-1', level: 3, difficulty: 'intermediate',
         title: 'Fake Medical Assistance Scam',
         desc: 'A spoofed hospital billing portal demands urgent payment or a procedure is cancelled. The domain, UPI and timer are all fabricated.',
         duration: '12 min', objectives: [
@@ -328,7 +304,7 @@ const SIMULATIONS = {
         badge: 'New',
       },
       {
-        id: 'ii-urgency-pressure-1', level: 6, difficulty: 'advanced',
+        id: 'ii-urgency-pressure-1', level: 4, difficulty: 'advanced',
         title: 'Urgency Pressure Attack',
         desc: 'Simultaneous email, SMS and phone calls claim your account will be frozen in 10 minutes. A live countdown runs as pressure mounts. Test your composure.',
         duration: '15 min', objectives: [
@@ -727,7 +703,7 @@ const MOCK_USER = {
   name: 'User',
   userId: 'CR-8802',
   ageGroup: 'professional',       // 'student' | 'professional' | 'elderly'
-  expertise: 'intermediate', // 'beginner' | 'intermediate' | 'advanced'
+  expertise: 'advanced', // 'beginner' | 'intermediate' | 'advanced'
   completedIds: ['fs-s-1'],  // IDs of completed simulations
 }
 

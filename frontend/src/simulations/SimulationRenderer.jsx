@@ -21,6 +21,8 @@ import { DiscordDMEnv, ColleagueScenarioEnv } from './components/ChatUI.jsx'
 import { BrowserWithPopupEnv } from './components/PopupAlert.jsx'
 import { OfficialEmailEnv, AuthorityCallEnv, FakeGovPortalEnv } from './components/AuthorityImpersonationUI.jsx'
 import { RelativeEmergencyCallEnv, FakeMedicalPortalEnv, UrgencyPressureEnv } from './components/SocialEngineeringUI.jsx'
+import { InstagramFakeAdminEnv, WhatsappImpersonationEnv } from './components/StudentImpersonationUI.jsx'
+import { LinkedInCloneEnv } from './components/ProfessionalImpersonationUI.jsx'
 
 /**
  * @param {object} step        — current step from simulationsData
@@ -91,6 +93,18 @@ export default function SimulationRenderer({ step, onInteract }) {
     /* ── Multi-channel urgency pressure attack ── */
     case 'urgencyPressure':
       return <UrgencyPressureEnv envProps={envProps} onInteract={onInteract} />
+
+    /* ── Fake college admin Instagram account ── */
+    case 'instagramFakeAdmin':
+      return <InstagramFakeAdminEnv envProps={envProps} onInteract={onInteract} />
+
+    /* ── WhatsApp classmate impersonation ── */
+    case 'whatsappImpersonation':
+      return <WhatsappImpersonationEnv envProps={envProps} onInteract={onInteract} />
+
+    /* ── LinkedIn profile clone ── */
+    case 'linkedInClone':
+      return <LinkedInCloneEnv envProps={envProps} onInteract={onInteract} />
 
     default:
       return (

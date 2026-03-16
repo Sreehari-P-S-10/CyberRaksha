@@ -975,7 +975,7 @@ export const SIMULATIONS = {
   'ii-authority-1': {
     title: 'Authority Impersonation Scam',
     category: 'Identity & Impersonation',
-    difficulty: 'Intermediate',
+    difficulty: 'Beginner',
     xp: 85,
     type: 'visual',
     steps: [
@@ -1637,9 +1637,340 @@ export const SIMULATIONS = {
     ],
   },
 
+  /* ══════════════════════════════════════════════════════════
+     IDENTITY & IMPERSONATION — Student Simulations
+  ══════════════════════════════════════════════════════════ */
+
+  /* ── Level 1: Fake College Admin Account — Beginner, Visual ── */
+  'ii-s-1': {
+    title: 'Fake College Admin Account',
+    category: 'Identity & Impersonation',
+    difficulty: 'Beginner',
+    xp: 50,
+    type: 'visual',
+    steps: [
+      {
+        id: 1,
+        environment: 'instagramFakeAdmin',
+        envProps: {
+          fakeHandle:    '@srm_admissions_official',
+          realHandle:    '@srm_university',
+          collegeName:   'SRM University',
+          followerCount: '1,204',
+          postCount:     '3',
+          bio:           'Official Admissions Office — SRM University 🎓\nScholarship & Admission Updates',
+          postCaption:   '🎓 SCHOLARSHIP ALERT 🎓\n\nSRM Merit Scholarship 2024 is NOW OPEN.\nDeadline: This Friday.\n\nSubmit your details via the link in bio to apply.',
+          fakeDomain:    'srm-scholarship-apply.in',
+          postAge:       '2 hours ago',
+          accountAge:    'Account created 11 days ago',
+          redFlags: [
+            'No blue verification tick — the real SRM account is verified',
+            'Only 1,204 followers — a real university has tens of thousands',
+            'Account created just 11 days ago',
+            'Domain "srm-scholarship-apply.in" is not the official "srmist.edu.in"',
+            'Sponsored post — scammers pay to reach students via Instagram ads',
+          ],
+        },
+        choices: [
+          {
+            id: 'followed_link',
+            text: 'You opened the scholarship link and submitted your details.',
+            isCorrect: false,
+            consequence: 'The form asked for your name, student ID, phone number, email, Aadhaar number, and bank account details for "scholarship disbursement." You submitted everything. The data was harvested. Three days later you received calls from unknown numbers offering fake loan schemes — your details had been sold.',
+            tip: 'Legitimate scholarship applications never ask for Aadhaar or bank details through an Instagram link. Always apply via the official college website or the admissions office directly. No real university runs scholarship applications through a third-party ".in" domain.',
+            terminalState: true,
+          },
+          {
+            id: 'checked_official_account',
+            text: 'You searched Instagram for the real official SRM account to compare.',
+            isCorrect: true,
+            consequence: 'You found the real @srm_university account — blue verified tick, 87,400 followers, posts going back 6 years. No scholarship post like this one. You reported the fake account via Instagram\'s "Report > Pretending to be someone else" option and warned your college WhatsApp group.',
+            tip: 'Always verify institutional accounts by checking: (1) blue verified tick, (2) follower count consistent with the institution\'s size, (3) account age visible in posts, (4) matching domain in the bio. Real college accounts don\'t run scholarship deadlines through sponsored posts.',
+          },
+          {
+            id: 'reported_account',
+            text: 'You reported the account for impersonation without clicking the link.',
+            isCorrect: true,
+            consequence: 'You reported the account. Instagram removes it within 48 hours. You also posted a warning in your batch WhatsApp group — 3 classmates who had almost submitted their details saw it in time.',
+            tip: 'Reporting fake accounts protects everyone, not just you. Instagram\'s impersonation reporting is effective and fast. You don\'t need to click the link before reporting — the account itself is the evidence.',
+          },
+        ],
+      },
+      {
+        id: 2,
+        situation: 'You identified the fake account and reported it. The next day, a classmate sends a message in your batch group:\n\n"I already submitted the form — should I be worried? It asked for my Aadhaar and bank account number."\n\nWhat do you advise them to do?',
+        choices: [
+          {
+            id: 'a',
+            text: 'Tell them not to worry — Aadhaar and account numbers alone can\'t cause harm.',
+            isCorrect: false,
+            consequence: 'This is incorrect advice. Aadhaar combined with a name and phone number can be used for SIM swap fraud and targeted vishing attacks. Minimising the risk delayed your classmate from taking protective action.',
+            tip: 'Any combination of personal data in a scammer\'s hands is a risk. Always advise prompt action — not reassurance.',
+            terminalState: true,
+          },
+          {
+            id: 'b',
+            text: 'Tell them to call their bank immediately, lock their Aadhaar biometrics at uidai.gov.in, and report to cybercrime.gov.in.',
+            isCorrect: true,
+            consequence: 'Your classmate locks their Aadhaar biometrics through the UIDAI app, sets up transaction alerts with their bank, and files a report on cybercrime.gov.in. No fraud occurs. Prompt action made the stolen data much less useful.',
+            tip: 'After a data exposure: (1) Lock Aadhaar biometrics at uidai.gov.in or the mAadhaar app — this prevents misuse for new SIM registrations or bank accounts. (2) Enable transaction SMS alerts with your bank. (3) Report at cybercrime.gov.in or call 1930.',
+          },
+        ],
+      },
+    ],
+  },
+
+  /* ── Level 2: WhatsApp Classmate Impersonation — Intermediate, Visual ── */
+  'ii-s-2': {
+    title: 'WhatsApp Classmate Impersonation',
+    category: 'Identity & Impersonation',
+    difficulty: 'Intermediate',
+    xp: 70,
+    type: 'visual',
+    steps: [
+      {
+        id: 1,
+        environment: 'whatsappImpersonation',
+        envProps: {
+          contactName:    'Arjun Mehta',
+          contactInitial: 'A',
+          contactBg:      '#ff9800',
+          newNumber:      '+91 94XXX XXXXX',
+          originalNumber: '+91 98XXX XXXXX',
+          amount:         '₹3,000',
+          reason:         'stuck at the airport, wallet stolen',
+          upiId:          'arjun.help2024@paytm',
+          messageDelayMs: 1500,
+          accentColor:    '#25d366',
+        },
+        choices: [
+          {
+            id: 'sent_money',
+            text: 'You sent ₹3,000 to the UPI ID — Arjun sounded desperate.',
+            isCorrect: false,
+            consequence: 'You transferred ₹3,000. An hour later you called Arjun on his saved number — he was in college, completely unaware. His Instagram was public and the scammer had scraped his name and photo, then messaged everyone from a new number. The ₹3,000 is unrecoverable.',
+            tip: 'A new number claiming to be a friend in an emergency is one of the most common student-targeted scams. The "don\'t call the old number" instruction is specifically designed to stop you from verifying. Always call the saved number first.',
+            terminalState: true,
+          },
+          {
+            id: 'called_original_number',
+            text: 'You called Arjun on his saved number before sending anything.',
+            isCorrect: true,
+            consequence: 'Arjun answered immediately from the college library. He had no idea what you were talking about. His Instagram was public and the scammer had scraped his name and photo. You warned him, and he locked his Instagram account and posted a warning for others.',
+            tip: 'One phone call to the original saved number takes 20 seconds and catches 100% of these scams. The moment a new number asks you not to call the old one, that instruction itself is the red flag.',
+          },
+          {
+            id: 'asked_verification_question',
+            text: 'You replied asking something only the real Arjun would know.',
+            isCorrect: true,
+            consequence: 'You asked: "What\'s the name of our project group in Teams?" The scammer replied with something generic. You knew it was wrong and blocked the number. Arjun\'s real answer would have been immediate and specific.',
+            tip: 'Shared memories or specific details from your real friendship are excellent quick verification tools. A scammer using a scraped profile has no access to those details.',
+          },
+        ],
+      },
+      {
+        id: 2,
+        situation: 'You correctly identified the impersonation. Arjun tells you his Instagram account was public and had his phone number in the bio. He asks what settings he should change to prevent this happening again.',
+        choices: [
+          {
+            id: 'a',
+            text: 'Tell him to delete Instagram — it\'s not safe.',
+            isCorrect: false,
+            consequence: 'Deleting Instagram is an extreme response that doesn\'t address the root issue. Scammers also scrape LinkedIn, Facebook, and college directories. The real protection comes from limiting public personal information, not abandoning platforms.',
+            tip: 'Platform deletion isn\'t necessary. The correct response is to reduce public exposure of personally identifying information like phone numbers.',
+            terminalState: true,
+          },
+          {
+            id: 'b',
+            text: 'Tell him to set Instagram to private, remove his phone number from bio, and enable two-factor authentication.',
+            isCorrect: true,
+            consequence: 'Arjun sets his account to private, removes his phone number from the bio, enables 2FA, and sets a personal code word with close friends for any future emergency money requests. These steps significantly reduce his impersonation risk.',
+            tip: 'Three quick wins that prevent most social media impersonation: (1) Never put your phone number in a public bio. (2) Enable 2FA on all accounts. (3) Set a personal code word with close friends for verifying emergency requests — a real friend will know it, a scammer won\'t.',
+          },
+        ],
+      },
+    ],
+  },
+
+  /* ── Level 4: Aadhaar Identity Theft — Advanced, Text ── */
+  'ii-s-3': {
+    title: 'Aadhaar Identity Theft',
+    category: 'Identity & Impersonation',
+    difficulty: 'Advanced',
+    xp: 100,
+    type: 'text',
+    steps: [
+      {
+        id: 1,
+        situation: 'You shared a photo of your Aadhaar card in a college WhatsApp group last semester to fill a hostel form. You later deleted the message, but screenshots may have circulated.\n\nToday you receive an SMS: "Your Aadhaar has been used to register a new SIM card at Jio. If not done by you, call 1800-XXX-XXXX immediately."\n\nThe number in the SMS is not Jio\'s official helpline.',
+        choices: [
+          {
+            id: 'a',
+            text: 'Call the number in the SMS immediately — someone may have stolen your identity.',
+            isCorrect: false,
+            consequence: 'The number connects to a scammer posing as a "TRAI officer." They claim your Aadhaar has been misused and ask you to share your OTP to "lock" it. You share the OTP — it was for a new account being opened in your name. Your panic was exploited before you could think clearly.',
+            tip: 'Never call numbers from unexpected SMS messages about Aadhaar misuse. These are vishing attacks designed to create panic and extract OTPs. Verify only through official channels.',
+            terminalState: true,
+          },
+          {
+            id: 'b',
+            text: 'Ignore the SMS and check your Aadhaar usage history at myaadhaar.uidai.gov.in.',
+            isCorrect: true,
+            consequence: 'You log in to myaadhaar.uidai.gov.in and check "Aadhaar Authentication History." No recent SIM-related authentication appears. The SMS was a vishing attempt. You report the sender number to TRAI at sancharsaathi.gov.in.',
+            tip: 'myaadhaar.uidai.gov.in shows a complete history of where and when your Aadhaar was authenticated. This is the only reliable source of Aadhaar misuse information — not SMS alerts from unknown numbers.',
+          },
+          {
+            id: 'c',
+            text: 'Call Jio\'s official helpline (198) to check if a SIM was actually registered.',
+            isCorrect: true,
+            consequence: 'Jio\'s helpline confirms no new SIM has been registered using your Aadhaar. The SMS was fraudulent. You report the number via sancharsaathi.gov.in and block it.',
+            tip: 'Telecom operators can confirm whether a SIM was registered using your Aadhaar. Always use the official helpline numbers from the operator\'s website — never from the suspicious SMS.',
+          },
+        ],
+      },
+      {
+        id: 2,
+        situation: 'You confirm through UIDAI that your Aadhaar WAS actually authenticated once — 3 weeks ago — at a telecom outlet you have never visited. Someone used your Aadhaar photo to register a SIM.\n\nWhat do you do first?',
+        choices: [
+          {
+            id: 'a',
+            text: 'Post about it on social media to warn others.',
+            isCorrect: false,
+            consequence: 'Posting publicly can alert the fraudster to cover their tracks before you\'ve taken protective action. Taking action first, then warning others, is the correct order.',
+            tip: 'In any identity theft situation, protect first — warn later. Alerting the fraudster before securing your accounts gives them time to act.',
+            terminalState: true,
+          },
+          {
+            id: 'b',
+            text: 'Lock your Aadhaar biometrics on UIDAI, file a complaint on cybercrime.gov.in, and request the fraudulent SIM be blocked via TRAI.',
+            isCorrect: true,
+            consequence: 'You lock your Aadhaar biometrics through the UIDAI portal — preventing any further authentication. You file a complaint on cybercrime.gov.in with the authentication record as evidence. TRAI traces and blocks the fraudulent SIM within a week. No further misuse occurs.',
+            tip: 'The three-step response to confirmed Aadhaar misuse: (1) Lock biometrics at myaadhaar.uidai.gov.in immediately. (2) File at cybercrime.gov.in with the authentication timestamp as evidence. (3) Report the fraudulent SIM to TRAI at sancharsaathi.gov.in.',
+          },
+        ],
+      },
+      {
+        id: 3,
+        situation: 'Your Aadhaar biometrics are locked and the complaint is filed. A week later, a bank calls saying a loan application was submitted in your name 5 weeks ago using your Aadhaar and PAN. The application is still pending.\n\nThe loan amount: ₹2,40,000.',
+        choices: [
+          {
+            id: 'a',
+            text: 'Tell the bank to simply reject the application — your details were stolen.',
+            isCorrect: false,
+            consequence: 'Verbally telling the bank is insufficient. Without a formal written complaint and cybercrime report reference number, the bank may not be able to stop the application from being processed. Proper documentation is essential.',
+            tip: 'Verbal communication is not enough for financial fraud cases. Always submit a written complaint with your cybercrime.gov.in reference number — this creates a legal paper trail that banks are required to act on.',
+          },
+          {
+            id: 'b',
+            text: 'Visit the bank with your cybercrime complaint reference number, submit a written fraud declaration, and request a CIBIL fraud alert.',
+            isCorrect: true,
+            consequence: 'You visit the bank with your cybercrime.gov.in reference number and submit a written fraud declaration. The bank freezes the application and flags your PAN. You file a CIBIL dispute, which places a fraud alert on your credit report. The loan application is cancelled. Your credit score is protected.',
+            tip: 'For fraudulent loan applications: (1) Submit a written fraud declaration to the bank with your cybercrime reference number. (2) File a CIBIL dispute at cibil.com to place a fraud alert on your credit report — this warns all lenders. (3) Follow up in writing every 7 days until confirmation.',
+          },
+        ],
+      },
+    ],
+  },
+
+  /* ── Level 1: LinkedIn Profile Cloning — Beginner, Visual ── */
+  'ii-p-1': {
+    title: 'LinkedIn Profile Cloning',
+    category: 'Identity & Impersonation',
+    difficulty: 'Beginner',
+    xp: 60,
+    type: 'visual',
+    steps: [
+      {
+        id: 1,
+        environment: 'linkedInClone',
+        envProps: {
+          yourName:         'Priya Sharma',
+          yourTitle:        'Senior Software Engineer at Infosys',
+          yourLocation:     'Bengaluru, Karnataka',
+          yourConnections:  '487',
+          yourInitial:      'P',
+          yourAvatarBg:     '#0077b5',
+          cloneHandle:      'priya-sharma-infosys-engineer',
+          realHandle:       'priya-sharma-infosys',
+          cloneConnections: '3',
+          cloneJoined:      'Joined 6 days ago',
+          colleagueName:    'Rahul Verma',
+          colleagueInitial: 'R',
+          scamMessage:      'Hi Rahul, I\'m updating my contact list. Can you share your personal email and what project you\'re currently on? Also, our team lead asked me to collect everyone\'s employee IDs for the new access system.',
+        },
+        choices: [
+          {
+            id: 'ignored_request',
+            text: 'You ignored the connection request and did nothing.',
+            isCorrect: false,
+            consequence: 'You ignored it. Over the next 3 days, the clone account connects with 23 of your contacts and collects employee IDs, personal emails, and project details from 6 colleagues who assumed it was really you. By the time a colleague flags it, significant data has already been harvested.',
+            tip: 'Ignoring a profile clone without reporting it allows the attacker to continue targeting your network. Your connections trust messages from "you" — that trust is the weapon. Report and alert immediately.',
+            terminalState: true,
+          },
+          {
+            id: 'reported_clone',
+            text: 'You reported the cloned profile to LinkedIn for impersonation.',
+            isCorrect: true,
+            consequence: 'You reported the profile using LinkedIn\'s "Report > Pretending to be someone else > Me" option. LinkedIn removes the clone within 24 hours. You also posted a brief warning on your own profile and messaged your closest connections directly. No colleague data was compromised.',
+            tip: 'Reporting a clone on LinkedIn is quick: go to the profile → three dots (···) → Report → Pretending to be someone else → Me. LinkedIn takes impersonation seriously and acts within 24–48 hours. Report first, then alert your network.',
+          },
+          {
+            id: 'alerted_contacts',
+            text: 'You posted a public warning on your real profile and messaged your connections.',
+            isCorrect: true,
+            consequence: 'You posted "Someone has cloned my LinkedIn profile. Please do not accept connection requests or share any information with a profile that is not linkedin.com/in/priya-sharma-infosys." Several colleagues who had already accepted the clone request immediately withdrew the connection. You also reported the profile to LinkedIn.',
+            tip: 'Publicly alerting your network is an effective defence because it uses the same trust channel the attacker is exploiting. Your connections are far more likely to see a warning from your real profile than to check a URL carefully. Do both — report to LinkedIn AND alert your network.',
+          },
+        ],
+      },
+      {
+        id: 2,
+        situation: 'You reported the clone and warned your connections. Later that day, your colleague Rahul messages you:\n\n"I got a message from what I thought was your profile asking for my employee ID and project details. I sent my employee ID before I realised it was a clone. What should I do?"\n\nWhat do you advise him?',
+        choices: [
+          {
+            id: 'a',
+            text: 'Tell him employee IDs are not sensitive — he doesn\'t need to do anything.',
+            isCorrect: false,
+            consequence: 'Employee IDs combined with names, email addresses, and project names can be used to craft convincing spear-phishing emails to Rahul\'s colleagues, impersonate him in internal systems, or socially engineer IT helpdesks into resetting passwords. Dismissing the risk was the wrong advice.',
+            tip: 'Seemingly low-value data like an employee ID becomes dangerous when combined with other information. Always report any data that was shared under false pretences — let your organisation\'s security team assess the risk.',
+            terminalState: true,
+          },
+          {
+            id: 'b',
+            text: 'Tell him to report it to his IT security team immediately with the clone profile URL as evidence.',
+            isCorrect: true,
+            consequence: 'Rahul reports to the IT security team. They issue a company-wide advisory warning employees about the LinkedIn clone campaign. IT also checks whether the employee ID was used in any access attempts. No breach occurs. The IT team notes that 3 other employees had also shared information with the clone.',
+            tip: 'Any data shared under false pretences must be reported to IT security immediately — even if the data seems minor. IT can assess whether the data creates an access risk, monitor for misuse, and alert other potentially affected employees. Speed of reporting determines the size of the damage.',
+          },
+        ],
+      },
+      {
+        id: 3,
+        situation: 'The clone has been removed. Rahul has reported to IT. Now you want to make sure your LinkedIn profile is harder to clone in the future.\n\nWhich settings changes are most effective?',
+        choices: [
+          {
+            id: 'a',
+            text: 'Delete your LinkedIn account — it\'s impossible to clone a profile that doesn\'t exist.',
+            isCorrect: false,
+            consequence: 'Deleting LinkedIn is not a realistic or necessary response. Attackers also scrape data from company websites, directories, conference speaker lists, and press releases. Reducing your LinkedIn exposure is useful — eliminating it entirely is unnecessary and professionally costly.',
+            tip: 'Profile cloning doesn\'t require an active LinkedIn account — attackers scrape data before accounts are deleted. The correct approach is reducing the information available while keeping the professional benefits of the platform.',
+            terminalState: true,
+          },
+          {
+            id: 'b',
+            text: 'Set your connections list to private, limit who can see your contact info, and enable profile viewing notifications.',
+            isCorrect: true,
+            consequence: 'You make your connections list visible only to you — this prevents the clone from easily identifying and targeting your network. You remove your phone number from the profile and restrict email visibility. You enable "Who viewed your profile" alerts. These changes significantly reduce the clone\'s ability to impersonate you effectively.',
+            tip: 'The three most effective LinkedIn privacy settings against cloning: (1) Hide your connections list — under Settings > Visibility > Who can see your connections. (2) Remove personal contact details from public view. (3) Enable profile view notifications — unusual spikes in views can signal someone is scraping your profile to clone it.',
+          },
+        ],
+      },
+    ],
+  },
+
 }
 
-/* Convenience: category route slug → display name */
+
 export const CATEGORY_ROUTE_MAP = {
   'Financial Security':          'financial-security',
   'Identity & Impersonation':    'identity-impersonation',
