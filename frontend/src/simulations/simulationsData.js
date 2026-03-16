@@ -964,6 +964,679 @@ export const SIMULATIONS = {
       },
     ],
   },
+
+  /* ══════════════════════════════════════════════════════════
+     VISUAL SIMULATIONS — Identity & Impersonation
+     Authority Impersonation Scam
+     Target group: Professionals & Elderly
+     Awareness level: Intermediate
+  ══════════════════════════════════════════════════════════ */
+
+  'ii-authority-1': {
+    title: 'Authority Impersonation Scam',
+    category: 'Identity & Impersonation',
+    difficulty: 'Intermediate',
+    xp: 85,
+    type: 'visual',
+    steps: [
+      {
+        /* ── Step 1 ─────────────────────────────────────────────
+           A spoofed Income Tax Department email arrives.
+           The user must decide whether to click the CTA link,
+           open the attachment, or close the email entirely.
+        ──────────────────────────────────────────────────────── */
+        id: 1,
+        environment: 'officialEmail',
+        envProps: {
+          senderName:    'Income Tax Department — India',
+          senderEmail:   'notice-efiling@incometax-dept.gov.in.notices.cc',
+          realDomain:    'incometax.gov.in',
+          subject:       'URGENT: Discrepancy in ITR — Outstanding Tax of ₹18,400',
+          logoEmoji:     '🏛️',
+          accentColor:   '#1a56db',
+          bodyLines: [
+            'Dear Taxpayer,',
+            'Our systems have detected a discrepancy in your Income Tax Return (ITR) for Assessment Year 2023–24. An outstanding tax liability of ₹18,400 has been identified against your PAN.',
+            'Failure to clear this outstanding amount within 24 hours will result in a hold being placed on your bank accounts and initiation of legal proceedings under Section 156 of the Income Tax Act.',
+            'Click the button below to view your notice and make the payment securely.',
+          ],
+          callToAction:   'View Notice & Pay ₹18,400',
+          ctaUrl:         'incometax-dept-notice.in/pay',
+          attachmentName: 'ITR_Discrepancy_Notice_2024.pdf',
+          redFlags: [
+            'Sender domain: "incometax-dept.gov.in.notices.cc" — Real domain is only "incometax.gov.in"',
+            'Threatening language about account holds and legal proceedings creates panic',
+            'Legitimate IT notices are sent via NSDL/CPC portals, never asking for direct payment via email',
+            'Legitimate PDF attachments from IT Dept contain official notice numbers — not vague filenames',
+          ],
+        },
+        choices: [
+          {
+            id: 'clicked_link',
+            text: 'You clicked "View Notice & Pay ₹18,400".',
+            isCorrect: false,
+            consequence: 'The link opens a convincing fake portal styled like the Income Tax e-filing website. It asks for your PAN, Aadhaar, and bank details. You enter them. Within 24 hours, your account is drained. The real Income Tax Department never sends payment links via email — all notices appear on the official portal after login.',
+            tip: 'The Income Tax Department communicates through the official portal (incometax.gov.in) and sends physical notices. They never demand payment via email links. If you receive such an email, log in to the official IT portal directly from your browser to check if any genuine notice exists.',
+            terminalState: true,
+          },
+          {
+            id: 'opened_attachment',
+            text: 'You opened the PDF attachment.',
+            isCorrect: false,
+            consequence: 'The PDF opens but immediately prompts you to "Enable Macros to view the document." The macro installs a keylogger that records your banking credentials over the next 72 hours. Malware is routinely delivered through official-looking PDF attachments with fake content warnings.',
+            tip: 'Never open attachments from unknown or suspicious email addresses. Macros in Office documents and JavaScript in PDFs are common malware delivery methods. Legitimate government documents are plain PDFs — they never ask you to enable anything.',
+            terminalState: true,
+          },
+          {
+            id: 'closed_without_action',
+            text: 'You closed the email without clicking anything.',
+            isCorrect: true,
+            consequence: 'Good instinct. You log in directly to incometax.gov.in from your browser and check your account. No outstanding notice exists. You report the phishing email to incident@cert-in.org.in and forward it to your bank\'s fraud reporting email.',
+            tip: 'The sender domain "incometax-dept.gov.in.notices.cc" is a lookalike domain — the real domain is "incometax.gov.in" only. Always verify tax notices by logging into the official portal directly. Never click email links or open unsolicited attachments, no matter how official they look.',
+          },
+        ],
+      },
+
+      {
+        /* ── Step 2 ─────────────────────────────────────────────
+           A call from a spoofed "TRAI official" threatens
+           mobile disconnection unless the user pays a fee.
+           Caller sounds authoritative, uses official jargon.
+        ──────────────────────────────────────────────────────── */
+        id: 2,
+        environment: 'authorityCall',
+        envProps: {
+          callerName:     'TRAI Compliance Dept',
+          callerNumber:   '+91 11-2323-XXXX',
+          callerSubtitle: 'New Delhi — Government of India',
+          callerEmoji:    '📡',
+          accentColor:    '#30b0c7',
+          delayPerLine:   2600,
+          scriptLines: [
+            { role: 'caller', text: 'Hello, am I speaking with the registered owner of this mobile number?' },
+            { role: 'caller', text: 'This is Officer Pradeep Sharma calling from the Telecom Regulatory Authority of India — TRAI. We have received a complaint that your number is being used to send fraudulent messages.' },
+            { role: 'caller', text: 'Under the Telecom Act 2023, your number will be permanently disconnected within 2 hours unless you complete a verification payment of ₹1,499 to our compliance portal.' },
+            { role: 'caller', text: 'I am transferring you to our secure payment portal now. Please stay on the line.' },
+          ],
+        },
+        choices: [
+          {
+            id: 'declined_call',
+            text: 'You declined the call.',
+            isCorrect: true,
+            consequence: 'The caller rang back three more times. You did not answer. You looked up TRAI\'s official number (1800-110-420) and called them directly. TRAI confirmed they do not make such calls and never demand payment over the phone. You reported the number to trai.gov.in/consumer.',
+            tip: 'Government agencies — TRAI, Income Tax, police, RBI — never call you demanding immediate payment to avoid disconnection or arrest. These are manufactured threats designed to create panic. The correct response is always to hang up and call the agency\'s official number directly.',
+          },
+          {
+            id: 'hung_up',
+            text: 'You answered, listened, and then hung up.',
+            isCorrect: true,
+            consequence: 'Smart decision. After hearing the payment demand, you recognised the pattern and ended the call. TRAI does not make outbound calls demanding compliance payments — this is a well-documented scam that has defrauded thousands of professionals and elderly victims across India.',
+            tip: 'The moment any caller claiming to be a government official demands immediate payment to avoid a penalty or disconnection, the call is a scam — 100% of the time. Government departments send written notices; they do not call demanding instant payment.',
+          },
+          {
+            id: 'called_back_official',
+            text: 'You told them you\'d call back on the official TRAI number.',
+            isCorrect: true,
+            consequence: 'The "officer" became aggressive, insisting the 2-hour window was closing. You calmly said goodbye and called 1800-110-420 — TRAI\'s actual helpline. The agent confirmed no such complaint existed and advised you to report the number at sancharsaathi.gov.in.',
+            tip: 'Legitimate officials will always be comfortable with you verifying by calling back on an official number. Any resistance to verification — or escalating threats when you suggest it — is a definitive sign of fraud. Report numbers at sancharsaathi.gov.in.',
+          },
+          {
+            id: 'complied',
+            text: 'You followed the caller\'s instructions.',
+            isCorrect: false,
+            consequence: 'The "secure payment portal" they transferred you to was a fake site that collected your card details. The ₹1,499 was just the first charge — your card was used for ₹34,000 in fraudulent transactions within 48 hours. TRAI confirmed they made no such call.',
+            tip: 'TRAI, police, courts, and all legitimate government agencies follow written legal processes. They do not call demanding immediate payment over the phone. Any such call is a scam. Report it to 1930 (National Cybercrime Helpline) immediately.',
+            terminalState: true,
+          },
+        ],
+      },
+
+      {
+        /* ── Step 3 ─────────────────────────────────────────────
+           A fake "TRAI Compliance Portal" is shown in a browser.
+           It has a convincing government look, official-sounding
+           links, a countdown timer, and a fine payment button.
+           The URL is the key red flag.
+        ──────────────────────────────────────────────────────── */
+        id: 3,
+        environment: 'fakeGovPortal',
+        envProps: {
+          fakeDomain:   'trai-compliance-portal.in',
+          realDomain:   'trai.gov.in',
+          portalName:   'TRAI Compliance Portal',
+          logoEmoji:    '📡',
+          accentColor:  '#1a4ea0',
+          headerBg:     '#003087',
+          alertTitle:   'Your Mobile Connection Will Be Disconnected',
+          alertBody:    'Our records indicate that your registered mobile number has been flagged under the IT Act 2000 for suspicious messaging activity. To prevent permanent disconnection, pay the compliance verification fee immediately.',
+          fineAmount:   '₹1,499',
+          deadlineLabel:'Action Required Within: ',
+          timerSeconds: 3600,
+          officialLinks:['trai.gov.in', 'india.gov.in', 'dot.gov.in'],
+          sealEmoji:    '🇮🇳',
+          badgeLines:   ['Government of India', 'Ministry of Communications — TRAI'],
+        },
+        situation: 'The caller transferred you to a website that looks like an official government portal. What do you do?',
+        choices: [
+          {
+            id: 'paid_fine',
+            text: 'You paid ₹1,499 — the site looks very official and the timer is running.',
+            isCorrect: false,
+            consequence: 'Your card was charged ₹1,499. The "confirmation" page said your number was safe. Within 24 hours, your card details were used for ₹22,000 in additional fraudulent transactions. The timer, the government branding, and the threatening language were all designed to stop you from checking the URL.',
+            tip: 'The URL "trai-compliance-portal.in" is not a government domain. All official Indian government portals use ".gov.in" exclusively — for example, "trai.gov.in". Any site using ".in", ".com", ".co.in" for government services is fake.',
+            terminalState: true,
+          },
+          {
+            id: 'checked_domain',
+            text: 'You inspected the URL in the browser address bar before doing anything.',
+            isCorrect: true,
+            consequence: 'You noticed the domain is "trai-compliance-portal.in" — not "trai.gov.in". Real government portals only use the ".gov.in" suffix. You closed the tab, reported the URL to cybercrime.gov.in, and called TRAI\'s official helpline (1800-110-420) to confirm no action was needed.',
+            tip: 'The address bar is your most reliable fraud detector. Indian government websites always end in ".gov.in". This applies to TRAI, Income Tax, UIDAI, police portals, and every other government body. If it doesn\'t end in ".gov.in", it is not a government site.',
+          },
+          {
+            id: 'reported_fraud',
+            text: 'You clicked "Report This as Fraud" without entering any details.',
+            isCorrect: true,
+            consequence: 'Without entering any personal or payment information, you reported the URL to cybercrime.gov.in. You also called 1930 to report the phone number that sent you to this site. TRAI confirmed this is an ongoing impersonation campaign and your report helped get the domain flagged.',
+            tip: 'If you suspect fraud, report it immediately — even if you did not fall for it. Reports to cybercrime.gov.in, 1930 (National Cybercrime Helpline), and sancharsaathi.gov.in help authorities take down fraudulent domains and warn others.',
+          },
+        ],
+      },
+    ],
+  },
+
+  /* ══════════════════════════════════════════════════════════
+     SOCIAL ENGINEERING SIMULATIONS
+     Category: Identity & Impersonation
+  ══════════════════════════════════════════════════════════ */
+
+  /* ── Relative Emergency Scam — Elderly, Beginner ── */
+  'ii-relative-emergency-1': {
+    title: 'Relative Emergency Scam',
+    category: 'Identity & Impersonation',
+    difficulty: 'Beginner',
+    xp: 60,
+    type: 'visual',
+    steps: [
+      {
+        id: 1,
+        environment: 'relativeEmergencyCall',
+        envProps: {
+          contactName:    'Rahul (Son)',
+          contactInitial: 'R',
+          contactBg:      '#34c759',
+          messageDelayMs: 1600,
+          callDelayMs:    9000,
+          urgencyAmount:  '₹25,000',
+          accentColor:    '#25d366',
+          scamMessages: [
+            { role: 'incoming', text: 'Amma, it\'s me Rahul. Please don\'t call back on my number — police have it. Use only this WhatsApp.' },
+            { role: 'incoming', text: 'I\'m at the police station. There was an accident. I need ₹25,000 immediately for bail. Please transfer right now.' },
+            { role: 'incoming', text: 'Please don\'t tell Appa. I\'ll explain everything. Send to this UPI: bail.help2024@ybl' },
+          ],
+        },
+        choices: [
+          {
+            id: 'transferred_money',
+            text: 'You transferred ₹25,000 immediately — your son sounded desperate.',
+            isCorrect: false,
+            consequence: 'You transferred the money. An hour later you called Rahul on his real number. He answered from home — completely unaware of any of this. The WhatsApp account was a scammer who had obtained your number and your son\'s name from social media. The ₹25,000 is unrecoverable.',
+            tip: 'The "don\'t call my real number" instruction is the defining feature of this scam — it is specifically designed to prevent you from verifying. Any family emergency message that asks you NOT to contact the person through normal channels is a scam, every time.',
+            terminalState: true,
+          },
+          {
+            id: 'declined_call',
+            text: 'You declined the WhatsApp call and immediately called Rahul on his saved number.',
+            isCorrect: true,
+            consequence: 'Rahul answered from home, laughing — he was watching TV. The WhatsApp account had used a photo scraped from his Instagram. You reported the number to cybercrime.gov.in and warned other family members about the scam.',
+            tip: 'Any "emergency money" request — regardless of who it appears to come from — must be verified by calling the person directly on their known, saved phone number. This one call takes 10 seconds and prevents 100% of these scams.',
+          },
+          {
+            id: 'hung_up_to_verify',
+            text: 'You answered the call but immediately said you would call Rahul\'s real number first.',
+            isCorrect: true,
+            consequence: 'The caller became aggressive and said there was "no time." You hung up and called Rahul\'s saved number. He answered immediately. The WhatsApp "Rahul" had already moved on to the next victim on their list.',
+            tip: 'Genuine emergencies can wait 30 seconds for you to verify. A real family member in trouble will always want you to confirm it\'s them. Only a scammer will insist there is "no time" to verify.',
+          },
+          {
+            id: 'called_back_to_verify',
+            text: 'You asked them a personal question only the real Rahul would know.',
+            isCorrect: true,
+            consequence: 'You asked: "What did we name our dog when you were 8?" The caller hesitated, then gave a wrong answer. You hung up. Family code words or personal questions are an excellent defence against voice/message impersonation.',
+            tip: 'Establishing a family "safe word" or personal verification question in advance is one of the most effective defences against relative emergency scams. Agree on something specific that only your family would know.',
+          },
+        ],
+      },
+      {
+        id: 2,
+        situation: 'You safely identified the scam. The next day, your neighbour Mrs. Sharma says she received an identical message claiming to be from her daughter, and she is about to transfer ₹40,000. She asks what you think.',
+        choices: [
+          {
+            id: 'a',
+            text: 'Tell her to call her daughter\'s real number right now before sending anything.',
+            isCorrect: true,
+            consequence: 'Mrs. Sharma calls her daughter, who is at work and completely fine. She is shaken but grateful. The scammer had obtained her daughter\'s name from a local WhatsApp community group. A single verification call saved ₹40,000.',
+            tip: 'Speed matters when someone is about to be scammed. A clear, direct instruction — "call her real number right now" — is more useful than a long explanation. Act fast and be specific.',
+          },
+          {
+            id: 'b',
+            text: 'Tell her to ask the person on WhatsApp some personal questions to verify.',
+            isCorrect: true,
+            consequence: 'Mrs. Sharma asks "Which school did you attend?" The scammer gives a plausible but wrong answer. Mrs. Sharma is unconvinced and calls her daughter directly. The scam fails.',
+            tip: 'Personal verification questions are a solid first step, but calling the real number is the most reliable method. Use both if needed — the goal is to confirm identity through a completely separate channel.',
+          },
+          {
+            id: 'c',
+            text: 'Tell her it\'s probably fine — if it\'s really her daughter, she\'ll call her normal number soon.',
+            isCorrect: false,
+            consequence: 'Mrs. Sharma transfers the money "just to be safe." Her real daughter calls an hour later, confused. Telling someone to wait and see while they\'re about to lose ₹40,000 was the wrong response.',
+            tip: 'When someone is on the verge of being scammed, passive reassurance is harmful. Intervene directly and clearly. The cost of being wrong is zero — the cost of not acting could be thousands of rupees.',
+            terminalState: true,
+          },
+        ],
+      },
+    ],
+  },
+
+  /* ── Fake Medical Assistance Scam — All Users, Intermediate ── */
+  'ii-fake-medical-1': {
+    title: 'Fake Medical Assistance Scam',
+    category: 'Identity & Impersonation',
+    difficulty: 'Intermediate',
+    xp: 80,
+    type: 'visual',
+    steps: [
+      {
+        id: 1,
+        environment: 'fakeMedicalPortal',
+        envProps: {
+          fakeDomain:   'apollo-billing-portal.in',
+          realDomain:   'apollohospitals.com',
+          hospitalName: 'Apollo Hospitals',
+          hospitalEmoji:'🏥',
+          headerBg:     '#0057a8',
+          patientName:  'Valued Patient',
+          alertTitle:   'Urgent: Outstanding Bill — Treatment at Risk',
+          alertBody:    'Your insurance claim has been rejected due to a documentation error. An outstanding amount of ₹12,800 must be paid within 2 hours to avoid cancellation of your scheduled procedure.',
+          amountDue:    '₹12,800',
+          timerSeconds: 7200,
+          upiId:        'apollobilling@ybl',
+          realUpiNote:  'Real hospitals never collect payments via UPI IDs in SMS or email — always pay at the hospital counter or their verified app',
+        },
+        choices: [
+          {
+            id: 'paid',
+            text: 'You paid ₹12,800 — you cannot risk a cancelled procedure.',
+            isCorrect: false,
+            consequence: 'The payment went to a fraudster\'s UPI account. The real Apollo Hospital had no record of any outstanding bill. You received a "confirmation" PDF — a convincing fake. The actual billing department was unaware until you called them in a panic.',
+            tip: 'Medical urgency is one of the most effective pressure tactics used in fraud. Real hospitals send bills via post or their official app — they never send UPI IDs via SMS or email and demand payment within hours under threat of cancelling treatment.',
+            terminalState: true,
+          },
+          {
+            id: 'checked_url',
+            text: 'You clicked the URL bar and inspected the domain before doing anything.',
+            isCorrect: true,
+            consequence: '"apollo-billing-portal.in" — not "apollohospitals.com." The real Apollo Hospitals website uses only their official domain. You closed the tab and called the hospital directly using the number on your original appointment letter.',
+            tip: 'Any hospital billing page not on the hospital\'s own verified domain (.com, .in, or .org that matches their brand exactly) is fake. The ".in" top-level domain does not make a site official — anyone can register "anyname.in" within minutes.',
+          },
+          {
+            id: 'called_hospital_directly',
+            text: 'You called Apollo Hospitals directly using their official number to verify the bill.',
+            isCorrect: true,
+            consequence: 'The hospital\'s billing department confirmed no outstanding amount exists on your account. They flagged the spoofed domain and reported it to their cybersecurity team. Your procedure is proceeding normally at zero additional cost.',
+            tip: 'When in doubt about any medical bill: call the hospital directly using a number from your physical appointment letter or their official website — not any number in the suspicious email or SMS. This single step catches 100% of fake medical billing scams.',
+          },
+        ],
+      },
+      {
+        id: 2,
+        situation: 'You avoided the scam. Later you receive an SMS: "Your health insurance policy INS-2034 lapses TODAY. Pay ₹4,200 now to avoid loss of coverage: healthinsure-renewal.in/pay". Your policy renewal is actually due this month.',
+        choices: [
+          {
+            id: 'a',
+            text: 'Pay through the SMS link — your renewal is genuinely due and this seems related.',
+            isCorrect: false,
+            consequence: 'You pay ₹4,200. Your actual insurer has no record of the transaction. The domain "healthinsure-renewal.in" was registered 12 days ago by a fraudster who sends mass SMS to thousands of people knowing some will have genuine upcoming renewals.',
+            tip: 'Scammers send renewal scam SMS in bulk — the timing of a genuine renewal feels like confirmation, but it is coincidence. Always renew insurance only through the insurer\'s official app, website, or by calling their helpline directly.',
+            terminalState: true,
+          },
+          {
+            id: 'b',
+            text: 'Log in to your insurer\'s official app or website directly to check your policy status.',
+            isCorrect: true,
+            consequence: 'You open your insurer\'s app directly. Your policy shows a renewal notice — but it links to payment through the app itself, not a third-party site. You renew securely through the official channel. The SMS was fraudulent mass spam that happened to time with your genuine renewal.',
+            tip: 'The correct response to any financial or insurance urgency SMS is always to go directly to the official app or website — never through links in the message. Fraudsters deliberately time SMS campaigns around common renewal periods (March, financial year-end) to improve hit rates.',
+          },
+        ],
+      },
+    ],
+  },
+
+  /* ── Urgency Pressure Attack — All Users, Advanced ── */
+  'ii-urgency-pressure-1': {
+    title: 'Urgency Pressure Attack',
+    category: 'Identity & Impersonation',
+    difficulty: 'Advanced',
+    xp: 100,
+    type: 'visual',
+    steps: [
+      {
+        id: 1,
+        environment: 'urgencyPressure',
+        envProps: {
+          scenarioTitle:  'You Have 10 Minutes',
+          emailSender:    'fraud-alert@hdfc-security-alert.in',
+          emailSubject:   'FINAL NOTICE: Fraudulent Transaction Detected — Account Freeze Imminent',
+          emailBody:      'We have detected an unauthorised transaction of ₹87,400 from your account to an unrecognised recipient. Your account will be frozen in 10 minutes unless you verify your identity through the secure link below.',
+          callerId:       '+91 22-6652-XXXX',
+          callerClaim:    'HDFC Fraud Prevention',
+          smsText:        'HDFC ALERT: Unauthzd txn ₹87400 detected. Acct freeze in 10 mins. Verify NOW: hdfc-fraud-verify.in/urgent REF:FRD8821',
+          timerSeconds:   600,
+          accentColor:    '#1a56db',
+          pressureMessages: [
+            'New alert: Your account is being accessed from an unrecognised device in Chennai.',
+            'Warning: 3 failed verification attempts detected. Account freeze in progress.',
+            'Final warning: Your account will be permanently restricted in 2 minutes unless verified.',
+          ],
+        },
+        choices: [
+          {
+            id: 'acted_under_pressure',
+            text: 'A — You followed the email link immediately to protect your account.',
+            isCorrect: false,
+            consequence: 'The link took you to a convincing HDFC login page. You entered your credentials. Within minutes, ₹87,400 was transferred out of your actual account — not by a fictional fraudster, but by the real one who now had your login. The email, SMS, and call were all orchestrated simultaneously to prevent rational thinking. The timer and escalating alerts were entirely fabricated.',
+            tip: 'This is a coordinated social engineering attack. Urgency, multiple simultaneous channels, and escalating threats are all psychological tools designed to prevent you from thinking clearly. No bank will freeze your account in 10 minutes — account security decisions take hours and involve regulatory processes.',
+            terminalState: true,
+          },
+          {
+            id: 'paused_and_assessed',
+            text: 'B — You stopped, recognised the pressure tactics, and assessed before acting.',
+            isCorrect: true,
+            consequence: 'You put your phone down for 60 seconds. You noticed: the email domain is "hdfc-security-alert.in" — not "hdfcbank.com." The SMS link is "hdfc-fraud-verify.in" — not hdfcbank.com. The 10-minute timer is designed to prevent this exact pause. You call HDFC\'s real number from the back of your card.',
+            tip: 'The pause is the defence. Urgency is a weapon — the moment you feel rushed into a financial decision, that feeling itself is the red flag. Real fraud investigations by banks are conducted over days, not 10-minute windows. Manufactured urgency always signals manipulation.',
+          },
+          {
+            id: 'called_bank_official_number',
+            text: 'C — You called HDFC\'s official number from the back of your card.',
+            isCorrect: true,
+            consequence: 'You called 1800-202-6161 — the number printed on your HDFC card. The automated system confirmed no fraud alerts on your account. You were connected to a fraud specialist who confirmed: no transaction of ₹87,400 had occurred, no freeze was in progress, and the email domain and SMS link were both fraudulent. The call took 4 minutes.',
+            tip: 'The bank\'s official helpline number is the single most reliable resource in any banking emergency. It is printed on your card for exactly this reason. This number bypasses all spoofed domains, fake portals, and impersonators in one step.',
+          },
+        ],
+      },
+      {
+        id: 2,
+        situation: 'You recognised and avoided the attack. Your colleague Deepak comes to you the next day, visibly stressed. He says: "I got the same messages but I clicked the link and entered my details before I realised. My account hasn\'t been drained yet — what do I do right now?"',
+        choices: [
+          {
+            id: 'a',
+            text: 'Tell him to change his password immediately on the bank\'s website.',
+            isCorrect: false,
+            consequence: 'Deepak changes his password — but on the bank\'s website, which requires logging in with the compromised credentials first. If the scammer is monitoring in real time, this login attempt reveals his new password too. The correct first step is to call the bank directly to block the account, not to log in.',
+            tip: 'After credential compromise, the safest first step is always to call the bank\'s helpline directly and request an account block — not to log in from any device, which may itself be monitored. Let the bank initiate the security reset from their end.',
+          },
+          {
+            id: 'b',
+            text: 'Tell him to call HDFC\'s helpline (1800-202-6161) immediately and request a temporary account block.',
+            isCorrect: true,
+            consequence: 'Deepak calls and gets his account temporarily blocked within 3 minutes. No fraudulent transactions had been attempted yet. The bank\'s fraud team initiates a full credential reset and issues new login details by post. Deepak also files a report on cybercrime.gov.in. His money is safe.',
+            tip: 'Time is the critical variable after credential compromise. Every minute the account remains active with compromised credentials is a window for the attacker. A phone call to the helpline can block an account in under 5 minutes — this is always the first and fastest move.',
+          },
+          {
+            id: 'c',
+            text: 'Tell him to run an antivirus scan first to make sure his device is clean.',
+            isCorrect: false,
+            consequence: 'Deepak spends 20 minutes running a scan (which comes back clean — there was no malware, just a phishing site). In the meantime, the scammer who obtained his credentials attempts a ₹45,000 NEFT transfer. The bank\'s own system flags and blocks it — but only barely. The antivirus scan was the wrong first priority.',
+            tip: 'An antivirus scan addresses malware — a phishing attack involves no malware. The compromise was the act of entering credentials on a fake site. The correct priority is securing the financial account immediately, not scanning the device.',
+            terminalState: true,
+          },
+        ],
+      },
+    ],
+  },
+
+  /* ══════════════════════════════════════════════════════════
+     FINANCIAL SECURITY — Visual Simulations
+  ══════════════════════════════════════════════════════════ */
+
+  /* ── UPI QR Scam — All Users, Beginner ── */
+  'fs-visual-upi-1': {
+    title: 'The UPI QR Trap',
+    category: 'Financial Security',
+    difficulty: 'Beginner',
+    xp: 60,
+    type: 'visual',
+    steps: [
+      {
+        id: 1,
+        environment: 'upiQrScam',
+        envProps: {
+          senderName:    'Unknown — +91 87654 XXXXX',
+          creditAmount:  '₹500',
+          returnAmount:  '₹500',
+          accentColor:   '#6200ea',
+          upiApp:        'Google Pay',
+          scammerNumber: '+91 87654 XXXXX',
+        },
+        choices: [
+          {
+            id: 'scanned_qr',
+            text: 'You scanned the QR code and proceeded to pay.',
+            isCorrect: false,
+            consequence: 'You scanned the QR. Your UPI app showed a payment request of ₹12,000 — not ₹500 — to an unknown UPI ID. You realised just in time and cancelled. The QR was designed to collect a far larger amount than discussed. Had you entered your PIN, ₹12,000 would have left your account.',
+            tip: 'A UPI QR code can ONLY send money FROM you — it cannot receive money into your account. Any stranger asking you to "scan to return" money is running this exact scam. Always check the amount and recipient before entering your PIN.',
+            terminalState: true,
+          },
+          {
+            id: 'returned_via_upi_id',
+            text: 'You sent the money back directly using their UPI ID — without scanning.',
+            isCorrect: false,
+            consequence: 'You transferred ₹500 directly. Three days later your bank notified you that the original ₹500 credit was from a stolen account — its owner is now disputing the transaction and the bank may reverse it. The person you "returned" it to was the fraudster who made the original transfer from a victim\'s account.',
+            tip: 'Unexpected credits should not be returned immediately via transfer. Contact your bank to reverse it through official channels — the original sender may themselves be a victim whose account was misused.',
+          },
+          {
+            id: 'refused_qr',
+            text: 'You refused to scan the QR and told them to contact your bank for a reversal.',
+            isCorrect: true,
+            consequence: 'You declined both options and advised the caller to contact your bank directly for a transaction reversal. The "caller" never called your bank — confirming the credit was either a deliberate scam setup or a mistaken transfer that will resolve itself. Your account was never at risk.',
+            tip: 'The safest response to unexpected UPI credits: do nothing immediately. Call your bank, explain the situation, and let them handle any reversal. Never scan QR codes from strangers, even for seemingly small amounts.',
+          },
+        ],
+      },
+      {
+        id: 2,
+        situation: 'You correctly handled the QR scam. A few days later, your bank sends an in-app notification: "You have received ₹2,000 from an unknown sender. Tap to return via QR." The notification looks official and has your bank\'s logo.',
+        choices: [
+          {
+            id: 'a',
+            text: 'Tap the notification and scan the QR — it\'s from the bank\'s official app.',
+            isCorrect: false,
+            consequence: 'The notification was a fake — a push notification from a malicious app you installed last month that mimics banking alerts. The QR it showed would have sent ₹2,000 from your account. Legitimate banks never ask you to return money via QR through a push notification.',
+            tip: 'Push notifications are easy to spoof. Even if a notification looks like it\'s from your bank, open the actual banking app directly and check your transaction history — never tap "return money" links in notifications.',
+            terminalState: true,
+          },
+          {
+            id: 'b',
+            text: 'Open your bank\'s official app directly and check your actual account balance and transactions.',
+            isCorrect: true,
+            consequence: 'You open your bank app directly. No ₹2,000 credit exists. The notification was from a fake banking app. You uninstall it and report it to cybercrime.gov.in. Only transactions visible in your official banking app are real.',
+            tip: 'Always verify any banking notification by opening the official app directly — never through links in notifications. If a credit doesn\'t appear in your official app, it doesn\'t exist.',
+          },
+        ],
+      },
+    ],
+  },
+
+  /* ── Fake Investment Telegram Group — All Users, Intermediate ── */
+  'oi-visual-invest-1': {
+    title: 'Fake Investment Telegram Group',
+    category: 'Opportunity & Investment',
+    difficulty: 'Intermediate',
+    xp: 85,
+    type: 'visual',
+    steps: [
+      {
+        id: 1,
+        environment: 'telegramInvest',
+        envProps: {
+          groupName:      'TradeKing India Premium 💰',
+          adminName:      'TradeKing_Admin',
+          memberCount:    '14,832',
+          accentColor:    '#2ca5e0',
+          dmDelayMs:      7000,
+          depositAmount:  '₹5,000',
+          promisedReturn: '₹12,500 in 7 days',
+          fakeDomain:     'tradeking-invest.in',
+          profits: [
+            { name: 'Rajesh_Trades', avatarBg: '#e91e63', profit: '+₹8,400', strategy: 'NIFTY options signal' },
+            { name: 'Sunita_M', avatarBg: '#ff9800', text: 'Got my withdrawal in 10 mins 🙌 this group is 100% legit' },
+            { name: 'TradeKing_Admin', avatarBg: '#2ca5e0', isAdmin: true, text: 'Today\'s signal: BUY BANKNIFTY 48500 CE. Expected return 40% in 2 hrs. Only for VIP members 👑' },
+            { name: 'Amit_Investor', avatarBg: '#4caf50', profit: '+₹14,200', strategy: 'BANKNIFTY signal today' },
+            { name: 'Priya_K', avatarBg: '#9c27b0', text: 'Joined last week, already made ₹22,000 profit 😍' },
+          ],
+        },
+        choices: [
+          {
+            id: 'deposited',
+            text: 'You deposited ₹5,000 to claim the VIP slot.',
+            isCorrect: false,
+            consequence: 'You paid ₹5,000 to "tradeking-invest.in". The admin confirmed your VIP slot and shared signals. Your "account balance" showed ₹14,500 after 3 days. When you tried to withdraw, a "tax clearance fee" of ₹3,000 was required. Then ₹8,000. The balance was fictional — a number on a fake dashboard. All members posting profits were paid actors or bots. You lost ₹5,000 minimum.',
+            tip: 'Unsolicited investment groups on Telegram are almost universally fraudulent. The profit screenshots are fabricated, the members are bots, and any "returns" shown on a dashboard are fictitious numbers designed to extract more money via fees before you can "withdraw."',
+            terminalState: true,
+          },
+          {
+            id: 'investigated_group',
+            text: 'You researched the group and the domain before doing anything.',
+            isCorrect: true,
+            consequence: 'You searched "TradeKing India Telegram scam" — 47 results from fraud reporting sites appeared. The domain "tradeking-invest.in" was registered 19 days ago. The "14,832 members" included thousands of bots. You reported the group to Telegram and to SEBI\'s investor helpline (1800-266-7575).',
+            tip: 'Before engaging with any investment group: (1) Search "[group name] + scam". (2) Check domain registration date — new domains are a major red flag. (3) Verify with SEBI\'s registered advisor list at sebi.gov.in. Legitimate advisors are never found on unsolicited Telegram groups.',
+          },
+          {
+            id: 'ignored_and_left',
+            text: 'You left the group immediately without engaging.',
+            isCorrect: true,
+            consequence: 'You left the group and blocked the admin. No money lost, no data shared. You later learned 4 people in your office fell for the same group and collectively lost ₹1.4 lakh.',
+            tip: 'The safest response to unsolicited investment groups is simply to leave. SEBI-registered investment advisors never recruit clients through random Telegram groups.',
+          },
+        ],
+      },
+      {
+        id: 2,
+        situation: 'You avoided the scam. A week later a colleague tells you their dashboard shows ₹38,000 in "profits" from the same group. They haven\'t tried to withdraw yet and want to deposit ₹15,000 more to unlock a "premium tier."',
+        choices: [
+          {
+            id: 'a',
+            text: 'Tell them to try withdrawing the ₹38,000 first before depositing anything more.',
+            isCorrect: true,
+            consequence: 'Your colleague attempts a withdrawal. They are told a ₹6,000 "income tax deposit" is required first. Then a ₹12,000 "SEBI compliance fee." The ₹38,000 never existed — it was a fake dashboard number. The withdrawal barrier reveals the scam. They avoid the additional ₹15,000 deposit.',
+            tip: 'Always attempt a withdrawal before depositing more into any investment platform. A legitimate platform has no reason to charge fees before releasing your own money. Any pre-withdrawal fee is a classic scam mechanic.',
+          },
+          {
+            id: 'b',
+            text: 'Tell them the dashboard profit is fictional and show them the fraud reports you found.',
+            isCorrect: true,
+            consequence: 'Your colleague is initially resistant. But after seeing the fraud reports and the domain registration date, they attempt a test withdrawal. A ₹5,000 fee is demanded. They exit and report to cybercrime.gov.in.',
+            tip: 'Numbers on a scam dashboard feel real because our brains treat them as money. The true test of any investment balance is whether you can withdraw it freely. Paper profits with withdrawal barriers are always fraudulent.',
+          },
+          {
+            id: 'c',
+            text: 'Tell them the ₹38,000 looks legitimate and it\'s probably safe to deposit more.',
+            isCorrect: false,
+            consequence: 'Your colleague deposits ₹15,000. Their dashboard now shows ₹67,000. The admin says a ₹22,000 "tax clearance" is needed to withdraw. Your colleague has now lost ₹15,000 plus their original deposit.',
+            tip: 'When someone shows you a dashboard profit from an unsolicited investment group, assume it is fraudulent until proven otherwise. The correct advice is always: try to withdraw before investing more.',
+            terminalState: true,
+          },
+        ],
+      },
+    ],
+  },
+
+  /* ── Spear Phishing Email — Professionals & Students, Intermediate ── */
+  'pe-visual-spear-1': {
+    title: 'Spear Phishing Email',
+    category: 'Phishing & Emerging Threats',
+    difficulty: 'Intermediate',
+    xp: 80,
+    type: 'visual',
+    steps: [
+      {
+        id: 1,
+        environment: 'spearPhishEmail',
+        envProps: {
+          recipientName:  'Priya Sharma',
+          senderDisplay:  'IT Security — Infosys',
+          senderEmail:    'itsecurity@infosys-helpdesk.net',
+          realDomain:     'infosys.com',
+          subject:        'Action Required: Mandatory Security Policy Reset — Expires Today',
+          companyLogo:    '🔷',
+          accentColor:    '#0078d4',
+          ctaLabel:       'Reset Security Credentials Now',
+          ctaUrl:         'infosys-helpdesk.net/policy-reset',
+          headerDetails:  { spf: 'FAIL — sender not authorised for infosys.com' },
+          bodyLines: [
+            'Hi Priya,',
+            'Following our updated Information Security Policy (ISP-2024), all employees must complete a mandatory security credential reset by end of business today.',
+            'Failure to complete this reset will result in temporary account suspension affecting your Outlook, Teams, and VPN access.',
+            'This takes less than 2 minutes. Click below to complete your reset securely.',
+          ],
+        },
+        choices: [
+          {
+            id: 'clicked_reset_link',
+            text: 'You clicked "Reset Security Credentials Now."',
+            isCorrect: false,
+            consequence: 'The link opened a convincing SSO login page. You entered your credentials. The page said "Reset complete." But your credentials were captured. Within 3 hours, the attacker accessed your corporate email, downloaded client contracts, and sent phishing emails to 12 of your contacts using your account.',
+            tip: 'Spear phishing uses your name, company, and realistic context. The tell is always the domain: "infosys-helpdesk.net" is not "infosys.com." Legitimate IT departments send policy resets through official ticketing systems or the intranet — never through external links with urgent deadlines.',
+            terminalState: true,
+          },
+          {
+            id: 'inspected_headers',
+            text: 'You clicked the sender\'s email to inspect the full sending address.',
+            isCorrect: true,
+            consequence: 'You saw the full address: "itsecurity@infosys-helpdesk.net" — not "@infosys.com." The SPF header shows FAIL. The domain was registered 8 days ago. You forwarded the email to IT security and confirmed via Teams that no mandatory reset had been issued.',
+            tip: 'The display name can say anything — the actual sending domain always reveals the truth. One click to expand the full email address is the most important habit in email security.',
+          },
+          {
+            id: 'reported_to_it',
+            text: 'You reported it to IT Security without clicking anything.',
+            isCorrect: true,
+            consequence: 'Your IT team confirms: no security reset was issued. The domain "infosys-helpdesk.net" is a phishing domain. IT blocks it company-wide and alerts 4,200 employees. Your report prevented a large-scale credential harvest.',
+            tip: 'Reporting phishing emails — even if you\'re only 60% sure — is always the right move. One report can protect thousands of colleagues.',
+          },
+          {
+            id: 'deleted_without_clicking',
+            text: 'You deleted the email without clicking anything.',
+            isCorrect: true,
+            consequence: 'Your credentials are safe. However, a colleague received the same email and clicked the link — their account was compromised. Reporting to IT rather than just deleting would have protected them too.',
+            tip: 'Deleting is safe — but reporting is better. Reporting takes 10 seconds and can prevent the same email from compromising colleagues.',
+          },
+        ],
+      },
+      {
+        id: 2,
+        situation: 'IT sends an all-staff advisory about the campaign. Your colleague Vikram says he clicked the link but didn\'t enter his password — he just looked at the page and closed it. He asks if he\'s safe.',
+        choices: [
+          {
+            id: 'a',
+            text: 'Tell him he\'s fine — he didn\'t type anything, so no data was shared.',
+            isCorrect: false,
+            consequence: 'Vikram was not fully safe. The phishing page loaded JavaScript that captured his browser session cookies without any input. His Teams session token was compromised and used to access his account. Simply loading a malicious page can have consequences.',
+            tip: 'Modern phishing pages can capture browser session tokens without any user input. Clicking a phishing link without entering credentials reduces — but does not eliminate — risk. Always report the click to IT regardless.',
+            terminalState: true,
+          },
+          {
+            id: 'b',
+            text: 'Tell him to report to IT immediately — the click itself may have exposed session data.',
+            isCorrect: true,
+            consequence: 'Vikram reports to IT. They run a session audit and find his browser token was captured. They revoke all active sessions and force a full re-login. The risk is contained within 45 minutes. Early reporting turned a potential breach into a non-event.',
+            tip: 'Any click on a known phishing link should be reported to IT immediately, even without credential entry. Session hijacking is possible the moment a malicious page loads. IT can revoke sessions before they\'re misused.',
+          },
+        ],
+      },
+    ],
+  },
+
 }
 
 /* Convenience: category route slug → display name */

@@ -84,7 +84,14 @@ const SIMULATIONS = {
   'financial-security': {
     student: [
       {
-        id: 'fs-s-1', level: 1, difficulty: 'beginner',
+        id: 'fs-visual-upi-1', level: 1, difficulty: 'beginner',
+        title: 'The UPI QR Trap',
+        desc: 'An unknown number sends you ₹500 by "mistake" then asks you to scan a QR code to return it. Watch what the QR actually does.',
+        duration: '8 min', objectives: ['Understand how UPI QR codes work', 'Identify UPI reversal scam patterns', 'Know the correct response to unexpected credits'],
+        badge: 'New',
+      },
+      {
+        id: 'fs-s-1', level: 2, difficulty: 'beginner',
         title: 'The UPI Refund Trick',
         desc: 'A peer sends you money by "mistake" and asks you to scan a QR code to return it. Learn why scanning sends money out, not in.',
         duration: '8 min', objectives: ['Understand how UPI QR codes work', 'Identify reversal scam patterns', 'Know the correct steps to take'],
@@ -110,25 +117,32 @@ const SIMULATIONS = {
     ],
     professional: [
       {
-        id: 'fs-p-1', level: 1, difficulty: 'beginner',
+        id: 'fs-visual-upi-1', level: 1, difficulty: 'beginner',
+        title: 'The UPI QR Trap',
+        desc: 'An unknown number sends you ₹500 by "mistake" then asks you to scan a QR code to return it. Discover what the QR actually does before entering your PIN.',
+        duration: '8 min', objectives: ['Understand how UPI QR codes work', 'Identify UPI reversal scam patterns', 'Know the correct response to unexpected credits'],
+        badge: 'New',
+      },
+      {
+        id: 'fs-p-1', level: 2, difficulty: 'beginner',
         title: 'Business Email Invoice Swap',
         desc: 'Your accounts team receives an email from a known vendor with updated bank details. The domain is subtly spoofed. Catch it before the transfer.',
         duration: '10 min', objectives: ['Identify domain spoofing', 'Verify payment instruction changes', 'Establish safe verification protocols'],
       },
       {
-        id: 'fs-p-2', level: 2, difficulty: 'intermediate',
+        id: 'fs-p-2', level: 3, difficulty: 'intermediate',
         title: 'Salary Account OTP Scam',
         desc: 'A caller claiming to be from HR asks for your OTP to "update salary account details." Walk through the correct response in real time.',
         duration: '12 min', objectives: ['Understand OTP security principles', 'Recognise authority impersonation', 'Know internal escalation steps'],
       },
       {
-        id: 'fs-p-3', level: 3, difficulty: 'intermediate',
+        id: 'fs-p-3', level: 4, difficulty: 'intermediate',
         title: 'CFO Fraud — Wire Transfer',
         desc: 'You receive a message appearing to be from your CFO asking for an urgent wire transfer to a new account. This is a CEO/CFO fraud simulation.',
         duration: '15 min', objectives: ['Identify CEO fraud patterns', 'Apply dual-authorisation thinking', 'Handle urgent-but-suspicious requests'],
       },
       {
-        id: 'fs-p-4', level: 4, difficulty: 'advanced',
+        id: 'fs-p-4', level: 5, difficulty: 'advanced',
         title: 'Supply Chain Payment Diversion',
         desc: 'Over three weeks, a fraudster builds rapport as a new supplier, then intercepts a large payment. Navigate the multi-step deception.',
         duration: '20 min', objectives: ['Trace multi-step financial fraud', 'Identify long-con deception patterns', 'Implement financial controls'],
@@ -136,7 +150,14 @@ const SIMULATIONS = {
     ],
     elderly: [
       {
-        id: 'fs-e-1', level: 1, difficulty: 'beginner',
+        id: 'fs-visual-upi-1', level: 1, difficulty: 'beginner',
+        title: 'The UPI QR Trap',
+        desc: 'Someone says they sent you money by accident and asks you to scan a QR code to return it. See exactly what happens when you scan — and why you should never do it.',
+        duration: '8 min', objectives: ['Understand how UPI QR codes work', 'Identify UPI reversal scam patterns', 'Know the safe response to unexpected credits'],
+        badge: 'New',
+      },
+      {
+        id: 'fs-e-1', level: 2, difficulty: 'beginner',
         title: 'The KYC Expiry Call',
         desc: 'A caller says your bank account will be blocked unless you share your Aadhaar and OTP for "KYC renewal." Learn what banks actually do and do not ask for.',
         duration: '8 min', objectives: ['Know what banks never ask for', 'Identify KYC fraud scripts', 'Safely end suspicious calls'],
@@ -176,6 +197,30 @@ const SIMULATIONS = {
         desc: 'Your Aadhaar details were shared carelessly. Walk through how an attacker could misuse them and what protective steps you can take immediately.',
         duration: '15 min', objectives: ['Understand Aadhaar misuse vectors', 'Lock Aadhaar biometrics correctly', 'File an identity theft complaint'],
       },
+      {
+        id: 'ii-fake-medical-1', level: 4, difficulty: 'intermediate',
+        title: 'Fake Medical Assistance Scam',
+        desc: 'A spoofed hospital billing portal demands urgent payment or a procedure is cancelled. Inspect the domain, verify the UPI ID, and call the hospital directly.',
+        duration: '12 min', objectives: [
+          'Identify fake medical billing portals',
+          'Verify hospital bills through official channels',
+          'Recognise insurance renewal SMS fraud',
+        ],
+        targetGroups: ['Professionals', 'Elderly', 'Students'],
+        badge: 'New',
+      },
+      {
+        id: 'ii-urgency-pressure-1', level: 5, difficulty: 'advanced',
+        title: 'Urgency Pressure Attack',
+        desc: 'Simultaneous email, SMS and phone calls claim your bank account will be frozen in 10 minutes. A live countdown runs as you decide what to do.',
+        duration: '15 min', objectives: [
+          'Identify multi-channel coordinated social engineering',
+          'Recognise manufactured urgency as a manipulation tool',
+          'Respond correctly after credentials are compromised',
+        ],
+        targetGroups: ['Professionals', 'Elderly', 'Students'],
+        badge: 'New',
+      },
     ],
     professional: [
       {
@@ -185,13 +230,49 @@ const SIMULATIONS = {
         duration: '10 min', objectives: ['Detect profile cloning', 'Alert contacts safely', 'Use LinkedIn reporting tools'],
       },
       {
-        id: 'ii-p-2', level: 2, difficulty: 'intermediate',
+        id: 'ii-authority-1', level: 2, difficulty: 'intermediate',
+        title: 'Authority Impersonation Scam',
+        desc: 'A threatening Income Tax email, a TRAI officer\'s call, and a fake government portal all target you in one campaign. Navigate each step without losing money or data.',
+        duration: '15 min', objectives: [
+          'Spot spoofed government email domains',
+          'Respond safely to authority impersonation calls',
+          'Verify government portals using .gov.in domains',
+        ],
+        targetGroups: ['Professionals', 'Elderly'],
+        badge: 'New',
+      },
+      {
+        id: 'ii-fake-medical-1', level: 3, difficulty: 'intermediate',
+        title: 'Fake Medical Assistance Scam',
+        desc: 'A spoofed hospital billing portal demands ₹12,800 within 2 hours or your procedure is cancelled. Inspect the domain, verify the UPI, and call the hospital directly.',
+        duration: '12 min', objectives: [
+          'Identify fake medical billing portals',
+          'Verify hospital bills through official channels',
+          'Recognise insurance renewal SMS fraud',
+        ],
+        targetGroups: ['Professionals', 'Elderly', 'Students'],
+        badge: 'New',
+      },
+      {
+        id: 'ii-p-2', level: 4, difficulty: 'intermediate',
         title: 'Vendor Impersonation Email',
         desc: 'A fraudster impersonates a key vendor using a near-identical email domain and requests a contract renewal with changed payment terms.',
         duration: '12 min', objectives: ['Spot domain spoofing techniques', 'Validate vendor communication channels', 'Implement verification protocols'],
       },
       {
-        id: 'ii-p-3', level: 3, difficulty: 'advanced',
+        id: 'ii-urgency-pressure-1', level: 5, difficulty: 'advanced',
+        title: 'Urgency Pressure Attack',
+        desc: 'Simultaneous email, SMS and phone calls claim your account will be frozen in 10 minutes. A live countdown runs as you decide. Test your response under maximum pressure.',
+        duration: '15 min', objectives: [
+          'Identify multi-channel coordinated social engineering',
+          'Recognise manufactured urgency as a manipulation tool',
+          'Respond correctly after credentials are compromised',
+        ],
+        targetGroups: ['Professionals', 'Elderly', 'Students'],
+        badge: 'New',
+      },
+      {
+        id: 'ii-p-3', level: 6, difficulty: 'advanced',
         title: 'Deep Fake Voice Call',
         desc: 'A voice call from what sounds exactly like your manager requests an urgent account action. AI voice cloning has made this a real threat. Navigate it.',
         duration: '18 min', objectives: ['Understand AI voice cloning risks', 'Establish a code-word verification system', 'Handle high-pressure impersonation'],
@@ -205,10 +286,58 @@ const SIMULATIONS = {
         duration: '8 min', objectives: ['Identify government impersonation tactics', 'Know what officials never ask over phone', 'File a complaint through correct channels'],
       },
       {
-        id: 'ii-e-2', level: 2, difficulty: 'intermediate',
+        id: 'ii-authority-1', level: 2, difficulty: 'intermediate',
+        title: 'Authority Impersonation Scam',
+        desc: 'A threatening Income Tax email, a TRAI officer\'s call, and a fake government portal — all in one scam campaign. Walk through each interactive step.',
+        duration: '15 min', objectives: [
+          'Spot spoofed government email domains',
+          'Respond safely to authority impersonation calls',
+          'Verify government portals using .gov.in domains',
+        ],
+        targetGroups: ['Professionals', 'Elderly'],
+        badge: 'New',
+      },
+      {
+        id: 'ii-relative-emergency-1', level: 3, difficulty: 'intermediate',
+        title: 'Relative Emergency Scam',
+        desc: 'A WhatsApp message and call claim your son is at the police station needing urgent bail money. Panic sets in — but so does suspicion. Navigate it.',
+        duration: '10 min', objectives: [
+          'Recognise the "don\'t call my real number" trick',
+          'Verify identity through an independent channel',
+          'Protect others about to be scammed',
+        ],
+        targetGroups: ['Elderly'],
+        badge: 'New',
+      },
+      {
+        id: 'ii-e-2', level: 4, difficulty: 'intermediate',
         title: 'Family Emergency Scam',
         desc: 'Someone calls claiming your son or grandson is in legal trouble and needs money transferred immediately. This is a classic panic-based identity exploit.',
         duration: '10 min', objectives: ['Recognise urgency manipulation', 'Verify family emergencies independently', 'Avoid panic-driven decisions'],
+      },
+      {
+        id: 'ii-fake-medical-1', level: 5, difficulty: 'intermediate',
+        title: 'Fake Medical Assistance Scam',
+        desc: 'A spoofed hospital billing portal demands urgent payment or a procedure is cancelled. The domain, UPI and timer are all fabricated.',
+        duration: '12 min', objectives: [
+          'Identify fake medical billing portals',
+          'Verify hospital bills through official channels',
+          'Recognise insurance renewal SMS fraud',
+        ],
+        targetGroups: ['Professionals', 'Elderly', 'Students'],
+        badge: 'New',
+      },
+      {
+        id: 'ii-urgency-pressure-1', level: 6, difficulty: 'advanced',
+        title: 'Urgency Pressure Attack',
+        desc: 'Simultaneous email, SMS and phone calls claim your account will be frozen in 10 minutes. A live countdown runs as pressure mounts. Test your composure.',
+        duration: '15 min', objectives: [
+          'Identify multi-channel coordinated social engineering',
+          'Recognise manufactured urgency as a manipulation tool',
+          'Respond correctly after credentials are compromised',
+        ],
+        targetGroups: ['Professionals', 'Elderly', 'Students'],
+        badge: 'New',
       },
     ],
   },
@@ -432,7 +561,14 @@ const SIMULATIONS = {
         duration: '8 min', objectives: ['Identify cloned login pages', 'Check URL authenticity', 'Use browser security indicators'],
       },
       {
-        id: 'pe-s-2', level: 2, difficulty: 'intermediate',
+        id: 'pe-visual-spear-1', level: 2, difficulty: 'intermediate',
+        title: 'Spear Phishing Email',
+        desc: 'A targeted email arrives using your name and company, claiming a mandatory security reset. Inspect the headers, check the domain, and decide without clicking.',
+        duration: '12 min', objectives: ['Identify spear phishing by sender domain', 'Inspect email headers to spot fakes', 'Understand session hijacking risk from clicks'],
+        badge: 'New',
+      },
+      {
+        id: 'pe-s-2', level: 3, difficulty: 'intermediate',
         title: 'Smishing — Internship Offer',
         desc: 'An SMS from a known company\'s apparent number offers a remote internship. A link asks for your resume and bank details to "process the stipend."',
         duration: '12 min', objectives: ['Understand SMS phishing mechanics', 'Verify job offers through official channels', 'Identify personal data harvesting forms'],
@@ -452,7 +588,14 @@ const SIMULATIONS = {
         duration: '10 min', objectives: ['Identify spear phishing characteristics', 'Verify IT communication through internal channels', 'Handle credential reset requests safely'],
       },
       {
-        id: 'pe-p-2', level: 2, difficulty: 'intermediate',
+        id: 'pe-visual-spear-1', level: 2, difficulty: 'intermediate',
+        title: 'Spear Phishing Email',
+        desc: 'A targeted email uses your name and company branding to demand a security credential reset by end of day. Inspect the headers to expose the fake domain.',
+        duration: '12 min', objectives: ['Identify spear phishing by sender domain', 'Inspect email headers to spot fakes', 'Understand session hijacking risk from clicks'],
+        badge: 'New',
+      },
+      {
+        id: 'pe-p-2', level: 3, difficulty: 'intermediate',
         title: 'DocuSign Phishing Lure',
         desc: 'You receive a DocuSign notification for an urgent contract. The document asks you to "verify identity" by entering your Microsoft 365 credentials.',
         duration: '12 min', objectives: ['Identify brand-impersonation phishing', 'Verify document signing requests independently', 'Recognise credential harvesting pages'],
@@ -489,7 +632,14 @@ const SIMULATIONS = {
         duration: '8 min', objectives: ['Identify task-based scam mechanics', 'Recognise deposit-to-withdraw traps', 'Report fraudulent job channels'],
       },
       {
-        id: 'oi-s-2', level: 2, difficulty: 'intermediate',
+        id: 'oi-visual-invest-1', level: 2, difficulty: 'intermediate',
+        title: 'Fake Investment Telegram Group',
+        desc: 'A Telegram group floods you with profit screenshots from "members." Then an admin DMs offering a guaranteed 2.5x return on a ₹5,000 deposit.',
+        duration: '12 min', objectives: ['Identify fake profit screenshots and bots', 'Research investment groups before engaging', 'Test withdrawal before depositing more'],
+        badge: 'New',
+      },
+      {
+        id: 'oi-s-2', level: 3, difficulty: 'intermediate',
         title: 'Fake Internship — Registration Fee',
         desc: 'A prestigious-sounding company offers a paid internship via email. They request a ₹1,500 registration fee before issuing the offer letter.',
         duration: '12 min', objectives: ['Know that legitimate employers never charge fees', 'Verify company existence independently', 'Identify impersonated brand names'],
@@ -509,7 +659,14 @@ const SIMULATIONS = {
         duration: '10 min', objectives: ['Verify recruiter and company legitimacy', 'Know that legitimate recruiters never charge candidates', 'Protect personal data during job search'],
       },
       {
-        id: 'oi-p-2', level: 2, difficulty: 'intermediate',
+        id: 'oi-visual-invest-1', level: 2, difficulty: 'intermediate',
+        title: 'Fake Investment Telegram Group',
+        desc: 'A Telegram group floods you with profit screenshots. The admin DMs you offering a guaranteed 2.5x return on deposit. Investigate before the 2-hour slot closes.',
+        duration: '12 min', objectives: ['Identify fake profit screenshots and bots', 'Research investment groups before engaging', 'Test withdrawal before depositing more'],
+        badge: 'New',
+      },
+      {
+        id: 'oi-p-2', level: 3, difficulty: 'intermediate',
         title: 'SEBI-Registered Advisor Impersonation',
         desc: 'An investment advisor claims SEBI registration and promises 30% monthly returns on a stock tip group. Verify credentials and identify the scam.',
         duration: '15 min', objectives: ['Verify SEBI registration on official site', 'Identify guaranteed-return fraud', 'Understand how stock tip groups operate'],
@@ -535,7 +692,14 @@ const SIMULATIONS = {
         duration: '10 min', objectives: ['Understand Ponzi scheme mechanics', 'Identify unrealistic return promises', 'Verify investment schemes with RBI/SEBI'],
       },
       {
-        id: 'oi-e-3', level: 3, difficulty: 'intermediate',
+        id: 'oi-visual-invest-1', level: 3, difficulty: 'intermediate',
+        title: 'Fake Investment Telegram Group',
+        desc: 'A WhatsApp/Telegram group floods you with profit screenshots and an admin offers guaranteed returns on a deposit. Learn to spot the manufactured social proof.',
+        duration: '12 min', objectives: ['Identify fake profit screenshots and bots', 'Research investment groups before engaging', 'Test withdrawal before depositing more'],
+        badge: 'New',
+      },
+      {
+        id: 'oi-e-3', level: 4, difficulty: 'intermediate',
         title: 'Fake Property Investment',
         desc: 'A agent offers discounted government plots via phone. Payment is collected, documents provided are forged. Learn how to verify property deals safely.',
         duration: '14 min', objectives: ['Verify property ownership through RERA', 'Identify forged document warning signs', 'Never pay cash for property without legal verification'],
@@ -750,11 +914,23 @@ export default function SimulationCategoryPage() {
                     {/* Card top row */}
                     <div className={s.simCardTop}>
                       <span className={s.simLevel}>Level {sim.level}</span>
-                      {isUnlocked && (
-                        <span className={s.simDiff} style={{ color: diff.color, background: diff.bg }}>
-                          {diff.label}
-                        </span>
-                      )}
+                      <div style={{ display: 'flex', gap: 6, alignItems: 'center' }}>
+                        {sim.badge && (
+                          <span style={{
+                            fontSize: 10, fontWeight: 700, letterSpacing: '0.08em',
+                            padding: '2px 7px', borderRadius: 4,
+                            background: 'rgba(212,137,26,0.15)',
+                            color: 'var(--amber-lt)',
+                            border: '1px solid rgba(212,137,26,0.3)',
+                            textTransform: 'uppercase',
+                          }}>{sim.badge}</span>
+                        )}
+                        {isUnlocked && (
+                          <span className={s.simDiff} style={{ color: diff.color, background: diff.bg }}>
+                            {diff.label}
+                          </span>
+                        )}
+                      </div>
                     </div>
 
                     {/* Title & desc */}

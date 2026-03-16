@@ -19,6 +19,8 @@ import { SocialAdEnv, FakeStoreEnv, CourierSiteEnv, GamingLoginEnv } from './com
 import { PhoneMessages, SMSConversation } from './components/PhoneUI.jsx'
 import { DiscordDMEnv, ColleagueScenarioEnv } from './components/ChatUI.jsx'
 import { BrowserWithPopupEnv } from './components/PopupAlert.jsx'
+import { OfficialEmailEnv, AuthorityCallEnv, FakeGovPortalEnv } from './components/AuthorityImpersonationUI.jsx'
+import { RelativeEmergencyCallEnv, FakeMedicalPortalEnv, UrgencyPressureEnv } from './components/SocialEngineeringUI.jsx'
 
 /**
  * @param {object} step        — current step from simulationsData
@@ -65,6 +67,30 @@ export default function SimulationRenderer({ step, onInteract }) {
     /* ── Fake gaming login page ── */
     case 'gamingLoginPage':
       return <GamingLoginEnv envProps={envProps} onInteract={onInteract} />
+
+    /* ── Official-looking authority email ── */
+    case 'officialEmail':
+      return <OfficialEmailEnv envProps={envProps} onInteract={onInteract} />
+
+    /* ── Incoming call from spoofed authority ── */
+    case 'authorityCall':
+      return <AuthorityCallEnv envProps={envProps} onInteract={onInteract} />
+
+    /* ── Fake government/agency portal ── */
+    case 'fakeGovPortal':
+      return <FakeGovPortalEnv envProps={envProps} onInteract={onInteract} />
+
+    /* ── WhatsApp call from impersonated relative ── */
+    case 'relativeEmergencyCall':
+      return <RelativeEmergencyCallEnv envProps={envProps} onInteract={onInteract} />
+
+    /* ── Spoofed hospital / insurance billing portal ── */
+    case 'fakeMedicalPortal':
+      return <FakeMedicalPortalEnv envProps={envProps} onInteract={onInteract} />
+
+    /* ── Multi-channel urgency pressure attack ── */
+    case 'urgencyPressure':
+      return <UrgencyPressureEnv envProps={envProps} onInteract={onInteract} />
 
     default:
       return (
