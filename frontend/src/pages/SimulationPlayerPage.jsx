@@ -47,7 +47,7 @@ function Icon({ name, size = 18, color = 'currentColor', w = 1.6 }) {
 /* ══════════════════════════════════════════════════════════
    SUMMARY SCREEN
 ══════════════════════════════════════════════════════════ */
-function SummaryScreen({ sim, decisions, onBackToCategory }) {
+function SummaryScreen({ sim, simId, decisions, onBackToCategory }) {
   const navigate    = useNavigate()
   const totalSteps  = decisions.length || sim.steps.length
   const correctCount = decisions.filter(d => d.isCorrect).length
@@ -123,6 +123,10 @@ function SummaryScreen({ sim, decisions, onBackToCategory }) {
             <Icon name="rotCcw" size={14} />
             Retake simulation
           </button>
+          <button className={s.btnRetake} onClick={() => navigate(`/learn/${simId}`)}>
+            <Icon name="bookOpen" size={14} />
+            Learn &amp; Quiz
+          </button>
         </div>
       </div>
     </div>
@@ -191,6 +195,7 @@ export default function SimulationPlayerPage() {
         <TopBar onBack={handleBack} />
         <SummaryScreen
           sim={sim}
+          simId={simId}
           decisions={decisions}
           onBackToCategory={handleBack}
         />

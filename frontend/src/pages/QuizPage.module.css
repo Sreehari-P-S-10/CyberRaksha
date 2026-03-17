@@ -1,0 +1,283 @@
+/* ══════════════════════════════════════════════
+   QuizPage — editorial dark theme
+   consistent with SimulationPlayerPage
+   ══════════════════════════════════════════════ */
+
+.root {
+  min-height: 100vh;
+  background: var(--ink);
+  position: relative;
+  overflow-x: hidden;
+}
+.noiseBg {
+  position: fixed; inset: 0; pointer-events: none; z-index: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.035'/%3E%3C/svg%3E");
+}
+
+/* ── Topbar ── */
+.topbar {
+  position: sticky; top: 0; z-index: 50;
+  height: 58px;
+  background: rgba(13,16,23,0.90);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  border-bottom: 1px solid var(--border);
+}
+.topbarWrap {
+  max-width: 820px; margin: 0 auto; padding: 0 32px;
+  height: 100%; display: flex; align-items: center; justify-content: space-between;
+}
+.topbarLogo {
+  display: flex; align-items: center; gap: 9px;
+  font-family: var(--sans); font-size: 16px; color: var(--text-1);
+  letter-spacing: -0.01em; text-decoration: none;
+}
+.topbarLogo strong { font-weight: 600; }
+.logoMark {
+  width: 28px; height: 28px; border-radius: 6px;
+  background: var(--amber-dim); border: 1px solid var(--amber-glow);
+  display: flex; align-items: center; justify-content: center;
+}
+.topbarBack {
+  display: flex; align-items: center; gap: 7px;
+  font-size: 13px; color: var(--text-3); font-family: var(--sans);
+  background: none; border: 1px solid var(--border); border-radius: 6px;
+  padding: 6px 14px; cursor: pointer;
+  transition: color 0.2s, border-color 0.2s;
+}
+.topbarBack:hover { color: var(--text-2); border-color: var(--border-lt); }
+
+/* ── Main ── */
+.main { position: relative; z-index: 1; padding: 44px 0 100px; }
+.mainWrap {
+  max-width: 740px; margin: 0 auto; padding: 0 32px;
+  display: flex; flex-direction: column; gap: 28px;
+}
+
+/* ── Progress header ── */
+.progressHeader {
+  display: flex; flex-direction: column; gap: 12px;
+}
+.progressTop {
+  display: flex; align-items: center; justify-content: space-between;
+}
+.progressLabel {
+  font-family: var(--mono); font-size: 11px;
+  letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-3);
+}
+.progressCount {
+  font-family: var(--mono); font-size: 12px; color: var(--amber);
+}
+.progressTrack {
+  height: 3px; background: var(--border); border-radius: 99px; overflow: hidden;
+}
+.progressFill {
+  height: 100%; background: var(--amber); border-radius: 99px;
+  transition: width 0.4s ease;
+}
+
+/* ── Question card ── */
+.questionCard {
+  background: var(--ink2); border: 1px solid var(--border);
+  border-radius: 12px; padding: 32px 32px 28px;
+  display: flex; flex-direction: column; gap: 24px;
+}
+.questionNum {
+  font-family: var(--mono); font-size: 10.5px;
+  letter-spacing: 0.14em; text-transform: uppercase; color: var(--amber);
+}
+.questionText {
+  font-family: var(--serif); font-size: clamp(18px, 2.5vw, 22px);
+  font-weight: 400; color: var(--text-1);
+  letter-spacing: -0.015em; line-height: 1.45;
+}
+
+/* ── Options ── */
+.optionsList { display: flex; flex-direction: column; gap: 9px; }
+.optionBtn {
+  display: flex; align-items: flex-start; gap: 13px;
+  padding: 14px 16px; border-radius: 8px; width: 100%;
+  background: var(--ink); border: 1px solid var(--border);
+  cursor: pointer; text-align: left; font-family: var(--sans);
+  transition: border-color 0.2s, background 0.2s, transform 0.12s;
+}
+.optionBtn:not(:disabled):hover {
+  border-color: rgba(212,137,26,0.35);
+  background: var(--ink3);
+  transform: translateX(3px);
+}
+.optionBtn:disabled { cursor: default; }
+
+.optionLetter {
+  width: 26px; height: 26px; border-radius: 5px; flex-shrink: 0;
+  background: var(--slate); border: 1px solid var(--border-lt);
+  display: flex; align-items: center; justify-content: center;
+  font-family: var(--mono); font-size: 11.5px; color: var(--text-3);
+  font-weight: 500; margin-top: 1px;
+  transition: background 0.2s, color 0.2s, border-color 0.2s;
+}
+.optionText {
+  font-size: 14px; color: var(--text-1); line-height: 1.55; flex: 1;
+}
+
+/* Option states */
+.optionCorrect {
+  border-color: rgba(46,184,122,0.45) !important;
+  background: rgba(46,184,122,0.06) !important;
+}
+.optionCorrect .optionLetter {
+  background: rgba(46,184,122,0.15); color: var(--ok);
+  border-color: rgba(46,184,122,0.4);
+}
+.optionCorrect .optionText { color: var(--ok); }
+
+.optionWrong {
+  border-color: rgba(201,78,78,0.45) !important;
+  background: rgba(201,78,78,0.06) !important;
+}
+.optionWrong .optionLetter {
+  background: rgba(201,78,78,0.15); color: var(--bad);
+  border-color: rgba(201,78,78,0.4);
+}
+.optionWrong .optionText { color: var(--bad); }
+
+.optionFaded { opacity: 0.28; }
+
+/* ── Feedback block ── */
+.feedback {
+  border-radius: 8px; padding: 14px 16px; border: 1px solid;
+  display: flex; gap: 11px;
+  animation: slideUp 0.3s ease;
+  font-size: 13.5px; line-height: 1.7; color: var(--text-1);
+}
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: none; }
+}
+.feedbackOk  { background: rgba(46,184,122,0.05); border-color: rgba(46,184,122,0.28); }
+.feedbackBad { background: rgba(201,78,78,0.05);  border-color: rgba(201,78,78,0.22);  }
+.feedbackIcon { flex-shrink: 0; margin-top: 1px; }
+
+/* ── Card footer ── */
+.cardFooter { display: flex; justify-content: flex-end; }
+.btnNext {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 11px 24px; border-radius: 6px;
+  background: var(--amber); color: var(--ink);
+  font-size: 13.5px; font-weight: 600; font-family: var(--sans);
+  border: none; cursor: pointer;
+  transition: background 0.2s, transform 0.15s;
+}
+.btnNext:hover { background: var(--amber-lt); transform: translateY(-1px); }
+.btnNext:disabled { opacity: 0.35; cursor: default; transform: none; }
+
+/* ══════════════════════════════════════
+   RESULTS SCREEN
+══════════════════════════════════════ */
+.results {
+  position: relative; z-index: 1;
+  padding: 48px 32px 80px; display: flex; justify-content: center;
+}
+.resultsCard {
+  background: var(--ink2); border: 1px solid var(--border);
+  border-radius: 12px; padding: 40px;
+  width: 100%; max-width: 600px;
+  display: flex; flex-direction: column; gap: 28px;
+  box-shadow: 0 24px 80px rgba(0,0,0,0.4);
+}
+
+.gradeWrap { display: flex; justify-content: center; }
+.gradeRing {
+  width: 96px; height: 96px; border-radius: 50%;
+  border: 2px solid;
+  display: flex; align-items: center; justify-content: center;
+}
+.gradeInner {
+  display: flex; flex-direction: column; align-items: center; gap: 4px;
+}
+.gradeLabel {
+  font-family: var(--mono); font-size: 11px; letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.resultsTitle {
+  font-family: var(--serif); font-size: 26px; font-weight: 400;
+  color: var(--text-1); letter-spacing: -0.02em; text-align: center;
+}
+.resultsSimName {
+  font-size: 13px; color: var(--text-3); text-align: center;
+  font-family: var(--mono); margin-top: -20px;
+}
+
+/* Score row */
+.scoreRow {
+  display: flex; align-items: center;
+  background: var(--ink); border: 1px solid var(--border);
+  border-radius: 10px; overflow: hidden;
+}
+.scoreItem {
+  flex: 1; display: flex; flex-direction: column;
+  align-items: center; padding: 20px 16px; gap: 4px;
+}
+.scoreNum {
+  font-family: var(--serif); font-size: 28px;
+  color: var(--text-1); line-height: 1;
+}
+.scoreDesc {
+  font-size: 11px; color: var(--text-3);
+  font-family: var(--mono); letter-spacing: 0.04em;
+}
+.scoreDivider { width: 1px; height: 48px; background: var(--border); flex-shrink: 0; }
+
+/* Answer review */
+.answerReview { display: flex; flex-direction: column; gap: 8px; }
+.answerReviewTitle {
+  font-family: var(--serif); font-size: 17px; font-weight: 400;
+  color: var(--text-1); letter-spacing: -0.01em; margin-bottom: 4px;
+}
+.answerItem {
+  display: flex; align-items: flex-start; gap: 12px;
+  padding: 11px 14px; border-radius: 7px; border: 1px solid;
+}
+.answerOk  { background: rgba(46,184,122,0.04); border-color: rgba(46,184,122,0.2); }
+.answerBad { background: rgba(201,78,78,0.04);  border-color: rgba(201,78,78,0.2);  }
+.answerIcon { flex-shrink: 0; margin-top: 1px; }
+.answerText { display: flex; flex-direction: column; gap: 2px; flex: 1; }
+.answerQLabel {
+  font-family: var(--mono); font-size: 10px;
+  color: var(--text-3); letter-spacing: 0.08em; text-transform: uppercase;
+}
+.answerChoice { font-size: 13px; color: var(--text-2); line-height: 1.5; }
+
+/* Pass / fail banner */
+.passBanner {
+  display: flex; align-items: center; gap: 10px;
+  padding: 14px 16px; border-radius: 8px; border: 1px solid;
+  font-size: 13.5px; color: var(--text-1); line-height: 1.5;
+}
+.passBannerOk  { background: rgba(46,184,122,0.06); border-color: rgba(46,184,122,0.3); }
+.passBannerBad { background: rgba(201,78,78,0.06);  border-color: rgba(201,78,78,0.25); }
+
+/* Results actions */
+.resultsActions {
+  display: flex; gap: 10px; flex-wrap: wrap;
+  padding-top: 8px; border-top: 1px solid var(--border);
+}
+.btnSecondary {
+  display: inline-flex; align-items: center; gap: 7px;
+  padding: 10px 20px; border-radius: 6px; flex: 1;
+  border: 1px solid var(--border-lt); color: var(--text-2);
+  font-size: 13.5px; font-family: var(--sans); background: none;
+  cursor: pointer; justify-content: center;
+  transition: border-color 0.2s, color 0.2s;
+}
+.btnSecondary:hover { border-color: var(--text-3); color: var(--text-1); }
+.btnPrimary {
+  display: inline-flex; align-items: center; gap: 7px;
+  padding: 10px 20px; border-radius: 6px; flex: 1;
+  background: var(--amber); color: var(--ink);
+  font-size: 13.5px; font-weight: 600; font-family: var(--sans);
+  border: none; cursor: pointer; justify-content: center;
+  transition: background 0.2s;
+}
+.btnPrimary:hover { background: var(--amber-lt); }
