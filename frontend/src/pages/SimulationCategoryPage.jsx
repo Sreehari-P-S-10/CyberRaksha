@@ -83,37 +83,7 @@ const CATEGORY_META = {
 const SIMULATIONS = {
   'financial-security': {
     student: [
-      {
-        id: 'fs-visual-upi-1', level: 1, difficulty: 'beginner',
-        title: 'The UPI QR Trap',
-        desc: 'An unknown number sends you ₹500 by "mistake" then asks you to scan a QR code to return it. Watch what the QR actually does.',
-        duration: '8 min', objectives: ['Understand how UPI QR codes work', 'Identify UPI reversal scam patterns', 'Know the correct response to unexpected credits'],
-        badge: 'New',
-      },
-      {
-        id: 'fs-s-1', level: 2, difficulty: 'beginner',
-        title: 'The UPI Refund Trick',
-        desc: 'A peer sends you money by "mistake" and asks you to scan a QR code to return it. Learn why scanning sends money out, not in.',
-        duration: '8 min', objectives: ['Understand how UPI QR codes work', 'Identify reversal scam patterns', 'Know the correct steps to take'],
-      },
-      {
-        id: 'fs-s-2', level: 2, difficulty: 'beginner',
-        title: 'Fake Scholarship Payment',
-        desc: 'You receive a scholarship offer that requires a small "processing fee" before funds are released. Recognise this classic advance-fee trap.',
-        duration: '10 min', objectives: ['Spot advance-fee fraud indicators', 'Verify scholarship legitimacy', 'Report fraudulent offers'],
-      },
-      {
-        id: 'fs-s-3', level: 3, difficulty: 'intermediate',
-        title: 'College Fest Ticket Fraud',
-        desc: 'A seller on Instagram offers discounted event tickets. Payment is done. Tickets never arrive. Navigate this step by step.',
-        duration: '12 min', objectives: ['Identify unsafe payment channels', 'Evaluate seller credibility', 'Initiate a chargeback correctly'],
-      },
-      {
-        id: 'fs-s-4', level: 4, difficulty: 'advanced',
-        title: 'Crypto Investment Group',
-        desc: 'A WhatsApp group promises guaranteed returns on a crypto platform. Members post daily profit screenshots. Uncover the mechanics of this pump-and-dump scheme.',
-        duration: '15 min', objectives: ['Analyse investment red flags', 'Understand pump-and-dump mechanics', 'Identify organised fraud groups'],
-      },
+
       {
         id: 'fs-v-otp-1', level: 5, difficulty: 'beginner',
         title: 'OTP Sharing Fraud',
@@ -121,46 +91,10 @@ const SIMULATIONS = {
         duration: '10 min', objectives: ['Understand OTP security', 'Identify vishing attacks', 'Know the correct bank verification process'],
         badge: 'New',
       },
-      {
-        id: 'fs-v-invest-1', level: 6, difficulty: 'advanced',
-        title: 'Investment / Trading Scam',
-        desc: 'An ad promises 50% monthly returns on a trading platform. Screenshot profits flood a group. Spot the manufactured trust and fee escalation patterns.',
-        duration: '12 min', objectives: ['Identify investment red flags', 'Verify regulatory registration', 'Test withdrawals before depositing large sums'],
-        badge: 'New',
-      },
+
     ],
     professional: [
-      {
-        id: 'fs-visual-upi-1', level: 1, difficulty: 'beginner',
-        title: 'The UPI QR Trap',
-        desc: 'An unknown number sends you ₹500 by "mistake" then asks you to scan a QR code to return it. Discover what the QR actually does before entering your PIN.',
-        duration: '8 min', objectives: ['Understand how UPI QR codes work', 'Identify UPI reversal scam patterns', 'Know the correct response to unexpected credits'],
-        badge: 'New',
-      },
-      {
-        id: 'fs-p-1', level: 2, difficulty: 'beginner',
-        title: 'Business Email Invoice Swap',
-        desc: 'Your accounts team receives an email from a known vendor with updated bank details. The domain is subtly spoofed. Catch it before the transfer.',
-        duration: '10 min', objectives: ['Identify domain spoofing', 'Verify payment instruction changes', 'Establish safe verification protocols'],
-      },
-      {
-        id: 'fs-p-2', level: 3, difficulty: 'intermediate',
-        title: 'Salary Account OTP Scam',
-        desc: 'A caller claiming to be from HR asks for your OTP to "update salary account details." Walk through the correct response in real time.',
-        duration: '12 min', objectives: ['Understand OTP security principles', 'Recognise authority impersonation', 'Know internal escalation steps'],
-      },
-      {
-        id: 'fs-p-3', level: 4, difficulty: 'intermediate',
-        title: 'CFO Fraud — Wire Transfer',
-        desc: 'You receive a message appearing to be from your CFO asking for an urgent wire transfer to a new account. This is a CEO/CFO fraud simulation.',
-        duration: '15 min', objectives: ['Identify CEO fraud patterns', 'Apply dual-authorisation thinking', 'Handle urgent-but-suspicious requests'],
-      },
-      {
-        id: 'fs-p-4', level: 5, difficulty: 'advanced',
-        title: 'Supply Chain Payment Diversion',
-        desc: 'Over three weeks, a fraudster builds rapport as a new supplier, then intercepts a large payment. Navigate the multi-step deception.',
-        duration: '20 min', objectives: ['Trace multi-step financial fraud', 'Identify long-con deception patterns', 'Implement financial controls'],
-      },
+
       {
         id: 'fs-v-kyc-1', level: 6, difficulty: 'beginner',
         title: 'Bank KYC Update Scam',
@@ -184,31 +118,6 @@ const SIMULATIONS = {
       },
     ],
     elderly: [
-      {
-        id: 'fs-visual-upi-1', level: 1, difficulty: 'beginner',
-        title: 'The UPI QR Trap',
-        desc: 'Someone says they sent you money by accident and asks you to scan a QR code to return it. See exactly what happens when you scan — and why you should never do it.',
-        duration: '8 min', objectives: ['Understand how UPI QR codes work', 'Identify UPI reversal scam patterns', 'Know the safe response to unexpected credits'],
-        badge: 'New',
-      },
-      {
-        id: 'fs-e-1', level: 2, difficulty: 'beginner',
-        title: 'The KYC Expiry Call',
-        desc: 'A caller says your bank account will be blocked unless you share your Aadhaar and OTP for "KYC renewal." Learn what banks actually do and do not ask for.',
-        duration: '8 min', objectives: ['Know what banks never ask for', 'Identify KYC fraud scripts', 'Safely end suspicious calls'],
-      },
-      {
-        id: 'fs-e-2', level: 2, difficulty: 'beginner',
-        title: 'Pension Benefit Scam',
-        desc: 'You receive an SMS about unclaimed pension benefits. A link asks for your account number to "transfer" the amount. Identify and avoid this trap.',
-        duration: '10 min', objectives: ['Spot SMS phishing patterns', 'Recognise government impersonation', 'Verify benefits through official channels'],
-      },
-      {
-        id: 'fs-e-3', level: 3, difficulty: 'intermediate',
-        title: 'Remote Access Banking Fraud',
-        desc: 'A "bank official" asks you to install an app to fix an account issue. The app gives full control of your device. Understand the attack step by step.',
-        duration: '12 min', objectives: ['Identify remote access tool misuse', 'Understand device takeover risks', 'Know safe alternatives to provide'],
-      },
       {
         id: 'fs-v-kyc-1', level: 4, difficulty: 'beginner',
         title: 'Bank KYC Update Scam',

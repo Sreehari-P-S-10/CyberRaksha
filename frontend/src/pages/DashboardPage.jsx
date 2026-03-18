@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState,useEffect } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 
 /* ─── SVG Icon System — matches LandingPage exactly ─── */
@@ -33,6 +33,37 @@ function Icon({ name, size = 20, color = 'currentColor', w = 1.7 }) {
   )
 }
 
+/* Tool Tips Data*/
+const tips = [
+  {
+    title: "Avoid Suspicious Links",
+    desc: "Do not click on unknown links in SMS or emails. Always verify the source.",
+    icon: "shield"
+  },
+  {
+    title: "Use Strong Passwords",
+    desc: "Use a mix of letters, numbers, and symbols. Avoid using the same password everywhere.",
+    icon: "shield"
+  },
+  {
+    title: "Enable Two-Factor Authentication",
+    desc: "Add an extra layer of security to your accounts wherever possible.",
+    icon: "shield"
+  },
+  {
+    title: "Beware of OTP Scams",
+    desc: "Never share OTPs with anyone, even if they claim to be from a bank.",
+    icon: "shield"
+  },
+  {
+    title: "Check Website URLs",
+    desc: "Ensure the website starts with HTTPS before entering sensitive information.",
+    icon: "shield"
+  }
+];
+
+
+
 /* ─── Simulation Data ─── */
 /* CHANGE 1: added categoryRoute to each entry */
 const simulations = [
@@ -44,7 +75,7 @@ const simulations = [
     title: 'Financial Security',
     desc: 'Banking, payments, OTP, UPI, and money-related fraud patterns.',
     scenarios: 8,
-    completed: true,
+    completed: false,
   },
   {
     id: 'identity',
@@ -281,59 +312,93 @@ function ProgressCard() {
 }
 
 /* ─── Quiz Banner ─── */
-function QuizBanner() {
+
+function TipBanner() {
+  const [tip, setTip] = useState(tips[0]);
+
+  useEffect(() => {
+    const randomIndex = Math.floor(Math.random() * tips.length);
+    setTip(tips[randomIndex]);
+  }, []);
+
   return (
     <div style={{
-      background: 'var(--ink2)', border: '1px solid rgba(255,255,255,0.06)',
-      borderRadius: '10px', padding: '22px 28px',
+      background: 'var(--ink2)',
+      border: '1px solid rgba(255,255,255,0.06)',
+      borderRadius: '10px',
+      padding: '22px 28px',
       marginBottom: '48px',
-      display: 'flex', alignItems: 'center',
-      justifyContent: 'space-between', gap: '24px', flexWrap: 'wrap',
-      position: 'relative', overflow: 'hidden',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'space-between',
+      gap: '24px',
+      flexWrap: 'wrap',
+      position: 'relative',
+      overflow: 'hidden',
     }}>
+
+      {/* left gradient */}
       <div style={{
-        position: 'absolute', left: '0', top: '0', bottom: '0',
+        position: 'absolute',
+        left: '0',
+        top: '0',
+        bottom: '0',
         width: '3px',
         background: 'linear-gradient(180deg, var(--amber) 0%, transparent 100%)',
-        borderRadius: '10px 0 0 10px',
       }} />
 
-      <div style={{ display: 'flex', alignItems: 'center', gap: '16px', paddingLeft: '8px' }}>
+      {/* content */}
+      <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
         <div style={{
-          width: '38px', height: '38px', borderRadius: '8px',
-          background: 'var(--amber-dim)', border: '1px solid rgba(212,137,26,0.2)',
-          display: 'flex', alignItems: 'center', justifyContent: 'center',
-          flexShrink: 0,
+          width: '38px',
+          height: '38px',
+          borderRadius: '8px',
+          background: 'var(--amber-dim)',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
         }}>
-          <Icon name="helpCircle" size={17} color="var(--amber)" w={1.7} />
+          <Icon name={tip.icon} size={17} color="var(--amber)" />
         </div>
+
         <div>
           <h3 style={{
-            fontSize: '14px', fontWeight: '600',
-            color: 'var(--text-1)', marginBottom: '3px',
-            fontFamily: 'var(--sans)', letterSpacing: '-0.01em',
-          }}>Weekly Threat Knowledge Quiz</h3>
+            fontSize: '14px',
+            fontWeight: '600',
+            color: 'var(--text-1)',
+          }}>
+            {tip.title}
+          </h3>
+
           <p style={{
-            fontSize: '12.5px', color: 'var(--text-3)',
-            fontFamily: 'var(--mono)', letterSpacing: '0.02em',
-          }}>10 questions · ~5 minutes · Based on your completed modules</p>
+            fontSize: '12.5px',
+            color: 'var(--text-3)',
+          }}>
+            {tip.desc}
+          </p>
         </div>
       </div>
 
-      <Link to="/quiz" style={{
-        display: 'inline-flex', alignItems: 'center', gap: '8px',
-        padding: '9px 20px', borderRadius: '6px',
-        background: 'var(--amber)', color: 'var(--ink)',
-        fontSize: '13.5px', fontWeight: '600',
-        fontFamily: 'var(--sans)', textDecoration: 'none',
-        whiteSpace: 'nowrap',
-        flexShrink: 0,
-      }}>
-        Take the Quiz
-        <Icon name="arrowRight" size={13} />
-      </Link>
+      {/* optional button */}
+      <button
+        onClick={() => {
+          const randomIndex = Math.floor(Math.random() * tips.length);
+          setTip(tips[randomIndex]);
+        }}
+        style={{
+          padding: '8px 16px',
+          borderRadius: '6px',
+          background: 'var(--amber)',
+          border: 'none',
+          cursor: 'pointer',
+          fontWeight: '600',
+        }}
+      >
+        New Tip
+      </button>
+
     </div>
-  )
+  );
 }
 
 /* ─── Simulation Card ─── */
@@ -479,7 +544,7 @@ export default function DashboardPage() {
         </div>
 
         <ProgressCard />
-        <QuizBanner />
+        <TipBanner />
 
         <div style={{ marginBottom: '24px' }}>
           <p style={{
