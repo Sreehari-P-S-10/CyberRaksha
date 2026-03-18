@@ -5,6 +5,8 @@ import RegisterPage from './pages/RegisterPage.jsx'
 import DashboardPage from './pages/DashboardPage.jsx'
 import SimulationCategoryPage from './pages/SimulationCategoryPage.jsx'
 import SimulationPlayerPage from './pages/SimulationPlayerPage.jsx'
+import LearnPage from './pages/LearnPage.jsx'
+import QuizPage from './pages/QuizPage.jsx'
 
 export default function App() {
   return (
@@ -15,6 +17,8 @@ export default function App() {
       <Route path="/dashboard"             element={<DashboardPage />} />
       <Route path="/category/:categoryId"  element={<SimulationCategoryPage />} />
       <Route path="/simulation/:simId"     element={<SimulationPlayerPage />} />
+      <Route path="/learn/:simId"          element={<LearnPage />} />
+      <Route path="/quiz/:simId"           element={<QuizPage />} />
     </Routes>
   )
 }
