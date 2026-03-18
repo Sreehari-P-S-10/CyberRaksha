@@ -1596,4 +1596,672 @@ export const QUIZZES = {
     ],
   },
 
+  /* ══════════════════════════════════════════════
+     FINANCIAL SECURITY QUIZZES
+  ══════════════════════════════════════════════ */
+
+  'fs-v-kyc-1': {
+    simId: 'fs-v-kyc-1', passMark: 60, xp: 30,
+    questions: [
+      {
+        id: 'q1',
+        question: 'What does KYC stand for, and what is its actual purpose in banking?',
+        options: [
+          { id: 'a', text: 'Know Your Credentials — a system for resetting banking passwords' },
+          { id: 'b', text: 'Know Your Customer — a regulatory process for banks to verify customer identity and address to prevent fraud and money laundering' },
+          { id: 'c', text: 'Keep Your Card — a reminder to update debit card details annually' },
+          { id: 'd', text: 'Know Your Credit — a system for checking credit scores' },
+        ],
+        correctId: 'b',
+        explanation: 'KYC (Know Your Customer) is a mandatory RBI process for banks to verify customer identity. Genuine KYC updates happen at a branch or through the official bank app — never through links sent via SMS. Understanding this makes any SMS-based KYC request immediately suspicious.',
+      },
+      {
+        id: 'q2',
+        question: 'You receive an SMS: "Dear customer, your SBI account KYC is pending. Update now at sbi-kyc-portal.in or your account will be blocked." The real SBI website is sbi.co.in. What does the domain tell you?',
+        options: [
+          { id: 'a', text: '"sbi-kyc-portal.in" is an SBI sub-domain for KYC updates' },
+          { id: 'b', text: '"sbi-kyc-portal.in" is a fraudulent domain — SBI only operates on sbi.co.in' },
+          { id: 'c', text: 'The .in extension confirms it is an official Indian bank portal' },
+          { id: 'd', text: 'It could be legitimate — banks sometimes use separate domains for specific services' },
+        ],
+        correctId: 'b',
+        explanation: '"sbi-kyc-portal.in" is a completely different domain from "sbi.co.in." Anyone can register any .in domain. Banks only use their one official domain for all services. Any variation is fraudulent.',
+      },
+      {
+        id: 'q3',
+        question: 'A fake KYC portal asks for your account number, Aadhaar, PAN, and debit card PIN together. Why is collecting all of these at once a red flag?',
+        options: [
+          { id: 'a', text: 'It is a normal requirement — banks need all details to verify identity' },
+          { id: 'b', text: 'A genuine KYC update requires identity verification, not payment credentials like a PIN — collecting PIN alongside identity documents is designed for account takeover, not KYC' },
+          { id: 'c', text: 'It is suspicious only if they also ask for your OTP' },
+          { id: 'd', text: 'Banks collect all of these together during initial account opening, so repeat collection is normal' },
+        ],
+        correctId: 'b',
+        explanation: 'Genuine KYC updates verify who you are — they require identity documents. Your debit card PIN is a transaction authorisation tool, not an identity document. Any form asking for PIN alongside Aadhaar and account number is harvesting credentials for account takeover.',
+      },
+      {
+        id: 'q4',
+        question: 'The safest way to check if your bank account genuinely requires a KYC update is:',
+        options: [
+          { id: 'a', text: 'Click the link in the SMS since it arrived from a number that looks like your bank\'s' },
+          { id: 'b', text: 'Open your bank\'s official app directly and check for notifications, or call the number on the back of your card' },
+          { id: 'c', text: 'Google "bank KYC update" and follow the first result' },
+          { id: 'd', text: 'Reply to the SMS asking for confirmation' },
+        ],
+        correctId: 'b',
+        explanation: 'The official app and the number on your card are the only two channels that cannot be spoofed. SMS sender IDs can be faked. Links in SMS lead to fake sites. Only the bank\'s own app and their printed helpline number are trustworthy.',
+      },
+      {
+        id: 'q5',
+        question: 'RBI guidelines state that banks should send KYC update requests through which channels?',
+        options: [
+          { id: 'a', text: 'Any channel including SMS links, since reaching customers quickly is the priority' },
+          { id: 'b', text: 'Official registered post, through the bank\'s official app, or in person at a branch — never through SMS links demanding immediate action' },
+          { id: 'c', text: 'WhatsApp Business messages from verified bank numbers' },
+          { id: 'd', text: 'Email with attached forms requiring digital signatures' },
+        ],
+        correctId: 'b',
+        explanation: 'RBI mandates that KYC updates happen through secure, verified channels — physical branch visits, official app notifications, or registered post. SMS links demanding immediate action violate RBI\'s own guidelines.',
+      },
+    ],
+  },
+
+  'fs-v-otp-1': {
+    simId: 'fs-v-otp-1', passMark: 60, xp: 30,
+    questions: [
+      {
+        id: 'q1',
+        question: 'What is the purpose of an OTP (One Time Password) in banking transactions?',
+        options: [
+          { id: 'a', text: 'It is a permanent code for logging into net banking' },
+          { id: 'b', text: 'It is a single-use code sent to your registered mobile to confirm you — and only you — are authorising a specific transaction at that moment' },
+          { id: 'c', text: 'It is a code the bank uses to verify their own identity to you' },
+          { id: 'd', text: 'It is a backup password in case you forget your main banking PIN' },
+        ],
+        correctId: 'b',
+        explanation: 'An OTP is a single-use time-sensitive code that proves the person authorising a transaction has physical access to your registered phone. Sharing it defeats this entirely — the bank sends it to you specifically because it should never be known to anyone else, including bank staff.',
+      },
+      {
+        id: 'q2',
+        question: 'A caller says: "I am from HDFC Bank. Your account is under attack. To freeze the unauthorised transaction, you must share the OTP we just sent you." What is actually happening?',
+        options: [
+          { id: 'a', text: 'The bank is genuinely trying to protect your account by verifying your identity' },
+          { id: 'b', text: 'The attacker has already initiated a transaction on your account and needs your OTP to complete it — the "freeze" story is the pretext' },
+          { id: 'c', text: 'This is a standard security protocol banks use when they detect suspicious logins' },
+          { id: 'd', text: 'The bank needs the OTP to reverse an unauthorised transaction on your behalf' },
+        ],
+        correctId: 'b',
+        explanation: 'When you receive an OTP you didn\'t request, it means someone has your account details and has initiated a transaction. The OTP is the last barrier. The fraudster\'s call is specifically to get you to hand over that barrier — framed as "protection" to reverse your instinct to refuse.',
+      },
+      {
+        id: 'q3',
+        question: 'Every major Indian bank\'s official policy on OTP sharing states:',
+        options: [
+          { id: 'a', text: 'Bank staff may ask for OTP during security verification calls' },
+          { id: 'b', text: 'No bank employee will ever ask for your OTP, PIN, or password — for any reason, in any situation' },
+          { id: 'c', text: 'OTP sharing is permitted only with senior bank officers for account freezing' },
+          { id: 'd', text: 'OTP can be shared with bank-verified callers who provide their employee ID' },
+        ],
+        correctId: 'b',
+        explanation: 'Every major Indian bank states explicitly that no bank employee will ever ask for your OTP, password, or PIN under any circumstances. This rule has no exceptions. Any caller asking for these details is a fraudster.',
+      },
+      {
+        id: 'q4',
+        question: 'You receive an OTP from your bank that you did not request. What does this indicate and what should you do first?',
+        options: [
+          { id: 'a', text: 'It is a routine security check — ignore it' },
+          { id: 'b', text: 'Someone has your banking credentials and has initiated a transaction — call your bank immediately using the number on your card to freeze the account' },
+          { id: 'c', text: 'It means your phone number is registered to multiple accounts — contact your carrier' },
+          { id: 'd', text: 'Forward the OTP to the number that called you to help them identify the fraud' },
+        ],
+        correctId: 'b',
+        explanation: 'An unrequested OTP is a strong signal that someone is actively using your account details. They have your credentials but lack the OTP. Calling your bank immediately to freeze the account can prevent the transaction from completing.',
+      },
+      {
+        id: 'q5',
+        question: 'A scammer already knows your full name, account number, and the last four digits of your card. Why should this NOT change your decision to share the OTP?',
+        options: [
+          { id: 'a', text: 'It confirms they are from the bank — the bank is the only one who has your details' },
+          { id: 'b', text: 'This data is available from previous data breaches and phishing — possessing it does not verify the caller is from your bank. The no-OTP-sharing rule applies regardless.' },
+          { id: 'c', text: 'It is suspicious only if they also know your full card number' },
+          { id: 'd', text: 'If they know your account details they must be legitimate — hackers would not need to call' },
+        ],
+        correctId: 'b',
+        explanation: 'Account numbers, card numbers, and names are exposed in data breaches and available on dark web marketplaces. A fraudster having your details does not confirm they work for your bank. The no-OTP-sharing rule applies regardless of what information the caller already has.',
+      },
+    ],
+  },
+
+  'fs-v-lottery-1': {
+    simId: 'fs-v-lottery-1', passMark: 60, xp: 30,
+    questions: [
+      {
+        id: 'q1',
+        question: 'In India, which government bodies are legally permitted to run lotteries?',
+        options: [
+          { id: 'a', text: 'The central government through a national lottery department' },
+          { id: 'b', text: 'Only state governments — and only in states where lotteries are legal under the Lotteries (Regulation) Act, 1998' },
+          { id: 'c', text: 'Any registered company with a gaming licence' },
+          { id: 'd', text: 'Telecom operators who run subscriber prize schemes' },
+        ],
+        correctId: 'b',
+        explanation: 'Under the Lotteries (Regulation) Act 1998, only state governments can run lotteries — and only in states that have legalised them (Kerala, Goa, Maharashtra etc.). There is no central government lottery. Any "National Lottery" is fraudulent by definition.',
+      },
+      {
+        id: 'q2',
+        question: 'Lottery scams use an "advance fee" model. What does this mean?',
+        options: [
+          { id: 'a', text: 'The prize amount is paid in advance before you submit any documents' },
+          { id: 'b', text: 'The scammer collects a series of fees before "releasing" the prize — the prize never arrives and fees keep escalating' },
+          { id: 'c', text: 'You pay the prize tax in advance and the government reimburses it later' },
+          { id: 'd', text: 'A small registration fee is charged in advance to validate your winning ticket' },
+        ],
+        correctId: 'b',
+        explanation: 'The advance fee model: a small initial fee (processing, taxes, courier) is followed by ever-increasing demands — legal clearance, customs, insurance — until the victim stops paying. The prize is fictional and no payment results in it being received.',
+      },
+      {
+        id: 'q3',
+        question: 'A lottery message says: "Pay ₹15,000 in taxes now and receive ₹5,00,000. The government requires tax to be paid before prize disbursement." Why is this claim false?',
+        options: [
+          { id: 'a', text: 'Prize winnings are not taxed in India' },
+          { id: 'b', text: 'Under Section 194B of the Income Tax Act, the prize organiser deducts TDS at 30% before paying the winner — the winner never pays taxes separately upfront' },
+          { id: 'c', text: 'Only prizes above ₹10 lakh require upfront tax payment' },
+          { id: 'd', text: 'The government collects prize taxes directly through UPI, not through organisers' },
+        ],
+        correctId: 'b',
+        explanation: 'Section 194B requires lottery and prize organisers to deduct TDS at 30% before disbursing the prize. The winner receives the net amount. No legitimate prize ever asks you to pay taxes upfront to "release" your winnings — that tax has already been deducted at source.',
+      },
+      {
+        id: 'q4',
+        question: 'A friend has paid ₹8,000 in "processing fees" for a lottery win and is now being asked for ₹12,000 more for "customs clearance." What should you advise?',
+        options: [
+          { id: 'a', text: 'Pay the ₹12,000 — they have already invested ₹8,000 and stopping now wastes that money' },
+          { id: 'b', text: 'Stop all payments immediately — the escalating fees confirm it is a scam. Each new fee is a fresh loss, not a recovery of the first.' },
+          { id: 'c', text: 'Ask for a customs clearance certificate before paying' },
+          { id: 'd', text: 'Negotiate down and pay ₹6,000 as a compromise' },
+        ],
+        correctId: 'b',
+        explanation: 'Escalating fee demands after an initial payment are the clearest confirmation of lottery fraud. The ₹8,000 already paid is a sunk cost — additional payment will only deepen the loss. Stop immediately and file at cybercrime.gov.in.',
+      },
+      {
+        id: 'q5',
+        question: 'Which Indian government portal would list a genuine national government lottery scheme?',
+        options: [
+          { id: 'a', text: 'nationalprize.gov.in' },
+          { id: 'b', text: 'india.gov.in — the official National Portal of India, which lists all central government schemes' },
+          { id: 'c', text: 'lottery.gov.in' },
+          { id: 'd', text: 'prizes.india.gov.in' },
+        ],
+        correctId: 'b',
+        explanation: 'india.gov.in is the official National Portal linking to all central government schemes. There is no central government lottery in India — the only legal lotteries are run by state governments through their own official state portals.',
+      },
+    ],
+  },
+
+  'fs-v-pension-1': {
+    simId: 'fs-v-pension-1', passMark: 60, xp: 30,
+    questions: [
+      {
+        id: 'q1',
+        question: 'The official domain for the Employees\' Provident Fund Organisation (EPFO) in India is:',
+        options: [
+          { id: 'a', text: 'epfo.org.in' },
+          { id: 'b', text: 'epfindia.gov.in' },
+          { id: 'c', text: 'epfo-india.in' },
+          { id: 'd', text: 'providentfund.gov.in' },
+        ],
+        correctId: 'b',
+        explanation: 'The official EPFO portal is epfindia.gov.in. All EPFO account management, balance checks, and claim submissions happen here. Any domain other than epfindia.gov.in claiming to be EPFO is fraudulent.',
+      },
+      {
+        id: 'q2',
+        question: 'A fake pension portal URL reads "pension-verify.gov.in" while the real portal is "pension.gov.in." Why is the fake URL dangerous despite ending in .gov.in?',
+        options: [
+          { id: 'a', text: '"pension-verify.gov.in" is a legitimate sub-domain of the real portal — both are genuine' },
+          { id: 'b', text: '"pension-verify.gov.in" and "pension.gov.in" are separate registrations — always verify against the exact official URL from your pension documents, not just the .gov.in suffix' },
+          { id: 'c', text: 'Both are equally legitimate since both end in .gov.in' },
+          { id: 'd', text: 'The hyphen makes it suspicious but .gov.in still confirms it is government-run' },
+        ],
+        correctId: 'b',
+        explanation: 'While .gov.in domains are restricted to government entities, different sub-strings before .gov.in are separate registrations. The legitimate pension portal is pension.gov.in — not pension-verify.gov.in. Always verify the exact domain against official documents.',
+      },
+      {
+        id: 'q3',
+        question: 'How does the Indian government officially notify citizens when their pension account requires attention?',
+        options: [
+          { id: 'a', text: 'Via SMS with a link to update details within 24 hours' },
+          { id: 'b', text: 'Through registered post and official notifications on the account holder\'s registered portal — never through SMS links with urgent deadlines' },
+          { id: 'c', text: 'Via WhatsApp messages from the pension ministry\'s official number' },
+          { id: 'd', text: 'Through automated phone calls with an IVR system to collect details' },
+        ],
+        correctId: 'b',
+        explanation: 'Government pension communications go through formal channels — registered post, official portal notifications, and in-person visits to pension offices. SMS links with urgent deadlines are not a government communication method.',
+      },
+      {
+        id: 'q4',
+        question: 'A pension scam portal asks for your Aadhaar, bank account number, and UAN (Universal Account Number) together. Why is this combination particularly dangerous?',
+        options: [
+          { id: 'a', text: 'It is standard for pension verification — all three are needed to confirm your identity' },
+          { id: 'b', text: 'Together these three allow an attacker to access your EPFO account, change the bank account on file, and divert all future pension payments to their account' },
+          { id: 'c', text: 'It is only dangerous if combined with your date of birth' },
+          { id: 'd', text: 'The UAN alone is the risk — Aadhaar and bank account are publicly available' },
+        ],
+        correctId: 'b',
+        explanation: 'Aadhaar verifies identity, bank account details allow redirection of payments, and UAN is the access key to your EPFO account. With all three, an attacker can log into your EPFO account and change the bank account on file — diverting all future pension payments.',
+      },
+      {
+        id: 'q5',
+        question: 'The EPFO official helpline number for pension account queries is:',
+        options: [
+          { id: 'a', text: '1800-103-0025' },
+          { id: 'b', text: '1800-118-005' },
+          { id: 'c', text: '1930' },
+          { id: 'd', text: '155255' },
+        ],
+        correctId: 'b',
+        explanation: 'EPFO\'s official toll-free helpline is 1800-118-005. This is the number to call to verify any communication claiming to be about your EPFO/pension account. 1800-103-0025 is Income Tax, 1930 is the cybercrime helpline, and 155255 is IRDAI.',
+      },
+    ],
+  },
+
+  'fs-v-invest-1': {
+    simId: 'fs-v-invest-1', passMark: 60, xp: 50,
+    questions: [
+      {
+        id: 'q1',
+        question: 'An investment platform promises "guaranteed 40% monthly returns with 99% capital safety." Under SEBI regulations, a registered investment advisor making this claim would be:',
+        options: [
+          { id: 'a', text: 'Operating legally — advisors with strong track records can guarantee returns' },
+          { id: 'b', text: 'In violation of SEBI regulations — no registered entity is permitted to guarantee investment returns' },
+          { id: 'c', text: 'Required to back the claim with an insurance policy' },
+          { id: 'd', text: 'Legal only if the platform is registered as an NBFC' },
+        ],
+        correctId: 'b',
+        explanation: 'SEBI regulations explicitly prohibit registered investment advisors and brokers from guaranteeing returns. All investments carry risk — this is a fundamental principle of financial markets. Any entity guaranteeing returns is either unregistered or fraudulent.',
+      },
+      {
+        id: 'q2',
+        question: 'Where can you verify if an investment platform or advisor is officially registered with SEBI?',
+        options: [
+          { id: 'a', text: 'On the platform\'s own "About" or "Credentials" page' },
+          { id: 'b', text: 'On sebi.gov.in under the Registered Intermediaries section' },
+          { id: 'c', text: 'By calling the platform\'s customer care and asking for their SEBI number' },
+          { id: 'd', text: 'On Google by searching the platform name + "SEBI registered"' },
+        ],
+        correctId: 'b',
+        explanation: 'sebi.gov.in maintains the official authoritative list of all SEBI-registered entities. A platform can easily fake a registration number on their own website. Only the official SEBI portal confirms real registration.',
+      },
+      {
+        id: 'q3',
+        question: 'A fake trading dashboard shows your ₹50,000 investment growing to ₹1,85,000 in 3 weeks. When you try to withdraw, you are told to pay a ₹22,000 "income tax clearance" first. This reveals:',
+        options: [
+          { id: 'a', text: 'That tax must be paid before profits can be transferred — this is a genuine regulatory requirement' },
+          { id: 'b', text: 'That the ₹1,85,000 balance is fictional — legitimate platforms deduct TDS automatically and never require pre-withdrawal tax deposits from users' },
+          { id: 'c', text: 'That the platform is legitimate but has strict tax compliance procedures' },
+          { id: 'd', text: 'That you need to negotiate the tax amount before paying' },
+        ],
+        correctId: 'b',
+        explanation: 'Legitimate investment platforms deduct TDS (Tax Deducted at Source) automatically — they are legally required to do so. No real platform asks you to pay taxes separately before releasing your funds. A pre-withdrawal tax payment demand confirms the balance is fake.',
+      },
+      {
+        id: 'q4',
+        question: 'Fake trading platform testimonials typically show very specific profit amounts like "₹87,430 in 11 days." Why the specificity?',
+        options: [
+          { id: 'a', text: 'They are real testimonials — specific amounts confirm authenticity' },
+          { id: 'b', text: 'Specific amounts create an illusion of authenticity — precise figures appear more credible than round numbers, so fraudsters use them to make fabricated testimonials seem real' },
+          { id: 'c', text: 'SEBI requires specific profit disclosures in testimonials' },
+          { id: 'd', text: 'The specificity indicates the platform tracks individual trades accurately' },
+        ],
+        correctId: 'b',
+        explanation: 'Human psychology treats specific numbers as more credible than round numbers. "₹87,430" reads as a real trade outcome while "₹80,000" reads as an estimate. Fraudsters exploit this by fabricating precise figures.',
+      },
+      {
+        id: 'q5',
+        question: 'The best first action when evaluating a new investment opportunity found on social media is:',
+        options: [
+          { id: 'a', text: 'Invest a small amount first to test if withdrawals work' },
+          { id: 'b', text: 'Search "[platform name] scam" and check SEBI registration at sebi.gov.in before engaging at all' },
+          { id: 'c', text: 'Join their WhatsApp group to see proof of payments from other members' },
+          { id: 'd', text: 'Ask the platform for their SEBI certificate and check if it looks official' },
+        ],
+        correctId: 'b',
+        explanation: 'Searching for fraud reports costs nothing and takes 2 minutes — victims frequently post warnings. SEBI verification is authoritative and definitive. Both checks come before engaging. A small "test" investment still puts money at risk and doesn\'t verify legitimacy.',
+      },
+    ],
+  },
+
+  /* ══════════════════════════════════════════════
+     CAREER, EDUCATION & OPPORTUNITY QUIZZES
+  ══════════════════════════════════════════════ */
+
+  'ceo-v-job-1': {
+    simId: 'ceo-v-job-1', passMark: 60, xp: 40,
+    questions: [
+      {
+        id: 'q1',
+        question: 'Why do job scammers register lookalike domains like "google-india.com" instead of spoofing the real domain directly?',
+        options: [
+          { id: 'a', text: 'Lookalike domains are cheaper to register' },
+          { id: 'b', text: 'Sending email that appears to originate from the real domain (google.com) is technically much harder due to email authentication standards like DMARC — lookalike domains are trivially easy to register' },
+          { id: 'c', text: 'Google and Infosys have legal protections that make their domains impossible to spoof' },
+          { id: 'd', text: 'Lookalike domains rank higher in search results' },
+        ],
+        correctId: 'b',
+        explanation: 'Spoofing the actual sending domain of a major company is technically difficult due to DMARC and SPF email authentication standards. Registering "google-india.com" takes minutes and costs under ₹1,000. Most people read the display name and don\'t examine the actual domain after @.',
+      },
+      {
+        id: 'q2',
+        question: 'A recruiter asks you to pay ₹4,500 for "mandatory background verification" before your joining date. Legitimate companies:',
+        options: [
+          { id: 'a', text: 'May charge for background checks since third-party agencies are involved' },
+          { id: 'b', text: 'Never charge candidates for any part of the hiring process — all verification, training, and onboarding costs are borne by the employer' },
+          { id: 'c', text: 'Sometimes charge for security clearances in sensitive roles' },
+          { id: 'd', text: 'Charge only for international background verification' },
+        ],
+        correctId: 'b',
+        explanation: 'In legitimate hiring, the employer pays for background checks — not the candidate. This is a universal standard. Any fee at any stage of recruitment is the defining characteristic of a job scam, regardless of how it is framed.',
+      },
+      {
+        id: 'q3',
+        question: 'A fake onboarding portal demands escalating fees: registration → document processing → training materials → security deposit. What is the purpose of this escalation?',
+        options: [
+          { id: 'a', text: 'It reflects the actual stages of corporate onboarding' },
+          { id: 'b', text: 'Each payment builds sunk cost — having paid previous fees makes victims more likely to pay the next one rather than accept that all prior payments were lost' },
+          { id: 'c', text: 'It allows the company to verify financial capability before offering employment' },
+          { id: 'd', text: 'It is a test of commitment to the role' },
+        ],
+        correctId: 'b',
+        explanation: 'The escalation exploits the sunk cost fallacy. Once you\'ve paid ₹4,500 for registration, paying ₹3,000 more for documents feels like protecting the original investment. Each payment creates psychological momentum toward the next.',
+      },
+      {
+        id: 'q4',
+        question: 'How can you verify in under 2 minutes whether a job offer from a major company is genuine?',
+        options: [
+          { id: 'a', text: 'Search the recruiter\'s name on LinkedIn and check their connection count' },
+          { id: 'b', text: 'Visit the company\'s official careers page directly and search for the role — if it doesn\'t exist there, the offer is fake' },
+          { id: 'c', text: 'Call the phone number in the email to ask if the offer is real' },
+          { id: 'd', text: 'Check if the offer letter has the company\'s logo and signature' },
+        ],
+        correctId: 'b',
+        explanation: 'Every legitimate open position at a major company is listed on their official careers page. If the role you were "selected for" doesn\'t appear there, no such position exists. The official careers page cannot be faked.',
+      },
+      {
+        id: 'q5',
+        question: 'A job scam offer typically includes a salary significantly above market rate. Why?',
+        options: [
+          { id: 'a', text: 'The company is trying to attract the best candidates from competitors' },
+          { id: 'b', text: 'An inflated salary makes victims more emotionally invested in the "opportunity" and less likely to question red flags — financial excitement overrides critical thinking' },
+          { id: 'c', text: 'Above-market salaries indicate the company is well-funded' },
+          { id: 'd', text: 'Remote and international roles command higher salaries' },
+        ],
+        correctId: 'b',
+        explanation: 'The above-market salary is bait. Once you are excited about earning ₹25 LPA instead of the expected ₹12 LPA, you are more motivated to "secure" the offer by paying fees and more reluctant to walk away. Emotional investment suppresses critical thinking.',
+      },
+    ],
+  },
+
+  'ceo-v-scholarship-1': {
+    simId: 'ceo-v-scholarship-1', passMark: 60, xp: 30,
+    questions: [
+      {
+        id: 'q1',
+        question: 'What is the minimum requirement for being considered for any legitimate scholarship in India?',
+        options: [
+          { id: 'a', text: 'A minimum CGPA of 7.0 or above' },
+          { id: 'b', text: 'A submitted application — you must have applied and been assessed. Selection without any application from you is impossible in any legitimate scheme.' },
+          { id: 'c', text: 'Being enrolled in a government-recognised institution' },
+          { id: 'd', text: 'Having an Aadhaar-linked bank account for disbursement' },
+        ],
+        correctId: 'b',
+        explanation: 'Every legitimate scholarship requires a formal application reviewed against stated eligibility criteria. Selection without an application means no eligibility check was done. It is structurally impossible to be genuinely selected for a scholarship you never applied for.',
+      },
+      {
+        id: 'q2',
+        question: 'The official Indian government portal for all central scholarship schemes is:',
+        options: [
+          { id: 'a', text: 'scholarship-india.gov.in' },
+          { id: 'b', text: 'scholarships.gov.in — the National Scholarship Portal' },
+          { id: 'c', text: 'mhrd.scholarships.in' },
+          { id: 'd', text: 'india-scholarship.org.in' },
+        ],
+        correctId: 'b',
+        explanation: 'scholarships.gov.in is the only official National Scholarship Portal managed by the Ministry of Education. All central and most state government scholarships are accessible here. If a scholarship is not listed on this portal, it is not a government scholarship.',
+      },
+      {
+        id: 'q3',
+        question: 'A scholarship portal URL reads "scholarship-verify.org.in" while the real portal is "scholarships.gov.in." Why should the .org.in domain raise suspicion?',
+        options: [
+          { id: 'a', text: '.org.in domains are for NGOs — some scholarships are run by non-profits, so this could be legitimate' },
+          { id: 'b', text: 'Government scholarship portals use .gov.in — a .org.in domain claiming to administer a government scholarship is a mismatch that confirms it is fraudulent' },
+          { id: 'c', text: 'Both .gov.in and .org.in are equally reliable for scholarship portals' },
+          { id: 'd', text: 'The "verify" part of the domain is the red flag, not the .org.in extension' },
+        ],
+        correctId: 'b',
+        explanation: 'Government scholarship administration is a government function — it uses .gov.in domains. A .org.in domain can be registered by any organisation including fraudsters. Seeing .org.in for what is claimed to be a government scholarship portal is a clear domain type mismatch.',
+      },
+      {
+        id: 'q4',
+        question: 'When does a real scholarship actually need your bank details?',
+        options: [
+          { id: 'a', text: 'On the initial application form to pre-validate your account' },
+          { id: 'b', text: 'Only after you have been officially selected, through a secure verified process at your institution or official portal — never on an initial "claim" page' },
+          { id: 'c', text: 'At the same time as your academic documents' },
+          { id: 'd', text: 'Bank details are never needed — all funds go through the college' },
+        ],
+        correctId: 'b',
+        explanation: 'Bank details for scholarship disbursement are collected only after formal selection, through official processes — typically through your educational institution or after logging into the official portal with your student credentials.',
+      },
+      {
+        id: 'q5',
+        question: 'A scholarship scam email creates urgency: "Claim within 48 hours or the award will be reallocated." What is the purpose of this time pressure?',
+        options: [
+          { id: 'a', text: 'It reflects genuine scholarship reallocation procedures' },
+          { id: 'b', text: 'It prevents you from taking the time to verify the scholarship\'s legitimacy through official channels — decisions made under time pressure skip the verification step' },
+          { id: 'c', text: 'It is a standard administrative deadline for fund disbursement' },
+          { id: 'd', text: 'It creates competition among selected students' },
+        ],
+        correctId: 'b',
+        explanation: 'The 48-hour deadline is designed to prevent you from doing what would immediately expose the scam: checking scholarships.gov.in, calling your college, or searching the scholarship name. Verification takes 5 minutes — urgency is the tool that stops people from taking those 5 minutes.',
+      },
+    ],
+  },
+
+  'ceo-v-exam-phone-1': {
+    simId: 'ceo-v-exam-phone-1', passMark: 60, xp: 30,
+    questions: [
+      {
+        id: 'q1',
+        question: 'Exam result phishing SMS are sent in large volumes specifically during result announcement periods. Why does timing make the attack more effective?',
+        options: [
+          { id: 'a', text: 'Students are logged into their portals frequently during this period' },
+          { id: 'b', text: 'Students are anxious and actively looking for result links, making them more likely to click without verifying — the brain is already in "find results" mode' },
+          { id: 'c', text: 'Students have more free time during result season' },
+          { id: 'd', text: 'University portals are slower during result season, making fake links seem convenient' },
+        ],
+        correctId: 'b',
+        explanation: 'Timing is the key tactic. When results are expected, students are actively searching and emotionally primed to act quickly. A message saying "your results are ready" during this window exploits existing anxiety — reducing scepticism.',
+      },
+      {
+        id: 'q2',
+        question: 'A phishing results page looks identical to your university\'s real portal. What is the only reliable way to distinguish it from the real one?',
+        options: [
+          { id: 'a', text: 'Check if the page has the university\'s logo and colour scheme' },
+          { id: 'b', text: 'Check the URL in the address bar — the real portal is on the university\'s official domain, not a generic domain like "university-results.in"' },
+          { id: 'c', text: 'Check if the page loads quickly — fake sites are usually slow' },
+          { id: 'd', text: 'Check if the page has a padlock (HTTPS) icon' },
+        ],
+        correctId: 'b',
+        explanation: 'Logos, colour schemes, and layout can all be copied in minutes. HTTPS (the padlock) can be obtained by anyone including fake sites. Only the URL in the address bar is unfalsifiable — it shows exactly which domain is serving the page.',
+      },
+      {
+        id: 'q3',
+        question: 'A student logged into a fake results page with their university email and password. Beyond changing their university password, what other accounts are at immediate risk?',
+        options: [
+          { id: 'a', text: 'Only the university account — phishing pages capture only what is entered' },
+          { id: 'b', text: 'Any other account where the same email and password combination is used — personal email, banking, social media' },
+          { id: 'c', text: 'Only accounts linked to the same email address' },
+          { id: 'd', text: 'Only the university account — other sites use different authentication' },
+        ],
+        correctId: 'b',
+        explanation: 'Password reuse across multiple accounts is extremely common. If a student uses the same password for their university account, Gmail, and banking app, capturing the university login gives access to all three. Every account sharing that password must be changed immediately — from a clean device.',
+      },
+      {
+        id: 'q4',
+        question: 'What is the safest method for checking exam results?',
+        options: [
+          { id: 'a', text: 'Click the first Google result for "[university name] results"' },
+          { id: 'b', text: 'Type your university\'s official URL directly into the browser, or use a bookmark you created previously' },
+          { id: 'c', text: 'Use the link in the SMS since it is faster than navigating to the website' },
+          { id: 'd', text: 'Open the link in incognito mode for additional safety' },
+        ],
+        correctId: 'b',
+        explanation: 'Typing the URL directly or using a pre-saved bookmark guarantees you reach the real site. Google results can be manipulated. SMS links are under the attacker\'s control. Incognito mode changes nothing about which server you connect to.',
+      },
+      {
+        id: 'q5',
+        question: 'Two-factor authentication (2FA) on your university email provides protection against phishing credential theft because:',
+        options: [
+          { id: 'a', text: 'It prevents phishing pages from loading on your device' },
+          { id: 'b', text: 'Even if an attacker has your email and password, they cannot log in without the second factor which they do not have' },
+          { id: 'c', text: 'It alerts your university\'s IT team when someone logs in from an unfamiliar device' },
+          { id: 'd', text: 'It changes your password automatically after a phishing incident is detected' },
+        ],
+        correctId: 'b',
+        explanation: '2FA adds a second verification step — typically an OTP or authenticator code — that an attacker cannot provide even with your password. A captured password alone is insufficient to access your account.',
+      },
+    ],
+  },
+
+  'ceo-v-exam-desktop-1': {
+    simId: 'ceo-v-exam-desktop-1', passMark: 60, xp: 30,
+    questions: [
+      {
+        id: 'q1',
+        question: 'An email shows the sender name as "VIT University Results Team" but when you expand the address it shows "results@university-portal-results.com". What does this tell you?',
+        options: [
+          { id: 'a', text: 'VIT uses a third-party results management company — this domain is theirs' },
+          { id: 'b', text: 'The display name is fake — the actual sending domain has nothing to do with VIT, whose real domain is vit.ac.in' },
+          { id: 'c', text: 'Results notifications use a different domain than the main university website' },
+          { id: 'd', text: 'The .com extension is suspicious but the sender name confirms it is VIT' },
+        ],
+        correctId: 'b',
+        explanation: 'Email display names are just text — any email can display any name. The actual sending domain (after @) is what determines who really sent the email. VIT\'s domain is vit.ac.in. "university-portal-results.com" is a completely unrelated domain anyone could have registered.',
+      },
+      {
+        id: 'q2',
+        question: 'Universities in India typically use which domain extensions for their official email and web addresses?',
+        options: [
+          { id: 'a', text: '.com and .org — universities choose freely' },
+          { id: 'b', text: '.edu.in or .ac.in — the standard academic domain extensions in India' },
+          { id: 'c', text: '.in — all Indian institutions use this' },
+          { id: 'd', text: '.gov.in — universities are government institutions' },
+        ],
+        correctId: 'b',
+        explanation: '.edu.in is reserved for educational institutions in India, and .ac.in is the academic domain. Real Indian university websites and emails use these — IIT domains are iitb.ac.in, iitd.ac.in etc. A university email from a .com or .org.in domain is a strong indicator of fraud.',
+      },
+      {
+        id: 'q3',
+        question: 'After entering credentials on a fake university login page, what is the most immediate risk beyond your university account?',
+        options: [
+          { id: 'a', text: 'Your university may expel you for the security breach' },
+          { id: 'b', text: 'The attacker can use your university email to send phishing emails to your professors and classmates, who will trust messages from your address' },
+          { id: 'c', text: 'Your phone number linked to the account may be sold to advertisers' },
+          { id: 'd', text: 'Your academic records may be deleted' },
+        ],
+        correctId: 'b',
+        explanation: 'A compromised university email becomes a phishing weapon — messages from your real student address carry high trust with professors, classmates, and staff. Attackers use compromised legitimate accounts to launch the next wave of attacks.',
+      },
+      {
+        id: 'q4',
+        question: 'Which is the most effective single habit for avoiding exam result phishing via email?',
+        options: [
+          { id: 'a', text: 'Opening email links only in incognito mode' },
+          { id: 'b', text: 'Never following email links to university login pages — always navigate directly to the official URL' },
+          { id: 'c', text: 'Checking if the email has an unsubscribe link — phishing emails usually don\'t' },
+          { id: 'd', text: 'Checking if the email arrived in your primary inbox rather than spam' },
+        ],
+        correctId: 'b',
+        explanation: 'Never following email links to login pages makes it impossible for a phishing email to lead you to a fake page, regardless of how convincing it looks. Type the URL or use a bookmark — every time.',
+      },
+      {
+        id: 'q5',
+        question: 'Your university\'s IT department should be notified when you submit credentials to a phishing page because:',
+        options: [
+          { id: 'a', text: 'They are legally required to report it to the government' },
+          { id: 'b', text: 'They can revoke your compromised account session, reset credentials securely, and warn other students about the active phishing campaign' },
+          { id: 'c', text: 'They will fine you for the security incident' },
+          { id: 'd', text: 'They are only needed if the attacker has already used your account' },
+        ],
+        correctId: 'b',
+        explanation: 'IT security teams act quickly to limit damage: session revocation stops active attacker access, secure credential reset replaces compromised ones, and a campus-wide alert prevents other students from falling for the same attack.',
+      },
+    ],
+  },
+
+  'ceo-v-giveaway-1': {
+    simId: 'ceo-v-giveaway-1', passMark: 60, xp: 30,
+    questions: [
+      {
+        id: 'q1',
+        question: 'Why do giveaway scammers specifically impersonate major influencers rather than creating entirely fictional accounts?',
+        options: [
+          { id: 'a', text: 'Major influencers have larger prize budgets, making the scam more credible' },
+          { id: 'b', text: 'An established influencer\'s name carries existing trust with their audience — impersonating them means the scammer inherits that trust without having to build it from scratch' },
+          { id: 'c', text: 'Fictional accounts get banned faster by Instagram\'s moderation' },
+          { id: 'd', text: 'Influencers are legally prohibited from suing impersonators' },
+        ],
+        correctId: 'b',
+        explanation: 'Trust is the scammer\'s primary asset. Creating a fictional account requires building credibility from zero. Impersonating someone with millions of followers means their audience already has a positive emotional relationship with that name and face.',
+      },
+      {
+        id: 'q2',
+        question: 'A giveaway "prize claim" page asks for a ₹2,000 "handling and shipping fee" to deliver an iPhone 15 Pro worth ₹1,34,900. The fee-to-prize ratio is designed to:',
+        options: [
+          { id: 'a', text: 'Cover actual logistics costs — premium devices require secure handling' },
+          { id: 'b', text: 'Make the payment seem trivially small relative to the prize, reducing psychological resistance to paying' },
+          { id: 'c', text: 'Verify that the winner is financially capable of receiving a high-value prize' },
+          { id: 'd', text: 'Comply with RBI guidelines on prize disbursement' },
+        ],
+        correctId: 'b',
+        explanation: 'A ₹2,000 fee for a ₹1.35 lakh phone appears rational — "investing" 1.5% for a huge return. This ratio is carefully calculated to minimise resistance. Real giveaways bear all costs — the winner pays nothing. The fee is the entire revenue model of the scam.',
+      },
+      {
+        id: 'q3',
+        question: 'Instagram\'s blue verified tick on an account confirms:',
+        options: [
+          { id: 'a', text: 'The account owner is trustworthy and reputable' },
+          { id: 'b', text: 'Instagram has verified that the account authentically represents the public figure or brand it claims to be' },
+          { id: 'c', text: 'The account has more than 100,000 followers' },
+          { id: 'd', text: 'The account has been active for more than 2 years' },
+        ],
+        correctId: 'b',
+        explanation: 'The blue tick is an authenticity verification — Instagram has confirmed this account belongs to the real person or brand. Its specific purpose is anti-impersonation. A tick means this is the real account, not a clone.',
+      },
+      {
+        id: 'q4',
+        question: 'In a legitimate brand giveaway (e.g. Apple, Samsung, an influencer partnership), who pays for the shipping and delivery of the prize to the winner?',
+        options: [
+          { id: 'a', text: 'The winner pays shipping — this is standard for large prize items' },
+          { id: 'b', text: 'The organising brand or sponsor covers all costs — the winner pays absolutely nothing to receive their prize' },
+          { id: 'c', text: 'Costs are split 50/50 between the brand and winner' },
+          { id: 'd', text: 'The winner pays customs only for international prizes' },
+        ],
+        correctId: 'b',
+        explanation: 'In all legitimate giveaways, the organiser covers the full cost including packaging, shipping, and any applicable duties. Any request for the winner to pay any amount — regardless of how it is framed — makes it a scam.',
+      },
+      {
+        id: 'q5',
+        question: 'You want to verify whether a major influencer is genuinely running a giveaway. The most reliable check is:',
+        options: [
+          { id: 'a', text: 'Checking how many likes and comments the giveaway post has received' },
+          { id: 'b', text: 'Searching for the real influencer\'s verified account and checking if they have posted about this giveaway there' },
+          { id: 'c', text: 'Googling the giveaway announcement to see if news outlets have covered it' },
+          { id: 'd', text: 'Checking if the prize brand has confirmed the giveaway on their own account' },
+        ],
+        correctId: 'b',
+        explanation: 'The real influencer\'s verified account is the ground truth. If they are genuinely running a giveaway, it will be prominently announced there. If their real account has no mention, the account you found is fake — regardless of how many likes the post has (bots can generate those too).',
+      },
+    ],
+  },
+
 }

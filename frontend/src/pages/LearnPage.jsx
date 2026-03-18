@@ -765,6 +765,296 @@ const LEARN_CONTENT = {
     ],
   },
 
+  /* ══════════════════════════════════════════════
+     FINANCIAL SECURITY
+  ══════════════════════════════════════════════ */
+
+  'fs-v-kyc-1': {
+    readTime: '4 min read',
+    howItWorks: [
+      `KYC (Know Your Customer) update scams impersonate your bank by sending SMS or WhatsApp messages claiming your account will be blocked unless you update your KYC details immediately. The message contains a link to a fake portal that looks identical to your bank's real website.`,
+      `The fake portal asks for your account number, Aadhaar, PAN, date of birth, and sometimes your debit card details and PIN — far more than a genuine KYC update ever requires. Once submitted, the attacker has everything needed to take over your account.`,
+      `The real RBI mandate is that KYC updates happen in person at a branch or through the official bank app after logging in with your existing credentials. Banks never send unsolicited links asking you to re-enter your details through an SMS.`,
+    ],
+    redFlags: [
+      'SMS or WhatsApp message saying your account will be blocked unless you update KYC via a link',
+      'Link leads to a domain that is not your bank\'s official domain (e.g. "hdfc-kyc-verify.in" instead of "hdfc.com")',
+      'Portal asks for Aadhaar, PAN, and card details together — genuine KYC updates never require all of these at once via a link',
+      'Urgency — "update within 24 hours or account will be suspended"',
+      'Message arrives via SMS or WhatsApp, not through your official bank app notification',
+    ],
+    whatToDo: [
+      { step: 'Never click links in KYC messages', detail: 'If you receive a KYC update SMS, open your bank\'s official app directly and check for notifications there. If there is no alert in the app, the SMS is fraudulent.' },
+      { step: 'Call the bank on the number from your card', detail: 'Use the number printed on the back of your debit card — not any number in the SMS — to verify whether a KYC update is genuinely required.' },
+      { step: 'Check the URL before entering anything', detail: 'Your bank\'s real website will always be on its official domain. HDFC is hdfc.com, SBI is sbi.co.in, ICICI is icicibank.com. Any variation is fake.' },
+      { step: 'If you already submitted details', detail: 'Call your bank immediately to freeze the account. Change your net banking password from the official app. File a complaint at cybercrime.gov.in.' },
+      { step: 'Report the fraudulent SMS', detail: 'Forward the SMS to 1909 (TRAI\'s spam reporting number). Report the phishing link to cert-in.org.in.' },
+    ],
+    tools: [
+      { name: 'cybercrime.gov.in — File a complaint', desc: 'Report KYC fraud and bank account compromise', url: 'https://cybercrime.gov.in' },
+      { name: '1930 — National Cybercrime Helpline', desc: 'Call immediately if you submitted bank details to a fake site', url: 'tel:1930' },
+      { name: 'sancharsaathi.gov.in — Report fraud SMS', desc: 'Report fraudulent KYC SMS to TRAI', url: 'https://sancharsaathi.gov.in' },
+    ],
+  },
+
+  'fs-v-otp-1': {
+    readTime: '4 min read',
+    howItWorks: [
+      `OTP (One Time Password) sharing fraud begins with a phone call from someone claiming to be from your bank's customer care. They say your account has suspicious activity and ask you to share an OTP to "verify" or "secure" your account.`,
+      `In reality, the attacker has already initiated a transaction or a password reset on your real bank account. The OTP being sent to your phone is the authorisation code for that action. The moment you share it, the attacker completes the transaction or takes control of your account.`,
+      `Banks use a very clear rule: they will never ask for your OTP, PIN, or password over a phone call — for any reason. The OTP is specifically designed to be known only to you. Sharing it with anyone, including someone claiming to be from your bank, defeats its entire purpose.`,
+    ],
+    redFlags: [
+      'A caller from "bank customer care" asks for an OTP you just received',
+      'Caller claims sharing the OTP will "block" or "secure" your account — the opposite is true',
+      'The call creates urgency — "someone is accessing your account right now"',
+      'You receive an OTP you did not request — this means someone is using your account details elsewhere',
+      'Caller already knows your name, last few digits of your account, or other details to sound credible',
+    ],
+    whatToDo: [
+      { step: 'Never share your OTP with anyone', detail: 'No bank, government body, or legitimate organisation will ever ask for your OTP over a phone call or message. There are no exceptions to this rule.' },
+      { step: 'Hang up immediately', detail: 'If a caller asks for your OTP, end the call without engaging further. Do not try to expose them — simply hang up.' },
+      { step: 'If you received an OTP you didn\'t request', detail: 'This means someone has your account details and is attempting a transaction. Call your bank immediately on the number from your card to temporarily freeze the account.' },
+      { step: 'Call back on the official number', detail: 'If you are concerned about suspicious activity, call your bank\'s official helpline yourself — from the number on your card, not any number the caller gave you.' },
+      { step: 'Report the attempt', detail: 'File a complaint at cybercrime.gov.in. Report the caller\'s number at sancharsaathi.gov.in.' },
+    ],
+    tools: [
+      { name: 'cybercrime.gov.in — File a complaint', desc: 'Report vishing (voice phishing) and OTP fraud', url: 'https://cybercrime.gov.in' },
+      { name: '1930 — National Cybercrime Helpline', desc: 'Call immediately if you shared an OTP with a fraudster', url: 'tel:1930' },
+      { name: 'sancharsaathi.gov.in — Report fraud calls', desc: 'Report the fraudulent caller\'s number to TRAI', url: 'https://sancharsaathi.gov.in' },
+    ],
+  },
+
+  'fs-v-lottery-1': {
+    readTime: '4 min read',
+    howItWorks: [
+      `Lottery and prize scams notify victims that they have won a large sum — typically ₹5 lakh to ₹50 lakh — in a lottery they never entered. The message may come by SMS, WhatsApp, email, or even a physical letter, and typically claims to be from a government lottery, a major company's anniversary prize, or a telecom operator.`,
+      `The scam operates on an advance fee model: before you can "claim" your prize, you must pay a series of escalating fees — processing fees, government tax, courier charges, legal clearance fees. Each payment is followed by a new fee demand. The prize never materialises.`,
+      `The fundamental truth is that you cannot win a lottery you did not enter. No legitimate lottery or company prize requires you to pay any fee upfront to claim your winnings. Real prizes are paid net of taxes — under Section 194B of the Income Tax Act, the organiser deducts TDS at 30% before disbursing the prize.`,
+    ],
+    redFlags: [
+      'You won a lottery or prize you never entered',
+      'Any fee is required before you can receive your prize — processing fee, tax deposit, courier charge',
+      'The prize amount is very large and the fee is relatively small — designed to make payment seem worthwhile',
+      'Communication arrives via SMS, WhatsApp, or an unofficial email address',
+      'Urgency — "claim within 48 hours or the prize will be forfeited"',
+    ],
+    whatToDo: [
+      { step: 'Ignore and delete the message', detail: 'You cannot win a lottery you did not enter. No action is needed — simply ignore and delete the message.' },
+      { step: 'Never pay any fee to claim a prize', detail: 'Any prize that requires upfront payment is a scam. Legitimate prizes do not require you to pay anything to receive them.' },
+      { step: 'Verify through official channels if in doubt', detail: 'If a message claims to be from a real company or government body, visit their official .gov.in or official corporate website directly.' },
+      { step: 'Report the SMS', detail: 'Forward the SMS to 1909 to report it as spam. File a complaint at cybercrime.gov.in if you have already paid money.' },
+      { step: 'If you already paid fees', detail: 'Stop paying immediately — additional fees will keep coming. Call 1930, file at cybercrime.gov.in, and inform your bank if payment was made via your account.' },
+    ],
+    tools: [
+      { name: 'cybercrime.gov.in — File a complaint', desc: 'Report advance fee lottery fraud', url: 'https://cybercrime.gov.in' },
+      { name: '1930 — National Cybercrime Helpline', desc: 'Call immediately if you have paid fees to claim a fake prize', url: 'tel:1930' },
+      { name: 'sancharsaathi.gov.in — Report spam SMS', desc: 'Report lottery scam SMS to TRAI', url: 'https://sancharsaathi.gov.in' },
+    ],
+  },
+
+  'fs-v-pension-1': {
+    readTime: '4 min read',
+    howItWorks: [
+      `Pension and government benefits scams target elderly citizens by sending messages claiming their pension account will be suspended or their benefits will lapse unless they verify their details immediately. The messages impersonate well-known government schemes like EPFO, NPS, or state pension portals.`,
+      `The fake portal looks like a genuine government website — similar colour scheme, official-looking logos, and government branding. It asks for Aadhaar number, bank account details, and the pension account number. This data is then used to divert pension payments or commit identity fraud.`,
+      `All genuine Indian government portals use .gov.in domains. Any variation — .gov.in.co, pension-verify.in — is fraudulent. Government bodies never suspend benefits without formal written notice through official channels.`,
+    ],
+    redFlags: [
+      'SMS claiming pension will be suspended unless you verify details via a link',
+      'Portal URL does not exactly match the official .gov.in domain',
+      'Asks for Aadhaar and bank details together through a link — official portals require login, not cold data entry',
+      'No reference to your specific pension account number or EPFO UAN in the message',
+      'Urgency — "verify within 24 hours to avoid suspension"',
+    ],
+    whatToDo: [
+      { step: 'Visit the official portal directly', detail: 'For EPFO: epfindia.gov.in. For NPS: npscra.nsdl.co.in. Type the URL yourself — never follow links from SMS.' },
+      { step: 'Call your pension office', detail: 'Use the number from your original pension documents or the official .gov.in website to verify whether any action is required.' },
+      { step: 'Check the domain carefully', detail: 'Legitimate Indian government pension portals always use .gov.in. Any other domain is fraudulent regardless of how official it looks.' },
+      { step: 'If you already submitted details', detail: 'Call EPFO helpline 1800-118-005 or your bank immediately. File a complaint at cybercrime.gov.in with the fake URL as evidence.' },
+      { step: 'Warn family members', detail: 'Elderly users are specifically targeted. Share awareness about never clicking links in pension-related SMS.' },
+    ],
+    tools: [
+      { name: 'epfindia.gov.in — Official EPFO portal', desc: 'Check your EPFO account status directly', url: 'https://www.epfindia.gov.in' },
+      { name: 'cybercrime.gov.in — File a complaint', desc: 'Report pension fraud and government impersonation', url: 'https://cybercrime.gov.in' },
+      { name: '1930 — National Cybercrime Helpline', desc: 'Call immediately if you submitted pension or bank details', url: 'tel:1930' },
+      { name: 'EPFO Helpline — 1800-118-005', desc: 'Official EPFO helpline for pension account queries', url: 'tel:18001180085' },
+    ],
+  },
+
+  'fs-v-invest-1': {
+    readTime: '5 min read',
+    howItWorks: [
+      `Investment and trading scams promise guaranteed high returns — typically 30–50% monthly — through a fake trading platform, crypto exchange, or stock tip group. They are distributed through social media ads, WhatsApp groups, and Telegram channels, often using fake testimonials and impersonated celebrities or SEBI-registered advisors.`,
+      `The platform's dashboard shows impressive profits accumulating in real time. However, these numbers are fabricated — the platform has no real trading activity. When a victim tries to withdraw their "profits," they are told to pay taxes, compliance fees, or a withdrawal deposit first. These fees keep escalating until the victim stops paying or runs out of money.`,
+      `No legitimate investment scheme guarantees returns. SEBI-registered advisors are legally prohibited from guaranteeing profits. Any platform making such guarantees is either unregistered or fraudulent.`,
+    ],
+    redFlags: [
+      'Guaranteed returns of 30–50% monthly — no legitimate investment can guarantee this',
+      'Claims of "99% capital safety" or "zero risk" — all investments carry risk by law',
+      'Withdrawal blocked unless you pay a fee — tax deposit, compliance fee, verification charge',
+      'Platform not verifiable on SEBI\'s official website (sebi.gov.in)',
+      'Recruited via social media ad, WhatsApp forward, or unsolicited Telegram group',
+    ],
+    whatToDo: [
+      { step: 'Verify SEBI registration before investing anywhere', detail: 'Check at sebi.gov.in → Registered Intermediaries. If they are not listed, do not invest.' },
+      { step: 'Search for scam reports', detail: 'Search "[platform name] scam" or "[platform name] fraud" before investing. Fraud victims frequently post warnings online.' },
+      { step: 'Test withdrawal before investing more', detail: 'If you have already invested, attempt to withdraw a small amount. If withdrawal is blocked or requires a fee, the platform is fraudulent — stop immediately.' },
+      { step: 'Never pay fees to withdraw your own money', detail: 'No legitimate investment platform charges fees before releasing your own funds. Any pre-withdrawal fee is a scam mechanic.' },
+      { step: 'Report to SEBI and cybercrime', detail: 'File a complaint at sebi.gov.in and at cybercrime.gov.in. Report the Telegram/WhatsApp group to the platform.' },
+    ],
+    tools: [
+      { name: 'sebi.gov.in — Verify SEBI registration', desc: 'Check if an investment platform or advisor is SEBI registered', url: 'https://www.sebi.gov.in' },
+      { name: 'cybercrime.gov.in — File a complaint', desc: 'Report investment fraud and fake trading platforms', url: 'https://cybercrime.gov.in' },
+      { name: '1930 — National Cybercrime Helpline', desc: 'Call immediately if you have transferred money to a fake platform', url: 'tel:1930' },
+      { name: 'SEBI SCORES — Investor complaint portal', desc: 'File complaints against SEBI-regulated entities', url: 'https://scores.gov.in' },
+    ],
+  },
+
+  /* ══════════════════════════════════════════════
+     CAREER, EDUCATION & OPPORTUNITY
+  ══════════════════════════════════════════════ */
+
+  'ceo-v-job-1': {
+    readTime: '4 min read',
+    howItWorks: [
+      `Fake job offer scams send unsolicited emails or LinkedIn messages claiming to be from a well-known company — Google, Amazon, Infosys, TCS — offering a high-paying position. The email looks professional, the salary is attractive, and the process seems legitimate at first.`,
+      `The scam reveals itself at the "onboarding" stage when escalating fees are demanded — a registration fee, background verification fee, document processing fee, training materials fee. Legitimate companies never charge candidates at any stage of hiring. All verification and onboarding costs are borne by the employer.`,
+      `The sender domain is the first tell. Google only emails from @google.com. Infosys emails from @infosys.com. Any variation — @google-india.com, @infosys-hr.net — is fraudulent regardless of how official the email looks.`,
+    ],
+    redFlags: [
+      'Job offer for a position you did not apply for',
+      'Email domain does not exactly match the company\'s official domain',
+      'Any fee is required — registration, background check, training, documents',
+      'Salary significantly above market rate for the role',
+      'Interview conducted entirely over chat or email with no video call',
+    ],
+    whatToDo: [
+      { step: 'Check the sender\'s email domain', detail: 'Real companies use only their official domain. Google is @google.com, not @google-india.com. Check this before reading any further.' },
+      { step: 'Verify the job on the company\'s official careers page', detail: 'Visit the company\'s official website and check their careers section. If the role doesn\'t exist there, the offer is fake.' },
+      { step: 'Never pay any fee during hiring', detail: 'Legitimate employers never charge candidates. Any request for money at any stage of recruitment is a scam.' },
+      { step: 'Call the company\'s official HR number', detail: 'Use the phone number from the company\'s official website — not from the email — to verify whether a recruitment drive is underway.' },
+      { step: 'Report the scam', detail: 'Report the fraudulent email to cybercrime.gov.in. If the company\'s name is being misused, inform them through their official website.' },
+    ],
+    tools: [
+      { name: 'cybercrime.gov.in — File a complaint', desc: 'Report fake job offers and recruitment fraud', url: 'https://cybercrime.gov.in' },
+      { name: '1930 — National Cybercrime Helpline', desc: 'Call immediately if you have paid fees for a fake job', url: 'tel:1930' },
+      { name: 'cert-in.org.in — Report phishing emails', desc: 'Forward fraudulent recruitment emails to incident@cert-in.org.in', url: 'https://www.cert-in.org.in' },
+    ],
+  },
+
+  'ceo-v-scholarship-1': {
+    readTime: '4 min read',
+    howItWorks: [
+      `Scholarship scams send congratulatory emails or SMS claiming you have been selected for a scholarship you never applied for. The award amount is typically large — ₹2 lakh to ₹10 lakh — and the message creates excitement and urgency to claim it quickly.`,
+      `The fake scholarship portal asks for personal and financial details — Aadhaar, bank account number, parent income — and eventually demands a "processing fee" or "security deposit" to release the funds. The scholarship never materialises and the data collected is used for identity fraud.`,
+      `All legitimate government scholarships in India are available on the National Scholarship Portal at scholarships.gov.in. You can only win a scholarship you have applied for. Unsolicited scholarship awards are always fraudulent.`,
+    ],
+    redFlags: [
+      'You received a scholarship you never applied for',
+      'Any fee required to claim the scholarship — processing, verification, security deposit',
+      'Portal URL does not match scholarships.gov.in or the institution\'s official domain',
+      'Asks for bank account number and Aadhaar on the first form',
+      'Urgency — "claim within 48 hours or the award will be given to another candidate"',
+    ],
+    whatToDo: [
+      { step: 'Check scholarships.gov.in directly', detail: 'The National Scholarship Portal lists all central and state government scholarships. If the scheme is not listed there, it is fraudulent.' },
+      { step: 'You cannot win a scholarship you didn\'t apply for', detail: 'Legitimate scholarships require an application. Unsolicited awards are always a scam.' },
+      { step: 'Never pay a fee to claim a scholarship', detail: 'Legitimate scholarships never require upfront payment of any kind. A processing fee demand immediately confirms it is a scam.' },
+      { step: 'Verify with the institution directly', detail: 'If the scholarship claims to be from your college, call the financial aid office directly using a number from the official website.' },
+      { step: 'Report the attempt', detail: 'File a complaint at cybercrime.gov.in. Report the email to cert-in.org.in.' },
+    ],
+    tools: [
+      { name: 'scholarships.gov.in — National Scholarship Portal', desc: 'Official portal for all government scholarship schemes', url: 'https://scholarships.gov.in' },
+      { name: 'cybercrime.gov.in — File a complaint', desc: 'Report scholarship fraud and education scams', url: 'https://cybercrime.gov.in' },
+      { name: '1930 — National Cybercrime Helpline', desc: 'Call immediately if you have paid a scholarship processing fee', url: 'tel:1930' },
+    ],
+  },
+
+  'ceo-v-exam-phone-1': {
+    readTime: '4 min read',
+    howItWorks: [
+      `Exam result phishing attacks send SMS to students around the time results are expected, claiming their results are ready with a link to check them. The timing is calculated — attackers know when major exam results are typically announced and send mass messages in that window.`,
+      `The fake results page looks identical to the real university portal. It asks you to log in with your student email and password. Once entered, the attacker captures your credentials and can use them to access your email, college systems, and any other accounts where you use the same password.`,
+      `The correct way to check results is always to type your university's official URL directly into your browser — never follow links from SMS messages. Your university's results will be on their own official domain, not on a generic domain like "university-results.in."`,
+    ],
+    redFlags: [
+      'SMS with a link to check exam results — universities announce results on their official website, not via SMS links',
+      'Link leads to a domain that does not exactly match your university\'s official website',
+      'URL contains generic words like "university-results.in" rather than your institution\'s name',
+      'Message arrives at a time when you are anxious about results — exploiting emotional vulnerability',
+      'Login page reached through a link — real portals are navigated to directly',
+    ],
+    whatToDo: [
+      { step: 'Always check results directly on the official website', detail: 'Type your university\'s URL yourself or search for it by name. Never follow SMS or email links to results pages.' },
+      { step: 'Check the URL before logging in', detail: 'Your university\'s results page will be on their official domain — typically ending in .edu.in or .ac.in. Any deviation is fake.' },
+      { step: 'If you already logged in on a fake page', detail: 'Change your university account password immediately from the official portal. Also change your email password and any other account where you use the same credentials.' },
+      { step: 'Enable two-factor authentication', detail: 'On your university email and personal email, enable 2FA. This prevents attackers from accessing your accounts even if they have your password.' },
+      { step: 'Report the phishing SMS', detail: 'Forward the SMS to 1909. File a complaint at cybercrime.gov.in if you submitted credentials.' },
+    ],
+    tools: [
+      { name: 'cybercrime.gov.in — File a complaint', desc: 'Report phishing attacks targeting students', url: 'https://cybercrime.gov.in' },
+      { name: '1930 — National Cybercrime Helpline', desc: 'Call if your credentials were captured by a phishing page', url: 'tel:1930' },
+      { name: 'sancharsaathi.gov.in — Report fraud SMS', desc: 'Report phishing SMS to TRAI', url: 'https://sancharsaathi.gov.in' },
+    ],
+  },
+
+  'ceo-v-exam-desktop-1': {
+    readTime: '4 min read',
+    howItWorks: [
+      `Desktop-targeted exam result phishing uses email rather than SMS, making the attack more convincing because emails can be formatted to look exactly like official university communication — with the institution's logo, formatting, and signature.`,
+      `The sender's display name will show your university's name, but the actual email address will be from a different domain. Most email clients show only the display name by default — you have to click on it to see the real address. This is the primary deception.`,
+      `The fake login page captures your university email and password. With these credentials, the attacker can access your university account, read sensitive communications, and use your email address to send phishing emails to your professors and classmates.`,
+    ],
+    redFlags: [
+      'Email about exam results contains a link — official results are checked by logging into the portal directly',
+      'Sender display name shows university name but the actual email address domain is different',
+      'Link leads to a .com domain rather than the university\'s .edu.in or .ac.in domain',
+      'Email creates urgency — "results expire in 24 hours" or "portal closes tonight"',
+      'Page asks for login credentials through a link you clicked in email',
+    ],
+    whatToDo: [
+      { step: 'Check the sender\'s full email address', detail: 'Click on the sender\'s name to expand the full address. Your university emails come from @[universityname].edu.in or @[universityname].ac.in. Any other domain is fraudulent.' },
+      { step: 'Never click email links to log into university systems', detail: 'For any university system — results, fees, attendance — always navigate there directly by typing the URL or using a saved bookmark.' },
+      { step: 'If you submitted credentials', detail: 'Change your university account password immediately. Also change your email password. Report to your university\'s IT department.' },
+      { step: 'Enable 2FA on your email accounts', detail: 'Two-factor authentication means attackers cannot access your account even with your password.' },
+      { step: 'Report the phishing email', detail: 'Forward the email to cert-in.org.in. Report to your university\'s IT helpdesk. File at cybercrime.gov.in if credentials were submitted.' },
+    ],
+    tools: [
+      { name: 'cybercrime.gov.in — File a complaint', desc: 'Report email phishing attacks', url: 'https://cybercrime.gov.in' },
+      { name: 'cert-in.org.in — Report phishing emails', desc: 'Forward phishing emails to incident@cert-in.org.in', url: 'https://www.cert-in.org.in' },
+      { name: '1930 — National Cybercrime Helpline', desc: 'Call if your university credentials were captured', url: 'tel:1930' },
+    ],
+  },
+
+  'ceo-v-giveaway-1': {
+    readTime: '4 min read',
+    howItWorks: [
+      `Influencer giveaway scams create fake Instagram, YouTube, or Twitter accounts that closely mimic popular influencers — same profile picture, similar username, and posts copied from the real account. These fake accounts announce giveaways of expensive products like iPhones, laptops, or large cash prizes.`,
+      `The prize claim page asks victims to pay a "handling fee," "delivery charge," or "insurance deposit" to receive their prize. Once paid, further fees are demanded until the victim stops paying. The product never arrives. The scammer may also collect personal details for identity fraud.`,
+      `The simplest defence is checking verification. Instagram verifies accounts of public figures with a blue tick. If the account running the giveaway doesn't have a verified tick, or if it was recently created with far fewer followers than the real influencer, it is fake.`,
+    ],
+    redFlags: [
+      'Giveaway account has no verified blue tick despite claiming to be a major influencer',
+      'Account was recently created or has significantly fewer followers than the real influencer',
+      'Any fee required to claim a prize — handling, delivery, insurance, customs',
+      'You are asked to provide personal details (Aadhaar, bank account) to receive a prize',
+      'The giveaway is only announced on this account, not on the real influencer\'s official verified account',
+    ],
+    whatToDo: [
+      { step: 'Check the real influencer\'s verified account', detail: 'Search for the influencer by name and look for the verified blue tick. If the real account has no mention of this giveaway, the one you found is fake.' },
+      { step: 'Verify the account\'s age and follower count', detail: 'A newly created account with very few followers claiming to be a major influencer is always fake.' },
+      { step: 'Never pay to claim a prize', detail: 'Legitimate giveaways never require any payment. A delivery fee or handling charge demand is the giveaway scam\'s signature move.' },
+      { step: 'Report the fake account', detail: 'On Instagram: tap the three dots on the fake profile → Report → Pretending to be someone else.' },
+      { step: 'If you already paid', detail: 'Stop all further payments immediately. File a complaint at cybercrime.gov.in and call 1930 for guidance on recovering funds.' },
+    ],
+    tools: [
+      { name: 'cybercrime.gov.in — File a complaint', desc: 'Report influencer impersonation and giveaway fraud', url: 'https://cybercrime.gov.in' },
+      { name: '1930 — National Cybercrime Helpline', desc: 'Call immediately if you paid a fee for a fake giveaway prize', url: 'tel:1930' },
+      { name: 'Instagram — Report impersonation', desc: 'How to report a fake account impersonating someone', url: 'https://help.instagram.com/446663175382270' },
+    ],
+  },
+
 }
 
 export default function LearnPage() {
