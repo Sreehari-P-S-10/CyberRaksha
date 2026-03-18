@@ -1215,59 +1215,6 @@ export const SIMULATIONS = {
 
   /* ── OPPORTUNITY & INVESTMENT ───────────────────────── */
 
-  'oi-s-1': {
-    title: 'Work-from-Home Data Entry Job',
-    category: 'Opportunity & Investment',
-    difficulty: 'Beginner',
-    xp: 50,
-    type: 'text',
-    steps: [
-      {
-        id: 1,
-        situation: `You find a Telegram channel called "EasyEarn_India" with 14,000 members. The pinned message says:\n\n"Simple work-from-home job: Rate products on Amazon. ₹500 per task. No experience needed. First task free. DM 'START' to begin."\n\nYou DM them. They assign you 5 tasks — rating some Amazon products. After completing them, they confirm: "₹2,500 earned. To withdraw, you must first complete a VIP task set with a minimum deposit of ₹2,000."`,
-        choices: [
-          {
-            id: 'a', text: 'Deposit ₹2,000 to access the VIP tasks and withdraw your earnings.',
-            isCorrect: false,
-            consequence: 'You deposit ₹2,000. They assign more tasks, and your "balance" grows to ₹18,000. But each withdrawal attempt requires a higher deposit — first ₹5,000, then ₹12,000 for "tax clearance." The earnings were never real. The balance shown is fictional. You have lost ₹2,000 with nothing recoverable.',
-            tip: 'This is a classic "task scam" pattern. The first tasks are free to build trust and show a growing "balance." The deposit requirement is the actual scam — you will never withdraw anything. Any platform that requires payment to access your own earnings is fraudulent.',
-            terminalState: true,
-          },
-          {
-            id: 'b', text: 'Refuse the deposit requirement. Research the platform name before going further.',
-            isCorrect: true,
-            consequence: 'A Google search for "EasyEarn_India Telegram scam" returns dozens of fraud reports. You find a Reddit thread with 40 people describing the exact same deposit escalation pattern. You report the Telegram channel and exit.',
-            tip: 'Searching for "[platform name] + scam" before engaging or paying is one of the most effective fraud prevention habits. Scammers rely on targets not searching. A few minutes of research prevents financial loss.',
-          },
-          {
-            id: 'c', text: 'Ask someone in the group chat if anyone has successfully withdrawn money.',
-            isCorrect: false,
-            consequence: 'Several members immediately reply with "Yes I withdrew ₹15,000 last week!" with screenshots of bank transfers. These members are either paid accomplices or bots. The social proof is manufactured. You deposit ₹2,000 and lose it.',
-            tip: 'Fake testimonials and manufactured social proof are standard tools in investment and task scams. Screenshots of "successful withdrawals" are trivially easy to fabricate. Never rely on group chat feedback as evidence of legitimacy.',
-            terminalState: true,
-          },
-        ],
-      },
-      {
-        id: 2,
-        situation: `You avoided the scam. A friend in your college WhatsApp group shares the same Telegram link saying "this is genuine, I made ₹3,000 already." He is excited and encouraging others to join.`,
-        choices: [
-          {
-            id: 'a', text: 'Let him be — it is his choice, and he seems happy.',
-            isCorrect: false,
-            consequence: 'Your friend deposits ₹3,000 for VIP access and loses it. He then feels embarrassed and doesn\'t tell others. By the time the group realises, four more people have joined and deposited money.',
-            tip: 'Staying silent when you have information that could protect someone from fraud is a missed opportunity. You don\'t need to be forceful — a simple, factual message with a link to the scam reports is enough.',
-          },
-          {
-            id: 'b', text: 'Privately message your friend with the scam reports you found and warn him before he goes further.',
-            isCorrect: true,
-            consequence: 'Your friend is initially defensive but reads the reports. He realises he has earned "₹3,000" but hasn\'t actually tried to withdraw it yet. He attempts a withdrawal — it fails with a new requirement. He exits and thanks you for the warning.',
-            tip: 'The "I\'ve already made money" feeling is deliberate — scammers let early tasks "succeed" to create emotional investment. Your friend\'s ₹3,000 balance was never real money. Early warning before the deposit stage is the most impactful intervention.',
-          },
-        ],
-      },
-    ],
-  },
 
   /* ── ONLINE COMMERCE SAFETY ─────────────────────────── */
 
@@ -2118,7 +2065,7 @@ export const SIMULATIONS = {
         },
         choices: [
           {
-            id: 'scanned_qr',
+            id: 'a',
             text: 'You scanned the QR code and proceeded to pay.',
             isCorrect: false,
             consequence: 'You scanned the QR. Your UPI app showed a payment request of ₹12,000 — not ₹500 — to an unknown UPI ID. You realised just in time and cancelled. The QR was designed to collect a far larger amount than discussed. Had you entered your PIN, ₹12,000 would have left your account.',
@@ -2126,14 +2073,14 @@ export const SIMULATIONS = {
             terminalState: true,
           },
           {
-            id: 'returned_via_upi_id',
+            id: 'b',
             text: 'You sent the money back directly using their UPI ID — without scanning.',
             isCorrect: false,
             consequence: 'You transferred ₹500 directly. Three days later your bank notified you that the original ₹500 credit was from a stolen account — its owner is now disputing the transaction and the bank may reverse it. The person you "returned" it to was the fraudster who made the original transfer from a victim\'s account.',
             tip: 'Unexpected credits should not be returned immediately via transfer. Contact your bank to reverse it through official channels — the original sender may themselves be a victim whose account was misused.',
           },
           {
-            id: 'refused_qr',
+            id: 'c',
             text: 'You refused to scan the QR and told them to contact your bank for a reversal.',
             isCorrect: true,
             consequence: 'You declined both options and advised the caller to contact your bank directly for a transaction reversal. The "caller" never called your bank — confirming the credit was either a deliberate scam setup or a mistaken transfer that will resolve itself. Your account was never at risk.',
@@ -2661,6 +2608,816 @@ export const SIMULATIONS = {
     ],
   },
 
+  /* ═══════════════════════════════════════════════════════
+     FINANCIAL SECURITY - VISUAL SIMULATIONS
+  ═══════════════════════════════════════════════════════ */
+
+  /* ── Bank KYC Update Scam — Beginner, Visual ── */
+  'fs-v-kyc-1': {
+    title: 'Bank KYC Update Scam',
+    category: 'Financial Security',
+    difficulty: 'Beginner',
+    xp: 70,
+    type: 'visual',
+    steps: [
+      {
+        id: 1,
+        environment: 'smsConversation',
+        envProps: {
+          senderName: 'HDFC Bank',
+          trackingId: 'KYC-UPDATE',
+          fakeDomain: 'hdfc-kyc-update.com',
+          amount: 'KYC Verification',
+        },
+        situation: 'You receive an SMS from what appears to be your bank asking you to update your KYC (Know Your Customer) information. The message looks official and includes a link.',
+        choices: [
+          {
+            id: 'a',
+            text: 'You click on the link to update your KYC details.',
+            isCorrect: false,
+            consequence: 'The link opens a fake bank website that looks identical to the real HDFC portal. It asks you to enter your account number, Aadhaar, date of birth, and CVV. You realise too late — real banks never ask for CVV or Aadhaar via SMS.',
+            tip: 'Banks never ask you to verify KYC details via SMS links. Always log in directly through the official app or website, not through links in messages.',
+            terminalState: true,
+          },
+          {
+            id: 'b',
+            text: 'You ignore the SMS and log into your bank app to check if any action is needed.',
+            isCorrect: true,
+            consequence: 'You open your HDFC Bank app and log in directly. No KYC update is required — your information is current. The SMS was a phishing attempt. You report the number to the bank.',
+            tip: 'Never click links from unexpected SMS messages, even if they look official. Always access your bank account through the official app or website to verify any claims.',
+          },
+          {
+            id: 'c',
+            text: 'You call the bank using the number on your debit card to verify the message.',
+            isCorrect: true,
+            consequence: 'The bank confirms they sent no such SMS. Your KYC is current. They advise you not to click any links and report the phishing SMS. You mark the message as spam.',
+            tip: 'When in doubt, call your bank directly using the number on your card. This is the fastest way to verify whether a message is legitimate.',
+          },
+        ],
+      },
+      {
+        id: 2,
+        environment: 'fakeGovPortal',
+        envProps: {
+          portalName: 'HDFC Bank KYC Portal',
+          portalUrl: 'hdfc-kyc-verify.in',
+          fields: ['Account Number', 'Aadhaar Number', 'Date of Birth', 'CVV'],
+          logoStyle: { background: '#003580' },
+        },
+        situation: 'If you had clicked the link, this fake KYC portal would appear. It mimics the official HDFC Bank interface perfectly.',
+        choices: [
+          {
+            id: 'a',
+            text: 'You notice the domain is "hdfc-kyc-verify.in" instead of "hdfc.com" and close the page immediately.',
+            isCorrect: true,
+            consequence: 'Smart catch! The URL is the biggest tell. Real banks use their official domain (.com or .co.in directly under their name). You close the page, report it, and your data is safe.',
+            tip: 'Always check the URL in your browser\'s address bar. Scammers use domains that look similar (hdfc-kyc-verify.in) but are not the official domain (hdfc.com). This is the fastest security check.',
+          },
+          {
+            id: 'b',
+            text: 'You enter your account number and Aadhaar to complete the update.',
+            isCorrect: false,
+            consequence: 'Your data is captured by the scammer. Within hours, a loan application is submitted using your Aadhaar and account details. Your credit profile is compromised.',
+            tip: 'Never enter sensitive financial information (account numbers, Aadhaar, CVV) on any website unless you initiated the visit and confirmed the domain is official.',
+            terminalState: true,
+          },
+        ],
+      },
+    ],
+  },
+
+  /* ── OTP Sharing Fraud — Beginner, Visual ── */
+  'fs-v-otp-1': {
+    title: 'OTP Sharing Fraud',
+    category: 'Financial Security',
+    difficulty: 'Beginner',
+    xp: 70,
+    type: 'visual',
+    steps: [
+      {
+        id: 1,
+        environment: 'smsConversation',
+        envProps: {
+          senderName: 'Bank Customer Care',
+          trackingId: 'OTP-VERIFICATION',
+          fakeDomain: 'bank-verify.com',
+          amount: 'OTP Request',
+        },
+        situation: 'You receive an SMS followed by a call claiming to be from your bank\'s customer care. They say your account has suspicious activity and need your OTP to verify your identity.',
+        choices: [
+          {
+            id: 'a',
+            text: 'You provide your OTP to "prove" your identity.',
+            isCorrect: false,
+            consequence: 'The moment you share the OTP, the scammer uses it to authorise a large transfer from your account. OTP is never meant to be shared with anyone, even your bank. Your money is gone.',
+            tip: 'OTP = One-Time Password. It authorises a specific transaction. Never share it with anyone, even if they claim to be from your bank.',
+            terminalState: true,
+          },
+          {
+            id: 'b',
+            text: 'You refuse to share the OTP and hang up immediately.',
+            isCorrect: true,
+            consequence: 'You hang up and call your bank directly using the number on your card. They confirm they never called you. No transaction was completed. Your account is secure.',
+            tip: 'Banks never ask for OTPs over the phone. If someone calls asking for an OTP, it\'s a scam. Hang up and call the bank using the official number.',
+          },
+          {
+            id: 'c',
+            text: 'You realise the SMS has no OTP in it (unusual), so you think it\'s a vishing scam and hang up.',
+            isCorrect: true,
+            consequence: 'Correct! Real bank SMSs always include OTPs for security reasons. This SMS asking you to provide an OTP over the phone was definitely a scam. You hang up and report the number.',
+            tip: 'Real bank security SMSs always include the 6-digit OTP in the message. If someone calls asking for an OTP they claim they sent, it\'s a scam.',
+          },
+        ],
+      },
+      {
+        id: 2,
+        environment: 'authorityCall',
+        envProps: {
+          callerName: 'Bank Fraud Division',
+          callerTitle: 'Customer Service Representative',
+          phoneNumber: '+91-8800-XXXXX',
+          message: 'Sir, this is urgent. We detected unauthorized access to your account. Share your OTP to lock it immediately.',
+          isSpoofed: true,
+        },
+        situation: 'The "bank" calls again, this time with more urgency. They claim someone is trying to access your account right now.',
+        choices: [
+          {
+            id: 'a',
+            text: 'Panic sets in. You share the OTP to "lock" your account.',
+            isCorrect: false,
+            consequence: 'There is no "lock with OTP" feature in any bank. The scammer uses the OTP to transfer ₹50,000 from your account. By the time you realise, the money is in a mule account.',
+            tip: 'Urgency and panic are tools of scammers. Real banks give you time to verify through official channels. Never act on urgent calls — always verify first.',
+            terminalState: true,
+          },
+          {
+            id: 'b',
+            text: 'You tell them you will verify the call with the bank and call them back using the number on your card.',
+            isCorrect: true,
+            consequence: 'You call the official number. The bank confirms no such call was made and no suspicious activity detected. You report the scam number to the bank and cybercrime portal.',
+            tip: 'If any call creates urgency about your money, verify it independently before taking any action. Use the official number from your card, not any number from the call.',
+          },
+        ],
+      },
+    ],
+  },
+
+  /* ── Lottery/Prize Scam — Beginner, Visual ── */
+  'fs-v-lottery-1': {
+    title: 'Lottery / Prize Scam',
+    category: 'Financial Security',
+    difficulty: 'Beginner',
+    xp: 70,
+    type: 'visual',
+    steps: [
+      {
+        id: 1,
+        environment: 'smsConversation',
+        envProps: {
+          senderName: 'Lucky Prize Draw',
+          trackingId: 'DRAW-2024',
+          fakeDomain: 'luckyprize.in',
+          amount: '₹5,00,000',
+        },
+        situation: 'You receive an SMS saying you have won ₹5,00,000 in a national lottery. You never entered any lottery. The message includes a link to "claim your prize."',
+        choices: [
+          {
+            id: 'a',
+            text: 'You click the link to claim your prize — it seems legitimate.',
+            isCorrect: false,
+            consequence: 'The website shows your "winnings" and asks for a "processing fee" of ₹15,000 to release the funds. You pay, then they ask for "tax clearance fees," Then "bank account verification fees." You end up paying ₹45,000 total. No prize ever comes.',
+            tip: 'You cannot win a lottery you did not enter. Any unsolicited prize notification followed by fee requests is fraud. Real lotteries never ask for upfront fees.',
+            terminalState: true,
+          },
+          {
+            id: 'b',
+            text: 'You search for "National Lottery 2024" on the official website and find you\'ve never entered.',
+            isCorrect: true,
+            consequence: 'You realise you never participated in any lottery, so the claim is impossible. You delete the SMS and do not click any links. Your money is safe.',
+            tip: 'You cannot win a contest you didn\'t enter. That\'s the simplest check. If you have no memory of participating, it\'s definitely a scam.',
+          },
+          {
+            id: 'c',
+            text: 'You report the SMS as spam to your telecom provider without clicking any links.',
+            isCorrect: true,
+            consequence: 'You report the number to your telecom provider\'s anti-fraud system. The SMS is flagged and the scam number is traced. You contribute to blocking future victims from the same campaign.',
+            tip: 'Reporting spam helps your provider identify and shut down scam campaigns. Always report lottery and prize SMSs you receive.',
+          },
+        ],
+      },
+      {
+        id: 2,
+        environment: 'fakeStore',
+        envProps: {
+          shopName: 'Lucky Prize Claims Portal',
+          shopUrl: 'luckyprize.in',
+          items: [{ name: 'You have won ₹5,00,000!', price: 'Processing Fee: ₹15,000', image: '🎁' }],
+          ctaText: 'Claim Prize Now',
+          productColor: '#FFD700',
+        },
+        situation: 'If you had clicked, this is what would appear — a fake prize claiming website with escalating fee requests.',
+        choices: [
+          {
+            id: 'a',
+            text: 'You notice it asks for a fee before releasing "your" prize and immediately close the page.',
+            isCorrect: true,
+            consequence: 'Smart! No legitimate lottery or prize draw asks for an upfront fee. You close the page and don\'t share any data with the site.',
+            tip: 'The universal rule: Legitimate prizes are never released after paying a fee. Any fee request is certain fraud.',
+          },
+          {
+            id: 'b',
+            text: 'You pay the ₹15,000 "processing fee" to get your prize.',
+            isCorrect: false,
+            consequence: 'After paying, the site says your prize requires "tax clearance" (another ₹25,000), then "bank verification" (another ₹12,000). You realise the scam only after losing ₹52,000.',
+            tip: 'Advance fees are never for real prizes. Every fee request is a red flag. Stop engaging once fees are mentioned.',
+            terminalState: true,
+          },
+        ],
+      },
+    ],
+  },
+
+  /* ── Pension/Government Benefits Scam — Beginner, Visual ── */
+  'fs-v-pension-1': {
+    title: 'Pension / Government Benefits Scam',
+    category: 'Financial Security',
+    difficulty: 'Beginner',
+    xp: 70,
+    type: 'visual',
+    steps: [
+      {
+        id: 1,
+        environment: 'smsConversation',
+        envProps: {
+          senderName: 'Govt. Pension Portal',
+          trackingId: 'PENSION-VERIFY',
+          fakeDomain: 'pension-verify.gov.in',
+          amount: 'Pension Verification',
+        },
+        situation: 'You receive an official-looking SMS claiming your pension account will be suspended unless you verify your details on a government portal within 24 hours.',
+        choices: [
+          {
+            id: 'a',
+            text: 'You click the link to verify your details on the "government portal."',
+            isCorrect: false,
+            consequence: 'The fake portal asks for your Aadhaar, bank account, and OTP. You enter your details. The scammer now has access to your pension account and can file fraudulent claims.',
+            tip: 'Government portals never ask you to verify via SMS links. Real pensions are accessed through official channels with proper login credentials.',
+            terminalState: true,
+          },
+          {
+            id: 'b',
+            text: 'You ignore the SMS and log into the official Pension Portal (pension.gov.in) directly.',
+            isCorrect: true,
+            consequence: 'You log in directly and find no such notification. Your pension account is fine. The SMS was a phishing attempt. You report it to the pension office.',
+            tip: 'Never click links from unsolicited SMSs about government benefits. Always access government portals directly through the official URL.',
+          },
+          {
+            id: 'c',
+            text: 'You call your local pension office using the number from your pension documents.',
+            isCorrect: true,
+            consequence: 'The office confirms your pension is active and no verification was needed. They log the scam attempt and advise you to report it. Your benefits are secure.',
+            tip: 'Government offices maintain phone lines for exactly this reason. When in doubt, call directly using the number from your official documents.',
+          },
+        ],
+      },
+      {
+        id: 2,
+        environment: 'fakeGovPortal',
+        envProps: {
+          portalName: 'Government Pension Portal',
+          portalUrl: 'pension-verify.gov.in',
+          fields: ['Aadhaar Number', 'Bank Account Number', 'OTP from SMS'],
+          logoStyle: { background: '#004B87' },
+        },
+        situation: 'This is the fake portal that would appear if you clicked the link — it looks like a government website.',
+        choices: [
+          {
+            id: 'a',
+            text: 'You check the domain and notice it says "pension-verify.gov.in" instead of "pension.gov.in" — a subtle difference.',
+            isCorrect: true,
+            consequence: 'You noticed the typo! The real portal is pension.gov.in. This clone added "-verify" to the domain to appear official. You close it immediately.',
+            tip: 'Scammers use URLs that look similar to official ones. Always check the exact domain spelling. Add extra words like "-verify" or "-check" are red flags.',
+          },
+          {
+            id: 'b',
+            text: 'You enter your Aadhaar and bank details to verify your identity.',
+            isCorrect: false,
+            consequence: 'Your Aadhaar and banking information are now in the scammer\'s hands. They can open fraudulent accounts, take loans, or file false claims in your name.',
+            tip: 'Never enter Aadhaar or banking details on any website unless you initiated the visit through the official channel.',
+            terminalState: true,
+          },
+        ],
+      },
+    ],
+  },
+
+  /* ── Investment/Trading Scam — Advanced, Visual ── */
+  'fs-v-invest-1': {
+    title: 'Investment / Trading Scam',
+    category: 'Financial Security',
+    difficulty: 'Advanced',
+    xp: 100,
+    type: 'visual',
+    steps: [
+      {
+        id: 1,
+        environment: 'socialAd',
+        envProps: {
+          adTitle: 'GUARANTEED 50% Monthly Returns! 📈',
+          adDescription: 'Join 50,000+ members earning passive income. Real traders managing your money. Limited slots available.',
+          adCta: 'Join Exclusive Trading Group',
+          adImage: '📊',
+          adColor: '#1FCC79',
+        },
+        situation: 'You see an ad on social media promising guaranteed 50% monthly returns on a trading platform. It shows testimonials from "real traders" earning ₹1,00,000+ monthly.',
+        choices: [
+          {
+            id: 'a',
+            text: 'You join the group to learn more about the opportunity.',
+            isCorrect: false,
+            consequence: 'The group floods you with "profit screenshots." An admin DMs you privately with a "limited offer" — invest ₹50,000 for guaranteed 50% returns. You deposit. The next day, the admin goes offline. The group disappears. You\'ve lost ₹50,000.',
+            tip: 'No investment can guarantee 50% monthly returns. Anyone promising this is committing fraud. Screenshots of profits are trivially easy to fake.',
+            terminalState: true,
+          },
+          {
+            id: 'b',
+            text: 'You search "[company name] trading scam" before clicking anything.',
+            isCorrect: true,
+            consequence: 'Your search returns dozens of fraud complaints and articles explaining this exact scam structure. You realise it\'s a "pump and dump" scheme targeting inexperienced investors. You do not click the link.',
+            tip: 'Before engaging with any investment opportunity, search "[name] scam" or "[name] fraud" on Google. Scammers rely on targets not researching. Real traders don\'t need ads — they have track records.',
+          },
+          {
+            id: 'c',
+            text: 'You check if the investment platform is registered on the SEBI website before engaging.',
+            isCorrect: true,
+            consequence: 'You visit sebi.gov.in and search for the trading platform. It\'s not registered. You report the ad to the social media platform for impersonation and investment fraud.',
+            tip: 'All legitimate investment platforms in India must be registered with SEBI (Securities and Exchange Board of India). Check sebi.gov.in before investing any money. If it\'s not there, it\'s not legitimate.',
+          },
+        ],
+      },
+      {
+        id: 2,
+        environment: 'fakeStore',
+        envProps: {
+          shopName: 'Elite Trading Platform',
+          shopUrl: 'elitetrading-pro.com',
+          items: [
+            { name: 'Invest ₹50,000', price: 'Returns: ₹75,000 (Month 1)', image: '💰' },
+            { name: 'Invest ₹1,00,000', price: 'Returns: ₹1,50,000 (Month 1)', image: '💵' },
+          ],
+          ctaText: 'Invest Now - Limited Slots!',
+          productColor: '#00D084',
+        },
+        situation: 'This is the fake trading platform dashboard. It shows "live trading" with constant profits and a progress bar showing "99% Capital Safety."',
+        choices: [
+          {
+            id: 'a',
+            text: 'You notice the platform guarantees 50% returns and claims "99% capital safety" — claims no real trader makes.',
+            isCorrect: true,
+            consequence: 'Real investments have risk. No platform can guarantee returns or capital safety. You close the page and report it to SEBI as an investment scam.',
+            tip: 'The moment you see "guaranteed returns" or "100% safe," it\'s a scam. Legitimate investments always disclose risks clearly.',
+          },
+          {
+            id: 'b',
+            text: 'You deposit ₹50,000 to start earning the promised returns.',
+            isCorrect: false,
+            consequence: 'Your dashboard shows ₹75,000 in "profits" the next day, encouraging you to deposit more. You add another ₹1,00,000. Two days later, the platform goes offline. The "profits" were never real — you\'ve lost ₹1,50,000.',
+            tip: 'The initial "profits" you see in your account are fiction shown on a fake dashboard. They\'re designed to make you deposit more money. Once you can\'t withdraw, you\'ll realise the truth.',
+            terminalState: true,
+          },
+          {
+            id: 'c',
+            text: 'Before depositing more, you try to withdraw your "profits" to verify the platform is real.',
+            isCorrect: true,
+            consequence: 'Your withdrawal request is denied with messages like "Pending verification" or "Minimum deposit too low." You try contacting support — no response. You realise the profits were never real and close the account without depositing.',
+            tip: 'Before depositing a large sum, always test withdrawal of small amounts first. Scam platforms will block withdrawals while claiming you need to deposit more. This is the ultimate test of legitimacy.',
+          },
+        ],
+      },
+    ],
+  },
+
+  /* ═══════════════════════════════════════════════════════
+     CAREER, EDUCATION & OPPORTUNITY - VISUAL SIMULATIONS
+  ═══════════════════════════════════════════════════════ */
+
+  /* ── Fake Job Offer Scam — Intermediate, Visual ── */
+  'ceo-v-job-1': {
+    title: 'Fake Job Offer Scam',
+    category: 'Career, Education & Opportunity',
+    difficulty: 'Intermediate',
+    xp: 85,
+    type: 'visual',
+    steps: [
+      {
+        id: 1,
+        environment: 'officialEmail',
+        envProps: {
+          senderName: 'Google India Recruitment',
+          senderEmail: 'recruitment@google-india.com',
+          subject: 'Job Offer — Senior Software Engineer Position',
+          emailBody: `Dear Candidate,
+
+Congratulations! You have been selected for the Senior Software Engineer position at Google India.
+
+Position Details:
+- Location: Bangalore
+- Salary: ₹40,00,000/year
+- Start Date: Immediate
+
+To proceed with your onboarding, please complete the registration and background verification process on our portal.
+
+Registration Link: [Complete Onboarding]
+
+Best regards,
+Google India Recruitment Team`,
+          companyLogo: '🔵',
+        },
+        situation: 'You receive an email from what appears to be Google\'s recruitment team offering you a job as a Senior Software Engineer with a competitive salary. You never applied to this position.',
+        choices: [
+          {
+            id: 'a',
+            text: 'You click the registration link to proceed with onboarding.',
+            isCorrect: false,
+            consequence: 'The portal asks you to complete "background verification" and requests a registration fee of ₹5,000 for document processing. You pay, thinking it\'s a legitimate company process. After paying, the site disappears.',
+            tip: 'Legitimate companies never charge registration or document processing fees. Any fee requested by a recruiter is a red flag.',
+            terminalState: true,
+          },
+          {
+            id: 'b',
+            text: 'You notice the email is from "google-india.com" — not the official Google domain. You check Google\'s official careers website.',
+            isCorrect: true,
+            consequence: 'Google\'s official domain is "google.com," not "google-india.com." The email is a phishing attempt. You check careers.google.com and find you were never shortlisted. You report the email as phishing.',
+            tip: 'Check the sender\'s email domain carefully. Scammers use domains that look similar to official ones (google-india vs google). Always verify through the official channels.',
+          },
+          {
+            id: 'c',
+            text: 'You call Google\'s official HR number to verify the job offer.',
+            isCorrect: true,
+            consequence: 'Google\'s HR confirms they never sent you an offer. They log the details as part of a phishing campaign. You report the email address to their security team.',
+            tip: 'If you\'ve never applied and receive a surprise job offer, verify it directly with the company\'s official HR department before acting on it.',
+          },
+        ],
+      },
+      {
+        id: 2,
+        environment: 'fakeStore',
+        envProps: {
+          shopName: 'Google Onboarding Portal',
+          shopUrl: 'google-onboarding-in.com',
+          items: [
+            { name: 'Document Processing Fee', price: '₹5,000', image: '📄' },
+            { name: 'Background Verification', price: '₹8,000', image: '✓' },
+          ],
+          ctaText: 'Pay & Continue Onboarding',
+          productColor: '#4285F4',
+        },
+        situation: 'This is the fake onboarding portal. It requests escalating fees for various "required" processes.',
+        choices: [
+          {
+            id: 'a',
+            text: 'You realise legitimate companies process documents and verification internally without charging employees.',
+            isCorrect: true,
+            consequence: 'You recognise the scam immediately and do not pay anything. You report the portal to Google\'s security team as an impersonation site.',
+            tip: 'No legitimate employer charges an employee for document processing or background verification. These are standard HR processes covered by the company.',
+          },
+          {
+            id: 'b',
+            text: 'You pay the ₹5,000 registration fee to proceed with onboarding.',
+            isCorrect: false,
+            consequence: 'After you pay, the portal requests another ₹8,000 for "background verification," then ₹10,000 for "biometric enrollment." You realise the scam only after losing ₹23,000.',
+            tip: 'Escalating fee requests are the signature of recruitment scams. Real companies have a defined onboarding process without student payments.',
+            terminalState: true,
+          },
+        ],
+      },
+    ],
+  },
+
+  /* ── Scholarship Scam — Beginner, Visual ── */
+  'ceo-v-scholarship-1': {
+    title: 'Scholarship Scam',
+    category: 'Career, Education & Opportunity',
+    difficulty: 'Beginner',
+    xp: 70,
+    type: 'visual',
+    steps: [
+      {
+        id: 1,
+        environment: 'officialEmail',
+        envProps: {
+          senderName: 'National Scholarship Board',
+          senderEmail: 'scholarship@nsb-india.org',
+          subject: 'Congratulations! Your Scholarship Application is Approved',
+          emailBody: `Dear Student,
+
+You have been selected for the National Merit Scholarship for the academic year 2024-25.
+
+Scholarship Details:
+- Amount: ₹2,00,000 per year
+- Duration: 4 years
+- Total Value: ₹8,00,000
+
+To activate your scholarship, please complete the application verification on our portal.
+
+Verification Link: [Complete Verification]
+
+Best regards,
+National Scholarship Board`,
+          companyLogo: '🎓',
+        },
+        situation: 'You receive a congratulations email about a scholarship you never applied for. The email looks official and promises ₹2,00,000/year.',
+        choices: [
+          {
+            id: 'a',
+            text: 'You click the verification link excited about the prospect of a scholarship.',
+            isCorrect: false,
+            consequence: 'The portal asks for your bank account details, Aadhaar, and a "processing fee" of ₹3,000. You realise too late — legitimate scholarships never charge applicants. Your data is compromised.',
+            tip: 'Government and legitimate scholarships never charge application or processing fees. Any fee request in scholarship communications is fraud.',
+            terminalState: true,
+          },
+          {
+            id: 'b',
+            text: 'You visit the official NSB website (scholarships.gov.in) and search for your application.',
+            isCorrect: true,
+            consequence: 'Your application is not listed on the official site. The email was a phishing attempt. You report the email to the official NSB.',
+            tip: 'Always verify through the official government website before clicking links in emails about scholarships or benefits. Government sites don\'t send emails asking you to verify on links.',
+          },
+          {
+            id: 'c',
+            text: 'You realise you never applied for this scholarship and immediately suspect a scam.',
+            isCorrect: true,
+            consequence: 'You research the scholarship name online and find dozens of complaints from students who lost money to the same scam. You delete the email and block the sender.',
+            tip: 'You cannot receive a scholarship for which you never applied. That\'s the simplest check. Unsolicited scholarship offers are always scams.',
+          },
+        ],
+      },
+      {
+        id: 2,
+        environment: 'fakeGovPortal',
+        envProps: {
+          portalName: 'National Scholarship Board Portal',
+          portalUrl: 'scholarship-verify.org.in',
+          fields: ['Bank Account Number', 'IFSC Code', 'Aadhaar Number', 'Processing Fee: ₹3,000'],
+          logoStyle: { background: '#1F5296' },
+        },
+        situation: 'If you had clicked, this fake scholarship portal would ask for your sensitive information and fees.',
+        choices: [
+          {
+            id: 'a',
+            text: 'You notice the domain is "scholarship-verify.org.in" instead of "scholarships.gov.in" — a red flag.',
+            isCorrect: true,
+            consequence: 'You caught the domain mismatch! Government scholarships are on scholarships.gov.in, not scholarship-verify.org.in. You close the page immediately.',
+            tip: 'Government sites use .gov.in domains. Scammers use lookalike domains like .org.in or .co.in. Check the domain carefully.',
+          },
+          {
+            id: 'b',
+            text: 'You enter your bank account details and Aadhaar to "verify" your identity.',
+            isCorrect: false,
+            consequence: 'Your banking information is stolen. The scammer attempts to transfer your funds or open loan accounts in your name.',
+            tip: 'Government sites never ask for bank details on verification portals. Never enter sensitive financial information without initiating the visit yourself.',
+            terminalState: true,
+          },
+        ],
+      },
+    ],
+  },
+
+  /* ── Exam Result Phishing (Phone Version) — Beginner, Visual ── */
+  'ceo-v-exam-phone-1': {
+    title: 'Exam Result Phishing (Phone)',
+    category: 'Career, Education & Opportunity',
+    difficulty: 'Beginner',
+    xp: 70,
+    type: 'visual',
+    steps: [
+      {
+        id: 1,
+        environment: 'smsConversation',
+        envProps: {
+          senderName: 'University Results Portal',
+          trackingId: 'RESULT-2024',
+          fakeDomain: 'university-results.in',
+          amount: 'Your Exam Results',
+        },
+        situation: 'You receive an SMS shortly after your university exam period. It says your results are ready and includes a link to check them on the university portal.',
+        choices: [
+          {
+            id: 'a',
+            text: 'You click the link in the SMS to check your results.',
+            isCorrect: false,
+            consequence: 'The fake portal looks like your university site. It asks you to log in with your email and password. You enter your credentials. The scammer now has access to your university email and can reset your password.',
+            tip: 'Universities never send result links via SMS. Always log in through the official website or app directly.',
+            terminalState: true,
+          },
+          {
+            id: 'b',
+            text: 'You ignore the SMS and log into your university portal directly through the official website.',
+            isCorrect: true,
+            consequence: 'You log in and check your results. No SMS was sent by the university — the message was a phishing attempt. You report it to your university IT department.',
+            tip: 'Never click links from unsolicited SMSs about important matters like results. Always visit the official website or app directly.',
+          },
+          {
+            id: 'c',
+            text: 'You call your university\'s helpline to verify if they sent the SMS.',
+            isCorrect: true,
+            consequence: 'The helpline confirms they never sent SMSs with result links. You report the phishing SMS to the university IT team. Your login credentials are safe.',
+            tip: 'When in doubt about institutional communications, contact the institution directly. This is the fastest way to verify.',
+          },
+        ],
+      },
+      {
+        id: 2,
+        environment: 'gamingLoginPage',
+        envProps: {
+          pageTitle: 'University Exam Results Portal',
+          pageUrl: 'university-results.in',
+          fields: ['Email ID', 'Password'],
+          logoStyle: { background: '#1F5296' },
+        },
+        situation: 'This is the fake login page. It perfectly mimics the university\'s official results portal.',
+        choices: [
+          {
+            id: 'a',
+            text: 'You notice the URL says "university-results.in" instead of your university\'s official domain.',
+            isCorrect: true,
+            consequence: 'You caught the URL mismatch! The real university portal has a different domain. You close the page without entering any credentials.',
+            tip: 'Always check the URL in the browser address bar. Scammers use lookalike domains. Your university\'s official domain should match their website.',
+          },
+          {
+            id: 'b',
+            text: 'You log in with your email and password to check results.',
+            isCorrect: false,
+            consequence: 'Your university email account is compromised. The scammer resets your password and locks you out. They access your university student records and personal information.',
+            tip: 'Never enter your real credentials on a website unless you initiated the visit through an official channel.',
+            terminalState: true,
+          },
+        ],
+      },
+    ],
+  },
+
+  /* ── Exam Result Phishing (Desktop Version) — Beginner, Visual ── */
+  'ceo-v-exam-desktop-1': {
+    title: 'Exam Result Phishing (Desktop)',
+    category: 'Career, Education & Opportunity',
+    difficulty: 'Beginner',
+    xp: 70,
+    type: 'visual',
+    steps: [
+      {
+        id: 1,
+        environment: 'officialEmail',
+        envProps: {
+          senderName: 'University Results Portal',
+          senderEmail: 'results@university-portal.in',
+          subject: 'Your Exam Results Are Ready for Download',
+          emailBody: `Dear Student,
+
+Your exam results for the semester are now available for download on the university portal.
+
+Access Your Results: [Check Results Portal]
+
+Please log in with your university credentials to view your mark sheet.
+
+Regards,
+University Examination Board`,
+          companyLogo: '🎓',
+        },
+        situation: 'You receive an email from your university saying your exam results are ready. It includes a link to check your results on "the university portal."',
+        choices: [
+          {
+            id: 'a',
+            text: 'You click the link in the email to view your results.',
+            isCorrect: false,
+            consequence: 'The fake portal looks identical to the real university site. It asks for your login credentials. You enter them. Your email account is compromised, and your personal data is at risk.',
+            tip: 'Universities rarely send result links via email. The safe approach is to visit the official website directly and log in.',
+            terminalState: true,
+          },
+          {
+            id: 'b',
+            text: 'You visit your university\'s main website directly (typing the URL yourself) and navigate to the results section.',
+            isCorrect: true,
+            consequence: 'You navigate through the official site and find the results portal. Your credentials are safe, and you view your results securely.',
+            tip: 'For any institution or service, visit the official website directly — don\'t click links from emails. Type the domain yourself to be sure.',
+          },
+          {
+            id: 'c',
+            text: 'You reply to the email asking if it\'s legitimate before clicking any links.',
+            isCorrect: true,
+            consequence: 'The email bounces as undelivurable — a sign it was phishing. You contact your university through the official phone number and confirm they don\'t send result emails with links.',
+            tip: 'Legitimate institution emails usually have reply addresses that work. Phishing emails often have broken reply addresses. Try replying to test.',
+          },
+        ],
+      },
+      {
+        id: 2,
+        environment: 'gamingLoginPage',
+        envProps: {
+          pageTitle: 'University Exam Results Portal',
+          pageUrl: 'university-portal-results.com',
+          fields: ['University Email', 'Password'],
+          logoStyle: { background: '#1F5296' },
+        },
+        situation: 'If you had clicked, this fake login page would appear — designed to steal credentials.',
+        choices: [
+          {
+            id: 'a',
+            text: 'You notice the domain is "university-portal-results.com" — not your university\'s official domain.',
+            isCorrect: true,
+            consequence: 'You recognised the domain mismatch instantly. Your university\'s official domain is something like "university.ac.in" or "university.edu.in", not "university-portal-results.com". You close the page.',
+            tip: 'The domain is the most reliable way to verify a site is official. Know your institution\'s official domain beforehand.',
+          },
+          {
+            id: 'b',
+            text: 'The page looks very official, so you enter your university email and password.',
+            isCorrect: false,
+            consequence: 'Your university email is compromised. The attacker resets your password and gains access to all your personal academic records, financial information, and communication history.',
+            tip: 'Never trust appearance. Always verify the domain, and only log in to URLs you\'ve accessed directly — not through links in emails.',
+            terminalState: true,
+          },
+        ],
+      },
+    ],
+  },
+
+  /* ── Giveaway/Influencer Scam — Beginner, Visual ── */
+  'ceo-v-giveaway-1': {
+    title: 'Giveaway / Influencer Scam',
+    category: 'Career, Education & Opportunity',
+    difficulty: 'Beginner',
+    xp: 70,
+    type: 'visual',
+    steps: [
+      {
+        id: 1,
+        environment: 'socialAd',
+        envProps: {
+          adTitle: '🎁 iPhone 15 Pro Giveaway! 🎁',
+          adDescription: 'Follow + Like + Comment to enter. 5 winners announced tomorrow! Tap to claim your link.',
+          adCta: 'Claim Your Prize',
+          adImage: '📱',
+          adColor: '#FFA500',
+        },
+        situation: 'You see a popular influencer\'s Instagram post about a giveaway. They\'re giving away iPhone 15 Pros. You just need to follow, like, and tap a link to "claim your slot."',
+        choices: [
+          {
+            id: 'a',
+            text: 'You click "Claim Your Prize" to enter the giveaway.',
+            isCorrect: false,
+            consequence: 'The link takes you to a fake claim page asking for shipping details, including your address and a "handling fee" of ₹2,000 to "secure your prize." You pay. No iPhone arrives.',
+            tip: 'Real giveaways never ask for payment to claim prizes. Any fee request is a scam.',
+            terminalState: true,
+          },
+          {
+            id: 'b',
+            text: 'You check if the influencer is verified on Instagram before clicking anything.',
+            isCorrect: true,
+            consequence: 'The account has no verification badge and was created 2 weeks ago. It\'s impersonating a real influencer. You report the account for impersonation and don\'t click any links.',
+            tip: 'Scammers create fake influencer accounts that look similar to real ones. Verification badges are a good indicator, but always check the account creation date and follower engagement.',
+          },
+          {
+            id: 'c',
+            text: 'You search the real influencer\'s official account to see if they mention this giveaway.',
+            isCorrect: true,
+            consequence: 'The real influencer has no such giveaway. This fake account is a scam impersonating them. You report both the fake account and the scam post.',
+            tip: 'For any celebrity or influencer giveaway, verify on their official verified account before engaging. Scammers impersonate influencers all the time.',
+          },
+        ],
+      },
+      {
+        id: 2,
+        environment: 'fakeStore',
+        envProps: {
+          shopName: 'Prize Claim Portal',
+          shopUrl: 'claim-iphone-prize.in',
+          items: [
+            { name: 'iPhone 15 Pro Claimed!', price: 'Handling Fee: ₹2,000', image: '📱' },
+            { name: 'Shipping Address Verification', price: '₹1,500', image: '📦' },
+          ],
+          ctaText: 'Confirm Claim & Pay',
+          productColor: '#FF9500',
+        },
+        situation: 'If you had clicked, this fake claim page would ask for payment to release your "prize."',
+        choices: [
+          {
+            id: 'a',
+            text: 'You realise legitimate giveaways never charge "handling fees" to claim prizes.',
+            isCorrect: true,
+            consequence: 'You recognise the scam immediately and close the page. You report the fake influencer account to Instagram.',
+            tip: 'Real prizes are delivered without recipient payments. Any fee request for claiming a prize is a guarantee of fraud.',
+          },
+          {
+            id: 'b',
+            text: 'You pay the ₹2,000 "handling fee" to secure your iPhone.',
+            isCorrect: false,
+            consequence: 'After payment, the page requests a "shipping fee" of ₹1,500, then a "customs clearance fee." By the time you stop, you\'ve lost ₹5,000. No iPhone ever arrives.',
+            tip: 'Escalating fee requests are the signature of giveaway scams. Real companies don\'t charge multiple fees before delivery.',
+            terminalState: true,
+          },
+        ],
+      },
+    ],
+  },
 
 }
 
@@ -2671,7 +3428,7 @@ export const CATEGORY_ROUTE_MAP = {
   'Malware & Device Safety':     'malware-device-safety',
   'Online Commerce Safety':      'online-commerce-safety',
   'Phishing & Emerging Threats': 'phishing-emerging-threats',
-  'Opportunity & Investment':    'opportunity-investment',
+  'Career, Education & Opportunity': 'career-education-opportunity',
 }
 
 export const DIFF_COLORS = {
