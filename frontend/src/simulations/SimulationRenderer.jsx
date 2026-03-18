@@ -27,6 +27,15 @@ import { RansomwareDesktopEnv, RansomwareMobileEnv } from './components/Ransomwa
 import { TrojanInstallerEnv } from './components/TrojanUI.jsx'
 import { VirusFileManagerEnv, VirusEmailEnv } from './components/VirusUI.jsx'
 import { AdwareBrowserEnv, AdwareMobileEnv } from './components/AdwareUI.jsx'
+// import { InvestmentAdEnv } from './components/InvestmentAdEnv.jsx'
+// import { TradingPlatformEnv } from './components/TradingPlatformEnv.jsx'
+import { LotteryPaymentEnv } from './components/LotteryPaymentEnv.jsx'
+import { GiveawayScamEnv, GiveawayPortalEnv } from './components/GiveawayScamEnv.jsx'
+import {
+  InvestmentAdEnv,
+  TradingPlatformEnv,
+  TelegramInvestEnv,
+} from './components/Investmentscamui.jsx'
 
 /**
  * @param {object} step        — current step from simulationsData
@@ -137,6 +146,30 @@ export default function SimulationRenderer({ step, onInteract }) {
     /* ── Adware: malicious mobile flashlight app ── */
     case 'adwareMobile':
       return <AdwareMobileEnv envProps={envProps} onInteract={onInteract} />
+    
+    /* ── Investment scam ad ── */
+  /* ── Investment scam: social media ad ── */
+    case 'investmentAd':
+      return <InvestmentAdEnv envProps={envProps} onInteract={onInteract} />
+ 
+    /* ── Investment scam: fake broker dashboard ── */
+    case 'tradingPlatform':
+      return <TradingPlatformEnv envProps={envProps} onInteract={onInteract} />
+ 
+    /* ── Investment scam: Telegram signal group ── */
+    case 'telegramInvest':
+      return <TelegramInvestEnv envProps={envProps} onInteract={onInteract} />
+
+    case 'lotteryPayment':
+      return <LotteryPaymentEnv envProps={envProps} onInteract={onInteract} />
+
+        /* ── Instagram influencer giveaway post ── */
+    case 'giveawayScam':
+      return <GiveawayScamEnv envProps={envProps} onInteract={onInteract} />
+ 
+    /* ── Fake prize claim portal (step 2) ── */
+    case 'giveawayPortal':
+      return <GiveawayPortalEnv envProps={envProps} onInteract={onInteract} />
 
     default:
       return (

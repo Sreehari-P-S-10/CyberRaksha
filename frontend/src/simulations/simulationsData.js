@@ -2251,14 +2251,13 @@ export const SIMULATIONS = {
       },
       {
         id: 2,
-        environment: 'fakeStore',
+        environment: 'lotteryPayment',
         envProps: {
-          shopName: 'Lucky Prize Claims Portal',
-          shopUrl: 'luckyprize.in',
-          items: [{ name: 'You have won ₹5,00,000!', price: 'Processing Fee: ₹15,000', image: '🎁' }],
-          ctaText: 'Claim Prize Now',
-          productColor: '#FFD700',
-        },
+            siteName: 'Lucky Prize Draw',
+            domain: 'luckyprize.in/pay',
+            amount: '5,00,000',
+            referenceId: 'DRAW-2024'
+          },
         situation: 'If you had clicked, this is what would appear — a fake prize claiming website with escalating fee requests.',
         choices: [
           {
@@ -2356,7 +2355,7 @@ export const SIMULATIONS = {
   },
 
   /* ── Investment/Trading Scam — Advanced, Visual ── */
-  'fs-v-invest-1': {
+ 'fs-v-invest-1': {
     title: 'Investment / Trading Scam',
     category: 'Financial Security',
     difficulty: 'Advanced',
@@ -2365,76 +2364,72 @@ export const SIMULATIONS = {
     steps: [
       {
         id: 1,
-        environment: 'socialAd',
+        environment: 'investmentAd',
         envProps: {
-          adTitle: 'GUARANTEED 50% Monthly Returns! 📈',
+          adTitle:       'GUARANTEED 50% Monthly Returns! 📈',
           adDescription: 'Join 50,000+ members earning passive income. Real traders managing your money. Limited slots available.',
-          adCta: 'Join Exclusive Trading Group',
-          adImage: '📊',
-          adColor: '#1FCC79',
+          adCta:         'Join Exclusive Trading Group',
+          adImage:       '📊',
+          adColor:       '#1FCC79',
         },
-        situation: 'You see an ad on social media promising guaranteed 50% monthly returns on a trading platform. It shows testimonials from "real traders" earning ₹1,00,000+ monthly.',
+        situation: 'You see a sponsored ad on social media promising guaranteed 50% monthly returns. It shows fake testimonials and a live member counter.',
         choices: [
           {
             id: 'a',
-            text: 'You join the group to learn more about the opportunity.',
+            text: 'Join the group to learn more about the opportunity.',
             isCorrect: false,
-            consequence: 'The group floods you with "profit screenshots." An admin DMs you privately with a "limited offer" — invest ₹50,000 for guaranteed 50% returns. You deposit. The next day, the admin goes offline. The group disappears. You\'ve lost ₹50,000.',
-            tip: 'No investment can guarantee 50% monthly returns. Anyone promising this is committing fraud. Screenshots of profits are trivially easy to fake.',
+            consequence: 'The group floods you with profit screenshots. An admin DMs you with a "limited VIP offer" — invest ₹50,000 for guaranteed returns. You deposit. The next day the admin goes offline and the group disappears. ₹50,000 lost.',
+            tip: 'No investment can guarantee 50% monthly returns. Anyone promising this is committing fraud. Live member counters and comment streams in ads are scripted bots — not real people.',
             terminalState: true,
           },
           {
             id: 'b',
-            text: 'You search "[company name] trading scam" before clicking anything.',
+            text: 'Search "[company name] trading scam" before clicking anything.',
             isCorrect: true,
-            consequence: 'Your search returns dozens of fraud complaints and articles explaining this exact scam structure. You realise it\'s a "pump and dump" scheme targeting inexperienced investors. You do not click the link.',
-            tip: 'Before engaging with any investment opportunity, search "[name] scam" or "[name] fraud" on Google. Scammers rely on targets not researching. Real traders don\'t need ads — they have track records.',
+            consequence: 'Dozens of fraud complaints appear. You recognise the pump-and-dump structure. You do not click the link and report the ad.',
+            tip: 'Before engaging with any investment opportunity search "[name] scam" on Google. Real traders do not need ads — they have verifiable track records.',
           },
           {
             id: 'c',
-            text: 'You check if the investment platform is registered on the SEBI website before engaging.',
+            text: 'Check if the platform is registered on sebi.gov.in before engaging.',
             isCorrect: true,
-            consequence: 'You visit sebi.gov.in and search for the trading platform. It\'s not registered. You report the ad to the social media platform for impersonation and investment fraud.',
-            tip: 'All legitimate investment platforms in India must be registered with SEBI (Securities and Exchange Board of India). Check sebi.gov.in before investing any money. If it\'s not there, it\'s not legitimate.',
+            consequence: 'Not registered. You report the ad to the platform for impersonation and investment fraud.',
+            tip: 'All legitimate investment advisors in India must be registered with SEBI. Check sebi.gov.in → Registered Entities. If it is not there, it is not legitimate.',
           },
         ],
       },
       {
         id: 2,
-        environment: 'fakeStore',
+        environment: 'tradingPlatform',
         envProps: {
-          shopName: 'Elite Trading Platform',
-          shopUrl: 'elitetrading-pro.com',
-          items: [
-            { name: 'Invest ₹50,000', price: 'Returns: ₹75,000 (Month 1)', image: '💰' },
-            { name: 'Invest ₹1,00,000', price: 'Returns: ₹1,50,000 (Month 1)', image: '💵' },
-          ],
-          ctaText: 'Invest Now - Limited Slots!',
-          productColor: '#00D084',
+          platformName: 'Elite Trading Platform',
+          domain:       'elitetrading-pro.com',
+          balance:      75000,
+          profit:       25000,
         },
-        situation: 'This is the fake trading platform dashboard. It shows "live trading" with constant profits and a progress bar showing "99% Capital Safety."',
+        situation: 'You landed on the fake trading dashboard. It shows live profits ticking up automatically and a "99% Capital Safety" badge.',
         choices: [
           {
             id: 'a',
-            text: 'You notice the platform guarantees 50% returns and claims "99% capital safety" — claims no real trader makes.',
+            text: 'Notice the platform claims "99% capital safety" — no real market ever guarantees this.',
             isCorrect: true,
-            consequence: 'Real investments have risk. No platform can guarantee returns or capital safety. You close the page and report it to SEBI as an investment scam.',
-            tip: 'The moment you see "guaranteed returns" or "100% safe," it\'s a scam. Legitimate investments always disclose risks clearly.',
+            consequence: 'Real investments carry risk by law. No platform can guarantee returns or capital safety. You close the page and report it to SEBI\'s investor helpline (1800-266-7575).',
+            tip: 'The moment you see "guaranteed returns" or "99% safe" it is a scam. SEBI requires all platforms to display risk warnings — their absence is itself a red flag.',
           },
           {
             id: 'b',
-            text: 'You deposit ₹50,000 to start earning the promised returns.',
+            text: 'Deposit ₹50,000 to start earning the promised returns.',
             isCorrect: false,
-            consequence: 'Your dashboard shows ₹75,000 in "profits" the next day, encouraging you to deposit more. You add another ₹1,00,000. Two days later, the platform goes offline. The "profits" were never real — you\'ve lost ₹1,50,000.',
-            tip: 'The initial "profits" you see in your account are fiction shown on a fake dashboard. They\'re designed to make you deposit more money. Once you can\'t withdraw, you\'ll realise the truth.',
+            consequence: 'Your dashboard shows ₹75,000 in profits the next day, prompting you to deposit more. You add ₹1,00,000. Two days later the platform goes offline. The profits were never real — ₹1,50,000 lost.',
+            tip: 'Profits shown on scam dashboards are fictional numbers designed to make you deposit more. Once you cannot withdraw, you realise the truth. Test with a small withdrawal first.',
             terminalState: true,
           },
           {
             id: 'c',
-            text: 'Before depositing more, you try to withdraw your "profits" to verify the platform is real.',
+            text: 'Try to withdraw your "profits" before depositing anything more.',
             isCorrect: true,
-            consequence: 'Your withdrawal request is denied with messages like "Pending verification" or "Minimum deposit too low." You try contacting support — no response. You realise the profits were never real and close the account without depositing.',
-            tip: 'Before depositing a large sum, always test withdrawal of small amounts first. Scam platforms will block withdrawals while claiming you need to deposit more. This is the ultimate test of legitimacy.',
+            consequence: 'Your withdrawal is blocked: "Pending verification" · "Minimum deposit too low." Support never responds. The profits were never real. You leave without depositing.',
+            tip: 'Always test a withdrawal of a small amount before depositing a large sum. Scam platforms block withdrawals while demanding more deposits. This is the definitive test of legitimacy.',
           },
         ],
       },
@@ -2793,70 +2788,86 @@ University Examination Board`,
     xp: 70,
     type: 'visual',
     steps: [
+      /* ── STEP 1 ──────────────────────────────────────────────
+         The fake Instagram post.
+         GiveawayScamEnv fires onInteract('interacted') for any
+         user action. 'interacted' does not match any choice id
+         so the engine reveals the choice panel.
+      ─────────────────────────────────────────────────────── */
       {
         id: 1,
-        environment: 'socialAd',
+        environment: 'giveawayScam',
         envProps: {
-          adTitle: '🎁 iPhone 15 Pro Giveaway! 🎁',
-          adDescription: 'Follow + Like + Comment to enter. 5 winners announced tomorrow! Tap to claim your link.',
-          adCta: 'Claim Your Prize',
-          adImage: '📱',
-          adColor: '#FFA500',
+          fakeHandle:     '@CarryMinati_Giveaway_Official',
+          realHandle:     '@carryminati',
+          influencerName: 'CarryMinati',
+          followerCount:  '2,847',
+          realFollowers:  '18.4M',
+          accountAgeDays: 6,
+          prizeItem:      'iPhone 15 Pro',
+          prizeValue:     '₹1,30,000',
+          handlingFee:    '₹199',
+          claimDomain:    'carryminati-giveaway.in',
+          postLikes:      '14.2K',
+          expiryHours:    24,
         },
-        situation: 'You see a popular influencer\'s Instagram post about a giveaway. They\'re giving away iPhone 15 Pros. You just need to follow, like, and tap a link to "claim your slot."',
         choices: [
           {
             id: 'a',
-            text: 'You click "Claim Your Prize" to enter the giveaway.',
+            text: 'Click "Claim Your Prize" to enter the giveaway.',
             isCorrect: false,
-            consequence: 'The link takes you to a fake claim page asking for shipping details, including your address and a "handling fee" of ₹2,000 to "secure your prize." You pay. No iPhone arrives.',
-            tip: 'Real giveaways never ask for payment to claim prizes. Any fee request is a scam.',
+            consequence: 'The link opens a "Prize Claim Portal" at carryminati-giveaway.in. It asks for your name and delivery address, then reveals a ₹199 "handling fee" to ship the phone. After you pay, it asks for ₹499 "customs clearance." Then ₹999 more. No iPhone ever arrives. CarryMinati has no such giveaway.',
+            tip: 'Real giveaways NEVER ask winners to pay any fee — not for handling, shipping, customs, or insurance. A fee request is the defining signature of a giveaway scam, 100% of the time.',
             terminalState: true,
           },
           {
             id: 'b',
-            text: 'You check if the influencer is verified on Instagram before clicking anything.',
+            text: 'Tap the profile picture to check the account before clicking anything.',
             isCorrect: true,
-            consequence: 'The account has no verification badge and was created 2 weeks ago. It\'s impersonating a real influencer. You report the account for impersonation and don\'t click any links.',
-            tip: 'Scammers create fake influencer accounts that look similar to real ones. Verification badges are a good indicator, but always check the account creation date and follower engagement.',
+            consequence: 'The profile shows only 2,847 followers, was created 6 days ago, has no blue verified tick, and uses the handle @CarryMinati_Giveaway_Official instead of the real @carryminati. The real CarryMinati has 18.4M followers and a verified badge. This is an impersonation account. You report it and move on.',
+            tip: 'Check three things on any influencer giveaway: (1) Is the account verified with a blue tick? (2) How old is the account? (3) Does the real account mention this giveaway? Scammers create fresh accounts that look similar but lack all three.',
           },
           {
             id: 'c',
-            text: 'You search the real influencer\'s official account to see if they mention this giveaway.',
+            text: 'Search for the real @carryminati account to see if they mention this giveaway.',
             isCorrect: true,
-            consequence: 'The real influencer has no such giveaway. This fake account is a scam impersonating them. You report both the fake account and the scam post.',
-            tip: 'For any celebrity or influencer giveaway, verify on their official verified account before engaging. Scammers impersonate influencers all the time.',
+            consequence: 'The real verified @carryminati has no such giveaway. The fake account is impersonating them to collect handling fees from fans. You report both the fake account and the scam post to Instagram.',
+            tip: 'Any legitimate influencer giveaway will be announced on their verified official account — never only on a secondary "giveaway" account. If the real account does not mention it, the giveaway does not exist.',
           },
         ],
       },
+ 
+      /* ── STEP 2 ──────────────────────────────────────────────
+         The fake Prize Claim Portal — only reached if the user
+         "clicked the link." The situation text explains this.
+         GiveawayPortalEnv fires onInteract('interacted') on
+         any user action, revealing the choice panel.
+      ─────────────────────────────────────────────────────── */
       {
         id: 2,
-        environment: 'fakeStore',
+        environment: 'giveawayPortal',
         envProps: {
-          shopName: 'Prize Claim Portal',
-          shopUrl: 'claim-iphone-prize.in',
-          items: [
-            { name: 'iPhone 15 Pro Claimed!', price: 'Handling Fee: ₹2,000', image: '📱' },
-            { name: 'Shipping Address Verification', price: '₹1,500', image: '📦' },
-          ],
-          ctaText: 'Confirm Claim & Pay',
-          productColor: '#FF9500',
+          prizeItem:      'iPhone 15 Pro',
+          prizeValue:     '₹1,30,000',
+          handlingFee:    '₹199',
+          claimDomain:    'carryminati-giveaway.in',
+          influencerName: 'CarryMinati',
         },
-        situation: 'If you had clicked, this fake claim page would ask for payment to release your "prize."',
+        situation: 'The "Claim Your Prize" link opened this page. It collected your name and address, then revealed a handling fee.',
         choices: [
           {
             id: 'a',
-            text: 'You realise legitimate giveaways never charge "handling fees" to claim prizes.',
+            text: 'Recognise that real giveaways never charge fees — close the page immediately.',
             isCorrect: true,
-            consequence: 'You recognise the scam immediately and close the page. You report the fake influencer account to Instagram.',
-            tip: 'Real prizes are delivered without recipient payments. Any fee request for claiming a prize is a guarantee of fraud.',
+            consequence: 'You close the tab and report the fake influencer account to Instagram. Real prizes are always delivered entirely free to winners. Any fee request — however small — is proof of a scam.',
+            tip: 'The ₹199 "handling fee" is not the real goal — it is the opener. Once you pay once, scammers know you respond, and escalate: customs fee, insurance, clearance. The total loss is typically ₹2,000–₹8,000 before victims stop.',
           },
           {
             id: 'b',
-            text: 'You pay the ₹2,000 "handling fee" to secure your iPhone.',
+            text: 'Pay the ₹199 handling fee to secure the iPhone.',
             isCorrect: false,
-            consequence: 'After payment, the page requests a "shipping fee" of ₹1,500, then a "customs clearance fee." By the time you stop, you\'ve lost ₹5,000. No iPhone ever arrives.',
-            tip: 'Escalating fee requests are the signature of giveaway scams. Real companies don\'t charge multiple fees before delivery.',
+            consequence: 'After paying ₹199, the page shows a new requirement: ₹499 "customs clearance." After that, ₹999 "RBI verification charge." Each payment generates another. By the time you stop, you have lost ₹1,697. No iPhone arrives. The website goes offline.',
+            tip: 'Escalating fees are the signature pattern of giveaway scams. The first small fee is designed to feel harmless — it is not the goal, it is the hook. Stop at the first fee request and report instead.',
             terminalState: true,
           },
         ],

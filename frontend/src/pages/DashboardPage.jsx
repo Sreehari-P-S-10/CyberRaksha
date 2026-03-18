@@ -107,16 +107,7 @@ const simulations = [
     scenarios: 7,
     completed: false,
   },
-  {
-    id: 'phishing',
-    categoryRoute: 'phishing-emerging-threats',
-    icon: 'anchor',
-    cat: 'Phishing',
-    title: 'Phishing & Emerging Threats',
-    desc: 'Fake websites, malicious downloads, AI scams, and advanced threats.',
-    scenarios: 9,
-    completed: false,
-  },
+
   {
     id: 'malware',
     categoryRoute: 'malware-device-safety',

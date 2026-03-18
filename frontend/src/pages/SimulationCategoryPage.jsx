@@ -62,12 +62,6 @@ const CATEGORY_META = {
     subtitle: 'Navigate e-commerce fraud, fake listings, and unsafe payment gateways safely.',
     icon: 'shoppingBag',
   },
-  'phishing-emerging-threats': {
-    id: 'phishing-emerging-threats',
-    title: 'Phishing & Emerging Threats',
-    subtitle: 'Identify phishing across email, SMS, and newer digital channels.',
-    icon: 'mail',
-  },
   'career-education-opportunity': {
     id: 'career-education-opportunity',
     title: 'Career, Education & Opportunity',
@@ -509,77 +503,6 @@ const SIMULATIONS = {
           'Safely close rogue browser warnings without calling the number',
         ],
         targetGroups: ['Professionals', 'Elderly'],
-      },
-    ],
-  },
-
-  'phishing-emerging-threats': {
-    student: [
-      {
-        id: 'pe-s-1', level: 1, difficulty: 'beginner',
-        title: 'University Login Page Clone',
-        desc: 'A link in a group chat leads to a page that looks exactly like your university portal. Spot the differences and avoid entering your credentials.',
-        duration: '8 min', objectives: ['Identify cloned login pages', 'Check URL authenticity', 'Use browser security indicators'],
-      },
-      {
-        id: 'pe-visual-spear-1', level: 2, difficulty: 'intermediate',
-        title: 'Spear Phishing Email',
-        desc: 'A targeted email arrives using your name and company, claiming a mandatory security reset. Inspect the headers, check the domain, and decide without clicking.',
-        duration: '12 min', objectives: ['Identify spear phishing by sender domain', 'Inspect email headers to spot fakes', 'Understand session hijacking risk from clicks'],
-        badge: 'New',
-      },
-      {
-        id: 'pe-s-2', level: 3, difficulty: 'intermediate',
-        title: 'Smishing — Internship Offer',
-        desc: 'An SMS from a known company\'s apparent number offers a remote internship. A link asks for your resume and bank details to "process the stipend."',
-        duration: '12 min', objectives: ['Understand SMS phishing mechanics', 'Verify job offers through official channels', 'Identify personal data harvesting forms'],
-      },
-      {
-        id: 'pe-s-3', level: 3, difficulty: 'advanced',
-        title: 'QR Code Phishing in Cafeteria',
-        desc: 'A QR code on the cafeteria table links to a phishing site instead of the menu. Understand quishing (QR phishing) and how to verify QR destinations.',
-        duration: '14 min', objectives: ['Understand QR code phishing (quishing)', 'Preview QR destinations before opening', 'Identify contextual phishing placement'],
-      },
-    ],
-    professional: [
-      {
-        id: 'pe-p-1', level: 1, difficulty: 'beginner',
-        title: 'Spear Phishing — IT Department',
-        desc: 'An email from "IT Support" asks you to reset your corporate password via a link. The link mimics your company\'s SSO page. Spot the deception.',
-        duration: '10 min', objectives: ['Identify spear phishing characteristics', 'Verify IT communication through internal channels', 'Handle credential reset requests safely'],
-      },
-      {
-        id: 'pe-visual-spear-1', level: 2, difficulty: 'intermediate',
-        title: 'Spear Phishing Email',
-        desc: 'A targeted email uses your name and company branding to demand a security credential reset by end of day. Inspect the headers to expose the fake domain.',
-        duration: '12 min', objectives: ['Identify spear phishing by sender domain', 'Inspect email headers to spot fakes', 'Understand session hijacking risk from clicks'],
-        badge: 'New',
-      },
-      {
-        id: 'pe-p-2', level: 3, difficulty: 'intermediate',
-        title: 'DocuSign Phishing Lure',
-        desc: 'You receive a DocuSign notification for an urgent contract. The document asks you to "verify identity" by entering your Microsoft 365 credentials.',
-        duration: '12 min', objectives: ['Identify brand-impersonation phishing', 'Verify document signing requests independently', 'Recognise credential harvesting pages'],
-      },
-      {
-        id: 'pe-p-3', level: 3, difficulty: 'advanced',
-        title: 'Multi-Stage Phishing Campaign',
-        desc: 'Over 5 days, a fraudster sends a series of legitimate-looking emails building rapport before the final credential-theft attempt. Trace the entire campaign.',
-        duration: '20 min', objectives: ['Identify long-form phishing campaigns', 'Detect rapport-building as an attack vector', 'Implement email security hygiene'],
-      },
-    ],
-    elderly: [
-      {
-        id: 'pe-e-1', level: 1, difficulty: 'beginner',
-        title: 'WhatsApp "Free Recharge" Link',
-        desc: 'A message from a contact shares a link claiming free mobile recharge from a telecom company. The link collects your number and installs tracking software.',
-        duration: '8 min', objectives: ['Identify forwarded phishing messages', 'Never click "too good to be true" offers', 'Warn contacts about forwarded scam links'],
-      },
-      {
-        id: 'pe-e-2', level: 2, difficulty: 'intermediate',
-        title: 'Fake TRAI Call — Number Block Threat',
-        desc: 'A robocall says your mobile number will be blocked in 2 hours for illegal activity unless you press 1. It connects to a scammer posing as a TRAI officer.',
-        duration: '12 min', objectives: ['Identify robocall phishing patterns', 'Know that TRAI never calls directly', 'Report telecom fraud correctly'],
       },
     ],
   },
