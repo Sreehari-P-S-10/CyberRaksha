@@ -1,5 +1,7 @@
 import { useState,useEffect } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
+import { useAuth } from '../context/AuthContext.jsx'
+import { api } from '../utils/api.js'
 
 /* ─── SVG Icon System — matches LandingPage exactly ─── */
 const paths = {
@@ -133,7 +135,8 @@ const recentActivity = [
 ]
 
 /* ─── Nav ─── */
-function NavBar({ onLogout }) {
+function NavBar({ onLogout, user }) {
+  const initials = (user?.name || 'U').split(' ').map(w => w[0]).join('').slice(0,2).toUpperCase()
   return (
     <header style={{
       position: 'sticky', top: 0, zIndex: 100,
@@ -180,7 +183,7 @@ function NavBar({ onLogout }) {
             display: 'flex', alignItems: 'center', justifyContent: 'center',
             fontFamily: 'var(--sans)', fontSize: '13px', fontWeight: '700',
             color: '#0D1017', letterSpacing: '0.02em',
-          }}>A</div>
+          }}>{initials}</div>
 
           <button onClick={onLogout} title="Sign out" style={{
             width: '34px', height: '34px', borderRadius: '7px',
@@ -197,9 +200,8 @@ function NavBar({ onLogout }) {
 }
 
 /* ─── Progress Card ─── */
-function ProgressCard() {
-  const pct = 35
-  const done = simulations.filter(s => s.completed).length
+function ProgressCard({ userName, completedCount, totalPoints }) {
+  const pct = Math.min(100, Math.round((completedCount / 32) * 100))
 
   return (
     <div style={{
@@ -227,9 +229,9 @@ function ProgressCard() {
           fontFamily: 'var(--serif)', fontSize: '28px', fontWeight: '400',
           color: 'var(--text-1)', letterSpacing: '-0.02em', marginBottom: '6px',
           lineHeight: '1.1',
-        }}>Alex</h2>
+        }}>{userName || 'Trainee'}</h2>
         <p style={{ fontSize: '13.5px', color: 'var(--text-3)', fontFamily: 'var(--sans)' }}>
-          {done} of {simulations.length} simulation modules completed
+          {completedCount} scenarios completed
         </p>
       </div>
 
@@ -273,8 +275,8 @@ function ProgressCard() {
         borderRadius: '8px', overflow: 'hidden',
       }}>
         {[
-          { icon: 'target',    label: 'Scenarios Done', value: '12' },
-          { icon: 'barChart2', label: 'Threat Score',   value: '840' },
+          { icon: 'target',    label: 'Scenarios Done', value: completedCount },
+          { icon: 'barChart2', label: 'Threat Score',   value: totalPoints    },
         ].map((st, i) => (
           <div key={st.label} style={{
             padding: '16px 24px', textAlign: 'center',
@@ -490,8 +492,26 @@ function SimCard({ sim, onNavigate }) {
 /* ─── Main Dashboard ─── */
 export default function DashboardPage() {
   const navigate = useNavigate()
+  const { user, logout, refreshUser } = useAuth()
+
+  const [progress, setProgress] = useState([])
+
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        await refreshUser()
+        const res = await api.get('/progress')
+        if (res?.ok) setProgress(await res.json())
+      } catch (err) { /* non-fatal */ }
+    }
+    fetchData()
+  }, []) // eslint-disable-line
+
+  const completedCount = progress.filter(p => p.status === 'completed').length
+  const totalPoints    = user?.total_points ?? 0
 
   function handleLogout() {
+    logout()
     navigate('/')
   }
 
@@ -507,7 +527,7 @@ export default function DashboardPage() {
       fontFamily: 'var(--sans)',
       color: 'var(--text-2)',
     }}>
-      <NavBar onLogout={handleLogout} />
+      <NavBar onLogout={handleLogout} user={user} />
 
       <main style={{
         maxWidth: '1140px', margin: '0 auto',
@@ -534,7 +554,7 @@ export default function DashboardPage() {
           </p>
         </div>
 
-        <ProgressCard />
+        <ProgressCard userName={user?.name} completedCount={completedCount} totalPoints={totalPoints} />
         <TipBanner />
 
         <div style={{ marginBottom: '24px' }}>

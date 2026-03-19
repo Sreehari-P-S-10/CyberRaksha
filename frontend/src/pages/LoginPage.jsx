@@ -1,5 +1,7 @@
 import { useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate, useLocation } from 'react-router-dom'
+import { useAuth } from '../context/AuthContext.jsx'
+import { api } from '../utils/api.js'
 
 function ShieldIcon() {
   return (
@@ -16,10 +18,44 @@ const inp = {
   border: '1px solid rgba(255,255,255,0.09)',
   color: '#EDE8E0', fontSize: '15px', outline: 'none',
   fontFamily: 'var(--sans)', transition: 'border-color 0.2s',
+  boxSizing: 'border-box',
 }
 
 export default function LoginPage() {
-  const [focused, setFocused] = useState('')
+  const navigate  = useNavigate()
+  const location  = useLocation()
+  const { login } = useAuth()
+
+  const [email,    setEmail]    = useState('')
+  const [password, setPassword] = useState('')
+  const [focused,  setFocused]  = useState('')
+  const [loading,  setLoading]  = useState(false)
+  const [error,    setError]    = useState('')
+
+  const from = location.state?.from?.pathname || '/dashboard'
+
+  async function handleSubmit(e) {
+    e.preventDefault()
+    setError('')
+    if (!email.trim() || !password) { setError('Please enter your email and password.'); return }
+    setLoading(true)
+    try {
+      const res = await api.post('/auth/login', { email: email.trim(), password })
+      if (!res) return
+      if (!res.ok) {
+        const data = await res.json()
+        setError(data.error || 'Login failed. Please try again.')
+        return
+      }
+      const { token, user } = await res.json()
+      login(token, user)
+      navigate(from, { replace: true })
+    } catch (err) {
+      setError(err.message || 'Unable to connect. Is the server running?')
+    } finally {
+      setLoading(false)
+    }
+  }
 
   return (
     <div style={{ minHeight: '100vh', background: '#0D1017', display: 'flex',
@@ -58,16 +94,26 @@ export default function LoginPage() {
             Log in to your CyberRaksha account to continue training.
           </p>
 
+          {error && (
+            <div style={{ padding: '11px 14px', marginBottom: '16px', borderRadius: '6px',
+              background: 'rgba(201,78,78,0.10)', border: '1px solid rgba(201,78,78,0.3)',
+              fontSize: '13.5px', color: '#e07a7a', lineHeight: '1.5' }}>
+              {error}
+            </div>
+          )}
+
           <form style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}
-            onSubmit={e => e.preventDefault()}>
+            onSubmit={handleSubmit}>
 
             <div>
               <label style={{ display: 'block', fontSize: '13px', color: '#9AA3B2', marginBottom: '6px' }}>
                 Email address
               </label>
               <input type="email" placeholder="you@example.com"
+                value={email} onChange={e => setEmail(e.target.value)}
                 style={{ ...inp, borderColor: focused === 'email' ? 'rgba(212,137,26,0.5)' : 'rgba(255,255,255,0.09)' }}
-                onFocus={() => setFocused('email')} onBlur={() => setFocused('')} />
+                onFocus={() => setFocused('email')} onBlur={() => setFocused('')}
+                autoComplete="email" required />
             </div>
 
             <div>
@@ -75,22 +121,26 @@ export default function LoginPage() {
                 Password
               </label>
               <input type="password" placeholder="••••••••"
+                value={password} onChange={e => setPassword(e.target.value)}
                 style={{ ...inp, borderColor: focused === 'pass' ? 'rgba(212,137,26,0.5)' : 'rgba(255,255,255,0.09)' }}
-                onFocus={() => setFocused('pass')} onBlur={() => setFocused('')} />
+                onFocus={() => setFocused('pass')} onBlur={() => setFocused('')}
+                autoComplete="current-password" required />
             </div>
 
-            <button type="submit"
+            <button type="submit" disabled={loading}
               style={{ marginTop: '6px', padding: '13px', borderRadius: '6px',
-                background: '#D4891A', color: '#0D1017',
-                fontSize: '15px', fontWeight: '600', cursor: 'pointer',
+                background: loading ? 'rgba(212,137,26,0.6)' : '#D4891A', color: '#0D1017',
+                fontSize: '15px', fontWeight: '600', cursor: loading ? 'not-allowed' : 'pointer',
                 border: 'none', fontFamily: 'inherit',
                 display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px',
                 transition: 'background 0.2s' }}>
-              Log in
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none"
-                stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/>
-              </svg>
+              {loading ? 'Logging in…' : 'Log in'}
+              {!loading && (
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none"
+                  stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/>
+                </svg>
+              )}
             </button>
           </form>
 

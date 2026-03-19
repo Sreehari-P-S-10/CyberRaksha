@@ -1,6 +1,8 @@
 import { useState, useEffect } from 'react'
 import { useParams, useNavigate, Link } from 'react-router-dom'
 import s from './SimulationCategoryPage.module.css'
+import { useAuth } from '../context/AuthContext.jsx'
+import { api } from '../utils/api.js'
 
 /* ─── SVG Icon system (consistent with rest of app) ─── */
 const paths = {
@@ -572,15 +574,6 @@ const UNLOCKED = {
   advanced:     ['beginner', 'intermediate', 'advanced'],
 }
 
-/* ─── Mock current user (replace with real auth context later) ─── */
-const MOCK_USER = {
-  name: 'User',
-  userId: 'CR-8802',
-  ageGroup: 'student',       // 'student' | 'professional' | 'elderly'
-  expertise: 'advanced', // 'beginner' | 'intermediate' | 'advanced'
-  completedIds: ['fs-s-1'],  // IDs of completed simulations
-}
-
 /* ═══════════════════════════════════════
    MAIN PAGE COMPONENT
 ═══════════════════════════════════════ */
@@ -588,13 +581,28 @@ export default function SimulationCategoryPage() {
   const { categoryId } = useParams()
   const navigate = useNavigate()
 
-  // In a real app these come from auth context / API
-  const user = MOCK_USER
-  const [completed, setCompleted] = useState(new Set(user.completedIds))
+  const { user } = useAuth()
+  const ageGroup  = user?.age_category   || 'student'
+  const expertise = user?.expertise_level || 'beginner'
+
+  const [completed, setCompleted] = useState(new Set())
+
+  useEffect(() => {
+    async function loadProgress() {
+      try {
+        const res = await api.get('/progress')
+        if (res?.ok) {
+          const data = await res.json()
+          setCompleted(new Set(data.filter(p => p.status === 'completed').map(p => p.simulation_id)))
+        }
+      } catch (err) { /* non-fatal */ }
+    }
+    loadProgress()
+  }, [])
 
   const meta = CATEGORY_META[categoryId]
-  const sims = SIMULATIONS[categoryId]?.[user.ageGroup] ?? []
-  const unlockedDiffs = UNLOCKED[user.expertise]
+  const sims = SIMULATIONS[categoryId]?.[ageGroup] ?? []
+  const unlockedDiffs = UNLOCKED[expertise]
 
   // Scroll to top on category change
   useEffect(() => { window.scrollTo({ top: 0, behavior: 'smooth' }) }, [categoryId])
@@ -641,8 +649,8 @@ export default function SimulationCategoryPage() {
             </button>
             <div className={s.topbarUser}>
               <div className={s.topbarUserInfo}>
-                <span className={s.topbarUserName}>{user.name}</span>
-                <span className={s.topbarUserId}>ID: {user.userId}</span>
+                <span className={s.topbarUserName}>{user?.name || 'Trainee'}</span>
+                <span className={s.topbarUserId}>{ageGroup.charAt(0).toUpperCase() + ageGroup.slice(1)}</span>
               </div>
               <div className={s.topbarAvatar}>
                 <Icon name="user" size={16} color="var(--text-2)" />
@@ -708,13 +716,13 @@ export default function SimulationCategoryPage() {
           <div className={s.contextPill}>
             <div className={s.contextItem}>
               <Icon name="user" size={12} color="var(--text-3)" />
-              <span>{user.ageGroup === 'student' ? 'Student' : user.ageGroup === 'professional' ? 'Professional' : 'Senior Citizen'}</span>
+              <span>{ageGroup === 'student' ? 'Student' : ageGroup === 'professional' ? 'Professional' : 'Senior Citizen'}</span>
             </div>
             <div className={s.contextDot} />
             <div className={s.contextItem}>
-              <Icon name="target" size={12} color={DIFF_META[user.expertise].color} />
-              <span style={{ color: DIFF_META[user.expertise].color }}>
-                {DIFF_META[user.expertise].label} access
+              <Icon name="target" size={12} color={DIFF_META[expertise].color} />
+              <span style={{ color: DIFF_META[expertise].color }}>
+                {DIFF_META[expertise].label} access
               </span>
             </div>
             <div className={s.contextDot} />

@@ -14,6 +14,7 @@ import { useParams, useNavigate, Link } from 'react-router-dom'
 import s from './QuizPage.module.css'
 import { SIMULATIONS, CATEGORY_ROUTE_MAP, DIFF_COLORS } from '../simulations/simulationsData.js'
 import { QUIZZES } from '../simulations/quizData.js'
+import { api } from '../utils/api.js'
 
 /* ─── SVG Icons ─── */
 const paths = {
@@ -100,6 +101,11 @@ export default function QuizPage() {
       setSelectedId(null)
       setAnswered(false)
     } else {
+      const finalCorrect = results.filter(r => r.isCorrect).length
+      const finalPct     = totalQ > 0 ? Math.round((finalCorrect / totalQ) * 100) : 0
+      const finalXp      = finalPct >= quiz.passMark ? quiz.xp : Math.round(quiz.xp * (finalPct / 100))
+      api.post(`/quizzes/${simId}/submit`, { xp_earned: finalXp })
+        .catch(err => console.warn('Quiz XP save failed (non-fatal):', err))
       setComplete(true)
       window.scrollTo({ top: 0, behavior: 'smooth' })
     }

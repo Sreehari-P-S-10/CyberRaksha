@@ -56,21 +56,21 @@ export const SIMULATIONS = {
         situation: 'Your classmate hands you a USB drive with "Semester 4 notes" on it. You plug it into your laptop and a notification pops up.',
         choices: [
           {
-            id: 'opened_autorun',
+            id: 'a',
             text: 'Open the suspicious USB executable/autorun content to quickly view notes.',
             isCorrect: false,
             consequence: 'The moment you open the USB, an autorun script executes silently. The virus copies itself into your Documents, Desktop, and Downloads folders — renaming your files with hidden extensions. Your classmate did not know the drive was infected.',
             tip: 'Never use the autorun prompt for USB drives. Always open USB drives manually via File Explorer, and run an antivirus scan on the drive before opening any files. Autorun.inf scripts on USB drives are a classic virus delivery method.',
           },
           {
-            id: 'scanned_usb',
+            id: 'b',
             text: 'Cancel autorun and scan the USB with antivirus first.',
             isCorrect: true,
             consequence: 'Good instinct. The antivirus scan detects "Autorun.inf" and a disguised executable named "ClassNotes.exe". The files are quarantined. Your system stays clean. Your classmate is surprised — they had no idea their drive was infected.',
             tip: 'Always scan USB drives before opening them, especially shared drives from friends or colleagues. Right-click the drive in File Explorer and select "Scan with [Antivirus]". This takes 30 seconds and can prevent a full system infection.',
           },
           {
-            id: 'ejected_safely',
+            id: 'c',
             text: 'Cancel and give the drive back without opening it.',
             isCorrect: true,
             consequence: 'You hand back the drive without opening it. Safe choice. Later your classmate discovers the drive was infected after their home computer gets the virus from it. Your laptop is completely fine.',
@@ -141,21 +141,21 @@ export const SIMULATIONS = {
         situation: 'You receive a college-related email with an attachment that says macros must be enabled to view notes. The sender name looks familiar, but the domain is not your college domain.',
         choices: [
           {
-            id: 'reported_email',
+            id: 'a',
             text: 'Report the email and avoid opening the attachment.',
             isCorrect: true,
             consequence: 'You report it in time. The class group is alerted that the attachment is malicious, and multiple students avoid infection.',
             tip: 'For academic emails, verify the exact domain. Familiar display names can be spoofed, but domains reveal the source.',
           },
           {
-            id: 'deleted_attachment',
+            id: 'b',
             text: 'Delete the email and ask for notes through the official class channel.',
             isCorrect: true,
             consequence: 'You avoid the trap and request notes on the official LMS/WhatsApp class group. The fake email was part of a broad phishing attempt.',
             tip: 'Use official channels (LMS, class group, verified college ID) for study materials, not unknown attachment links.',
           },
           {
-            id: 'enabled_macros',
+            id: 'c',
             text: 'Enable content in the document to view all pages.',
             isCorrect: false,
             consequence: 'The macro runs a script that starts exfiltrating browser-saved credentials and sends copies to contacts. Infection spreads quickly.',
@@ -222,7 +222,7 @@ export const SIMULATIONS = {
         situation: 'You receive an email at work. It looks like a routine vendor document. The sender\'s name is familiar but you haven\'t emailed this vendor recently.',
         choices: [
           {
-            id: 'enabled_macros',
+            id: 'a',
             text: 'Enable macros to view the approval form as requested.',
             isCorrect: false,
             consequence: 'Enabling macros executes a Visual Basic script. Within 3 seconds it accesses Outlook\'s contact list and sends a copy of the email — with the infected attachment — to every contact in your address book, including the CEO, HR, and Finance. The IT department gets 47 alerts.',
@@ -230,14 +230,14 @@ export const SIMULATIONS = {
             terminalState: false,
           },
           {
-            id: 'reported_it',
+            id: 'b',
             text: 'Do not open the attachment — forward it to IT security and delete it.',
             isCorrect: true,
             consequence: 'IT Security confirms the email is a phishing attempt. The domain "techvend0r-india.com" (note the zero) is a spoofed lookalike of your actual vendor\'s domain. The attachment contained a macro virus. Your report triggers a company-wide warning. No damage done.',
             tip: 'Before opening any unexpected attachment, verify the sender\'s exact email domain character by character. Attackers commonly substitute visually similar characters (0 for o, 1 for l). When in doubt, call the supposed sender directly — never reply to the suspicious email.',
           },
           {
-            id: 'called_vendor',
+            id: 'c',
             text: 'Call Ravi Kumar directly to verify before opening the attachment.',
             isCorrect: true,
             consequence: 'You call the real vendor. Ravi Kumar confirms he sent no such email. This is a Business Email Compromise (BEC) attack using a lookalike domain. You report it to IT Security. The attack is blocked before any damage.',
@@ -303,21 +303,21 @@ export const SIMULATIONS = {
         situation: 'You receive a forwarded email from your sister Meena about a government health scheme. The message looks helpful and was sent by someone you trust.',
         choices: [
           {
-            id: 'opened_attachment',
+            id: 'a',
             text: 'Open the attachment to fill the registration form.',
             isCorrect: false,
             consequence: 'The file "HealthScheme_Registration_Form.exe" is not a form — it is a virus. It immediately accesses your email contacts and sends itself to your daughter, son, granddaughter, and other family members. It also bookmarks your banking sites for a later credential-stealing payload.',
             tip: 'Government forms are never .exe files. Government health schemes are announced on official sites like nhm.gov.in or pmjay.gov.in — never via forwarded email attachments. When you see a .exe file attached to an email, never open it — even if it came from a trusted contact.',
           },
           {
-            id: 'called_sister',
+            id: 'b',
             text: 'Call Meena directly and ask if she really sent this.',
             isCorrect: true,
             consequence: 'You call Meena. She says she just forwarded it without thinking — her friend sent it and it looked official. Neither of them opened the attachment yet. You both delete it. Meena\'s friend\'s computer was the original source of the virus.',
             tip: 'Calling to verify is always the right move when a forwarded email asks you to open a file or click a link — even from people you trust. Viruses often spread through trusted contacts precisely because we lower our guard with family. A quick call takes 1 minute and can prevent infection.',
           },
           {
-            id: 'checked_gov_site',
+            id: 'c',
             text: 'Ignore the email and check the official government website directly for the scheme.',
             isCorrect: true,
             consequence: 'You go to nhm.gov.in directly in your browser. There is no such scheme registration open. The email was entirely fake. The attachment was a virus. Your computer is safe and you delete the email.',
@@ -391,21 +391,21 @@ export const SIMULATIONS = {
         situation: 'Your friends are all playing ProGamer Deluxe 2025. It costs ₹2,499. A classmate sends you a link to download the full game for free from "GameCrackZone". The site looks professional and has thousands of positive reviews.',
         choices: [
           {
-            id: 'unchecked_malware',
+            id: 'a',
             text: 'Read the installer carefully and uncheck "System Performance Optimizer Pro" before installing.',
             isCorrect: true,
             consequence: 'You notice "System Performance Optimizer Pro" is pre-checked but vaguely named. You uncheck it. The game installs but the keylogger payload is blocked. However, the site itself is still illegal and the game may contain other embedded malware not visible in the installer.',
             tip: 'Always read every screen in an installer. Bundled items are often pre-checked and positioned to look like optional features. Unchecking is better than accepting blindly, but downloading cracked software from unofficial sites always carries risk — including malware not disclosed in the installer.',
           },
           {
-            id: 'cancelled_install',
+            id: 'b',
             text: 'Close the installer without installing anything.',
             isCorrect: true,
             consequence: 'Good decision. You close the installer and delete the downloaded file. The game\'s publisher sells a student discount version for ₹799 on Steam. You buy the legitimate version and can play without risk.',
             tip: 'Cracked software from unofficial sites is never truly free — you pay with privacy or device security. Keyloggers from these installers can steal your college login, email passwords, and banking credentials silently for months. Student discounts on legitimate platforms like Steam, Amazon, or the developer\'s site are often available.',
           },
           {
-            id: 'ran_installer',
+            id: 'c',
             text: 'Click through the installer quickly without reading and install everything.',
             isCorrect: false,
             consequence: 'The "System Performance Optimizer" installs a keylogger that runs silently in the background. Over the next two weeks it captures your email password, college login credentials, and your parents\' UPI PIN when they use the laptop. The keylogger transmits everything to a remote server.',
@@ -479,21 +479,21 @@ export const SIMULATIONS = {
         situation: 'You receive an email from "IT Support" saying a critical Windows security patch must be applied immediately. The link takes you to a page that looks like a Microsoft update portal. Your company\'s IT team sometimes sends patch notifications like this.',
         choices: [
           {
-            id: 'unchecked_malware',
+            id: 'a',
             text: 'Notice "Remote Management Assistant" is pre-checked and uncheck it before installing.',
             isCorrect: false,
             consequence: 'You uncheck the Remote Management Assistant, but the domain "windows-security-patch.com" is not Microsoft — it is a phishing site. Even with that component unchecked, the "patch" itself contains an embedded Trojan. The correct action was to verify the source first.',
             tip: 'Even if you spot and uncheck the suspicious component, downloading software from a non-official domain is still dangerous. Microsoft Windows updates are always delivered through Windows Update (Settings → Windows Update) — never through a website link in an email.',
           },
           {
-            id: 'cancelled_install',
+            id: 'b',
             text: 'Close everything and verify the update through official Windows Update settings.',
             isCorrect: true,
             consequence: 'You go to Settings → Windows Update and check for updates. There is no pending patch KB5031356. You forward the email to IT Security. They confirm it is a spear-phishing attack targeting your department. The attack is blocked before installation.',
             tip: 'Windows security patches are ONLY distributed through Windows Update (Settings → Update & Security → Windows Update) or your corporate WSUS server managed by IT. Any email with a link to download a "critical patch" is a social engineering attack. Always verify through official channels.',
           },
           {
-            id: 'ran_installer',
+            id: 'c',
             text: 'Install the patch as instructed — IT updates are always urgent.',
             isCorrect: false,
             consequence: 'The "Remote Management Assistant" installs a Remote Access Trojan (RAT). The attacker now has full control of your work computer — they can access company files, watch your screen live, use your credentials to log into internal systems, and move laterally to other machines on the network.',
@@ -557,7 +557,7 @@ export const SIMULATIONS = {
         situation: 'You are working on quarterly reports when your screen suddenly dims. Files on your desktop begin renaming one by one to ".locked" extensions. A ransom note appears.',
         choices: [
           {
-            id: 'paid_ransom',
+            id: 'a',
             text: 'Pay 0.5 BTC immediately — you cannot lose these files.',
             isCorrect: false,
             consequence: 'You pay ₹3,40,000 in Bitcoin. The attackers take 48 hours to respond. When they do, the decryption key provided only works on 60% of your files. The rest remain permanently encrypted. You also now appear on a "paying victims" list sold to other ransomware groups.',
@@ -565,14 +565,14 @@ export const SIMULATIONS = {
             terminalState: true,
           },
           {
-            id: 'disconnected_network',
+            id: 'b',
             text: 'Disconnect from the network immediately — unplug ethernet and turn off Wi-Fi.',
             isCorrect: true,
             consequence: 'You disconnect within 45 seconds of the ransom note appearing. IT confirms that network isolation prevented the ransomware from encrypting shared drives on the server. Only files on your local desktop are affected — shared project files and databases are safe. Recovery begins from backup.',
             tip: 'Network isolation is the single most critical first response to ransomware. Every second the infected machine stays connected, the ransomware encrypts more files — including shared network drives accessible by everyone in your organisation. Physical disconnection (pulling the cable) is faster and more reliable than software disabling.',
           },
           {
-            id: 'restarted_computer',
+            id: 'c',
             text: 'Restart the computer to clear the ransomware.',
             isCorrect: false,
             consequence: 'Restarting triggers the ransomware\'s secondary payload. During boot, it finishes encrypting the remaining files it had queued. After restart, the ransom note is now set as the desktop wallpaper and appears on every login. The encryption is complete.',
@@ -635,7 +635,7 @@ export const SIMULATIONS = {
         situation: 'You receive a WhatsApp message from an unknown number: "Govt health scheme APK — install for free medicines." You install the app. Minutes later, your phone screen goes black and then shows this.',
         choices: [
           {
-            id: 'paid_fine',
+            id: 'a',
             text: 'Pay ₹3,500 via UPI to unlock your phone.',
             isCorrect: false,
             consequence: 'You pay ₹3,500 to a UPI address shown on screen. Your phone remains locked — the payment option was fake. The attacker received your money but the ransomware is still running. You have now also confirmed that this UPI number is active, making you a target for follow-up calls.',
@@ -643,14 +643,14 @@ export const SIMULATIONS = {
             terminalState: true,
           },
           {
-            id: 'force_restart',
+            id: 'b',
             text: 'Force restart the phone by holding the power button for 10 seconds.',
             isCorrect: false,
             consequence: 'Force restarting may give temporary relief on some Android devices. However, since you installed the ransomware as an APK app, it will restart with the phone and re-lock the screen. The restart bought you a few seconds of normal screen before the lock reappeared.',
             tip: 'Force restarting does not remove installed malware. Android ransomware that was installed as an app persists through restarts because it has system boot permissions. The malicious app must be uninstalled — which requires Safe Mode on Android since the ransomware blocks normal app removal.',
           },
           {
-            id: 'contacted_support',
+            id: 'c',
             text: 'Call a trusted family member or visit a service centre to help remove the app.',
             isCorrect: true,
             consequence: 'Your son helps. He boots the phone into Android Safe Mode (hold Power → long press "Power off" → select Safe Mode). In Safe Mode, the ransomware app cannot run. You find and uninstall the suspicious APK. The phone returns to normal.',
@@ -714,21 +714,21 @@ export const SIMULATIONS = {
         situation: 'You need to convert a video for a college presentation. A Google search leads you to "FreeDownloadHub" offering a free video converter. You download and run the installer.',
         choices: [
           {
-            id: 'opened_settings',
+            id: 'a',
             text: 'Open browser settings and remove hijacker changes immediately.',
             isCorrect: true,
             consequence: 'You move quickly to browser settings and remove the hijacker extension/homepage override before it fully entrenches itself. Popups drop and your search defaults are restored.',
             tip: 'For browser hijacks, immediate settings cleanup + extension removal is the fastest containment step before deeper cleanup.',
           },
           {
-            id: 'closed_popups',
+            id: 'b',
             text: 'Close popup storm windows, then uninstall the bundled app and clean browser components.',
             isCorrect: true,
             consequence: 'You close the fake alerts, remove the bundled software, reset browser settings, and clear notification permissions. Hijack behavior stops.',
             tip: 'Adware removal works best as a sequence: close fake prompts, uninstall bundle, remove extension, reset browser, then scan for leftovers.',
           },
           {
-            id: 'ran_cleanup',
+            id: 'c',
             text: 'Click popup-style security prompts and follow whatever they ask.',
             isCorrect: false,
             consequence: 'Your browser homepage changes to "search.mysearchengine.net". A "VideoHelper Toolbar" appears in your browser. Every search is now routed through an ad-injecting proxy. Within 30 minutes, popup ads start appearing — fake PC warnings, prize claims, and update prompts. Your browsing data is being sold.',
@@ -791,21 +791,21 @@ export const SIMULATIONS = {
         situation: 'Your grandchild sends you a WhatsApp message: "Dadi/Nana, install this — best torch app, very bright, free!". They share an APK file directly in WhatsApp (not a Play Store link).',
         choices: [
           {
-            id: 'accepted_permissions',
+            id: 'a',
             text: 'Install the app and accept all the permissions it requests.',
             isCorrect: false,
             consequence: 'The "flashlight" app works, but it asks for access to Contacts, Location, Microphone, Camera, SMS and Phone. After granting all of these, the app begins showing fullscreen ads every 15 seconds. Your contact list is uploaded to an ad server. Your location is tracked and sold. Fake security warnings appear asking you to call a number.',
             tip: 'A flashlight app has no legitimate reason to access Contacts, Location, Microphone, Camera, or SMS. When an app requests permissions that have nothing to do with its advertised function, that is a major red flag. Legitimate flashlight apps need only Camera permission (to control the LED). Excessive permissions = data harvesting.',
           },
           {
-            id: 'declined_and_refused',
+            id: 'b',
             text: 'Tell your grandchild you prefer to get apps only from the Google Play Store.',
             isCorrect: true,
             consequence: 'You look for "Flashlight" on the Google Play Store directly. You find an app from Google with 4.8 stars and 500 million installs that requests only the Camera permission. It works perfectly with no ads and no suspicious permissions.',
             tip: 'The Google Play Store is not perfect, but it provides baseline safety checks that sideloaded APKs do not. Never install APK files sent via WhatsApp, SMS, or websites — even from people you trust, as they may not know the file is dangerous. Always use the Play Store or App Store for downloads.',
           },
           {
-            id: 'checked_permissions',
+            id: 'c',
             text: 'Install the app but deny all permissions except Camera when it asks.',
             isCorrect: true,
             consequence: 'You install the app and when it asks for Contacts — you tap Deny. Location — Deny. Microphone — Deny. Camera — Allow. The flashlight works. The app still shows some ads, but without your personal data permissions, the harm is limited. You later uninstall it and find a Play Store alternative.',
@@ -1155,21 +1155,21 @@ export const SIMULATIONS = {
         },
         choices: [
           {
-            id: 'closed_tab',
+            id: 'a',
             text: 'You closed the browser tab without calling.',
             isCorrect: true,
             consequence: 'The popup vanished the instant you closed the tab. Your computer was never infected — the alarm, the scan bar, and the threat list were all JavaScript running inside a webpage. Microsoft has no way to detect viruses through a browser popup.',
             tip: 'Any browser popup claiming to be from Microsoft, Windows Defender, or your antivirus showing a phone number is always a scam. Close the tab. If your mouse seems stuck or the browser appears frozen, use Ctrl+W or Task Manager (Ctrl+Shift+Esc) to force-close it.',
           },
           {
-            id: 'call_ended_good',
+            id: 'b',
             text: 'You called but recognised the scam and hung up.',
             isCorrect: true,
             consequence: 'You hung up before the scammer could get remote access. The scammer called back twice — you didn\'t answer. Your computer was never at risk. The popup was a webpage, not a real system alert.',
             tip: 'Microsoft, Apple, and antivirus companies never call you about infections — they have no way to know who you are from a browser popup. The moment anyone on a cold call asks you to install software like AnyDesk or TeamViewer, end the call immediately. Legitimate IT support is only valid when YOU initiate contact.',
           },
           {
-            id: 'scam_complete',
+            id: 'c',
             text: 'You called and gave the scammer remote access.',
             isCorrect: false,
             consequence: 'The scammer spent 12 minutes on your computer. They opened your net banking website, navigated to fund transfer, and moved ₹42,000 to an untraceable mule account while keeping you on the phone explaining what they were "fixing." By the time you realised what was happening, the transfer was complete.',
@@ -1340,7 +1340,7 @@ export const SIMULATIONS = {
         },
         choices: [
           {
-            id: 'clicked_link',
+            id: 'a',
             text: 'You clicked "View Notice & Pay ₹18,400".',
             isCorrect: false,
             consequence: 'The link opens a convincing fake portal styled like the Income Tax e-filing website. It asks for your PAN, Aadhaar, and bank details. You enter them. Within 24 hours, your account is drained. The real Income Tax Department never sends payment links via email — all notices appear on the official portal after login.',
@@ -1348,7 +1348,7 @@ export const SIMULATIONS = {
             terminalState: true,
           },
           {
-            id: 'opened_attachment',
+            id: 'b',
             text: 'You opened the PDF attachment.',
             isCorrect: false,
             consequence: 'The PDF opens but immediately prompts you to "Enable Macros to view the document." The macro installs a keylogger that records your banking credentials over the next 72 hours. Malware is routinely delivered through official-looking PDF attachments with fake content warnings.',
@@ -1356,7 +1356,7 @@ export const SIMULATIONS = {
             terminalState: true,
           },
           {
-            id: 'closed_without_action',
+            id: 'c',
             text: 'You closed the email without clicking anything.',
             isCorrect: true,
             consequence: 'Good instinct. You log in directly to incometax.gov.in from your browser and check your account. No outstanding notice exists. You report the phishing email to incident@cert-in.org.in and forward it to your bank\'s fraud reporting email.',
@@ -1389,28 +1389,28 @@ export const SIMULATIONS = {
         },
         choices: [
           {
-            id: 'declined_call',
+            id: 'a',
             text: 'You declined the call.',
             isCorrect: true,
             consequence: 'The caller rang back three more times. You did not answer. You looked up TRAI\'s official number (1800-110-420) and called them directly. TRAI confirmed they do not make such calls and never demand payment over the phone. You reported the number to trai.gov.in/consumer.',
             tip: 'Government agencies — TRAI, Income Tax, police, RBI — never call you demanding immediate payment to avoid disconnection or arrest. These are manufactured threats designed to create panic. The correct response is always to hang up and call the agency\'s official number directly.',
           },
           {
-            id: 'hung_up',
+            id: 'b',
             text: 'You answered, listened, and then hung up.',
             isCorrect: true,
             consequence: 'Smart decision. After hearing the payment demand, you recognised the pattern and ended the call. TRAI does not make outbound calls demanding compliance payments — this is a well-documented scam that has defrauded thousands of professionals and elderly victims across India.',
             tip: 'The moment any caller claiming to be a government official demands immediate payment to avoid a penalty or disconnection, the call is a scam — 100% of the time. Government departments send written notices; they do not call demanding instant payment.',
           },
           {
-            id: 'called_back_official',
+            id: 'c',
             text: 'You told them you\'d call back on the official TRAI number.',
             isCorrect: true,
             consequence: 'The "officer" became aggressive, insisting the 2-hour window was closing. You calmly said goodbye and called 1800-110-420 — TRAI\'s actual helpline. The agent confirmed no such complaint existed and advised you to report the number at sancharsaathi.gov.in.',
             tip: 'Legitimate officials will always be comfortable with you verifying by calling back on an official number. Any resistance to verification — or escalating threats when you suggest it — is a definitive sign of fraud. Report numbers at sancharsaathi.gov.in.',
           },
           {
-            id: 'complied',
+            id: 'd',
             text: 'You followed the caller\'s instructions.',
             isCorrect: false,
             consequence: 'The "secure payment portal" they transferred you to was a fake site that collected your card details. The ₹1,499 was just the first charge — your card was used for ₹34,000 in fraudulent transactions within 48 hours. TRAI confirmed they made no such call.',
@@ -1448,7 +1448,7 @@ export const SIMULATIONS = {
         situation: 'The caller transferred you to a website that looks like an official government portal. What do you do?',
         choices: [
           {
-            id: 'paid_fine',
+            id: 'a',
             text: 'You paid ₹1,499 — the site looks very official and the timer is running.',
             isCorrect: false,
             consequence: 'Your card was charged ₹1,499. The "confirmation" page said your number was safe. Within 24 hours, your card details were used for ₹22,000 in additional fraudulent transactions. The timer, the government branding, and the threatening language were all designed to stop you from checking the URL.',
@@ -1456,14 +1456,14 @@ export const SIMULATIONS = {
             terminalState: true,
           },
           {
-            id: 'checked_domain',
+            id: 'b',
             text: 'You inspected the URL in the browser address bar before doing anything.',
             isCorrect: true,
             consequence: 'You noticed the domain is "trai-compliance-portal.in" — not "trai.gov.in". Real government portals only use the ".gov.in" suffix. You closed the tab, reported the URL to cybercrime.gov.in, and called TRAI\'s official helpline (1800-110-420) to confirm no action was needed.',
             tip: 'The address bar is your most reliable fraud detector. Indian government websites always end in ".gov.in". This applies to TRAI, Income Tax, UIDAI, police portals, and every other government body. If it doesn\'t end in ".gov.in", it is not a government site.',
           },
           {
-            id: 'reported_fraud',
+            id: 'c',
             text: 'You clicked "Report This as Fraud" without entering any details.',
             isCorrect: true,
             consequence: 'Without entering any personal or payment information, you reported the URL to cybercrime.gov.in. You also called 1930 to report the phone number that sent you to this site. TRAI confirmed this is an ongoing impersonation campaign and your report helped get the domain flagged.',
@@ -1506,7 +1506,7 @@ export const SIMULATIONS = {
         },
         choices: [
           {
-            id: 'transferred_money',
+            id: 'a',
             text: 'You transferred ₹25,000 immediately — your son sounded desperate.',
             isCorrect: false,
             consequence: 'You transferred the money. An hour later you called Rahul on his real number. He answered from home — completely unaware of any of this. The WhatsApp account was a scammer who had obtained your number and your son\'s name from social media. The ₹25,000 is unrecoverable.',
@@ -1514,21 +1514,21 @@ export const SIMULATIONS = {
             terminalState: true,
           },
           {
-            id: 'declined_call',
+            id: 'b',
             text: 'You declined the WhatsApp call and immediately called Rahul on his saved number.',
             isCorrect: true,
             consequence: 'Rahul answered from home, laughing — he was watching TV. The WhatsApp account had used a photo scraped from his Instagram. You reported the number to cybercrime.gov.in and warned other family members about the scam.',
             tip: 'Any "emergency money" request — regardless of who it appears to come from — must be verified by calling the person directly on their known, saved phone number. This one call takes 10 seconds and prevents 100% of these scams.',
           },
           {
-            id: 'hung_up_to_verify',
+            id: 'c',
             text: 'You answered the call but immediately said you would call Rahul\'s real number first.',
             isCorrect: true,
             consequence: 'The caller became aggressive and said there was "no time." You hung up and called Rahul\'s saved number. He answered immediately. The WhatsApp "Rahul" had already moved on to the next victim on their list.',
             tip: 'Genuine emergencies can wait 30 seconds for you to verify. A real family member in trouble will always want you to confirm it\'s them. Only a scammer will insist there is "no time" to verify.',
           },
           {
-            id: 'called_back_to_verify',
+            id: 'd',
             text: 'You asked them a personal question only the real Rahul would know.',
             isCorrect: true,
             consequence: 'You asked: "What did we name our dog when you were 8?" The caller hesitated, then gave a wrong answer. You hung up. Family code words or personal questions are an excellent defence against voice/message impersonation.',
@@ -1594,7 +1594,7 @@ export const SIMULATIONS = {
         },
         choices: [
           {
-            id: 'paid',
+            id: 'a',
             text: 'You paid ₹12,800 — you cannot risk a cancelled procedure.',
             isCorrect: false,
             consequence: 'The payment went to a fraudster\'s UPI account. The real Apollo Hospital had no record of any outstanding bill. You received a "confirmation" PDF — a convincing fake. The actual billing department was unaware until you called them in a panic.',
@@ -1602,14 +1602,14 @@ export const SIMULATIONS = {
             terminalState: true,
           },
           {
-            id: 'checked_url',
+            id: 'b',
             text: 'You clicked the URL bar and inspected the domain before doing anything.',
             isCorrect: true,
             consequence: '"apollo-billing-portal.in" — not "apollohospitals.com." The real Apollo Hospitals website uses only their official domain. You closed the tab and called the hospital directly using the number on your original appointment letter.',
             tip: 'Any hospital billing page not on the hospital\'s own verified domain (.com, .in, or .org that matches their brand exactly) is fake. The ".in" top-level domain does not make a site official — anyone can register "anyname.in" within minutes.',
           },
           {
-            id: 'called_hospital_directly',
+            id: 'c',
             text: 'You called Apollo Hospitals directly using their official number to verify the bill.',
             isCorrect: true,
             consequence: 'The hospital\'s billing department confirmed no outstanding amount exists on your account. They flagged the spoofed domain and reported it to their cybersecurity team. Your procedure is proceeding normally at zero additional cost.',
@@ -1670,7 +1670,7 @@ export const SIMULATIONS = {
         },
         choices: [
           {
-            id: 'acted_under_pressure',
+            id: 'a',
             text: 'A — You followed the email link immediately to protect your account.',
             isCorrect: false,
             consequence: 'The link took you to a convincing HDFC login page. You entered your credentials. Within minutes, ₹87,400 was transferred out of your actual account — not by a fictional fraudster, but by the real one who now had your login. The email, SMS, and call were all orchestrated simultaneously to prevent rational thinking. The timer and escalating alerts were entirely fabricated.',
@@ -1678,14 +1678,14 @@ export const SIMULATIONS = {
             terminalState: true,
           },
           {
-            id: 'paused_and_assessed',
+            id: 'b',
             text: 'B — You stopped, recognised the pressure tactics, and assessed before acting.',
             isCorrect: true,
             consequence: 'You put your phone down for 60 seconds. You noticed: the email domain is "hdfc-security-alert.in" — not "hdfcbank.com." The SMS link is "hdfc-fraud-verify.in" — not hdfcbank.com. The 10-minute timer is designed to prevent this exact pause. You call HDFC\'s real number from the back of your card.',
             tip: 'The pause is the defence. Urgency is a weapon — the moment you feel rushed into a financial decision, that feeling itself is the red flag. Real fraud investigations by banks are conducted over days, not 10-minute windows. Manufactured urgency always signals manipulation.',
           },
           {
-            id: 'called_bank_official_number',
+            id: 'c',
             text: 'C — You called HDFC\'s official number from the back of your card.',
             isCorrect: true,
             consequence: 'You called 1800-202-6161 — the number printed on your HDFC card. The automated system confirmed no fraud alerts on your account. You were connected to a fraud specialist who confirmed: no transaction of ₹87,400 had occurred, no freeze was in progress, and the email domain and SMS link were both fraudulent. The call took 4 minutes.',
@@ -1758,7 +1758,7 @@ export const SIMULATIONS = {
         },
         choices: [
           {
-            id: 'followed_link',
+            id: 'a',
             text: 'You opened the scholarship link and submitted your details.',
             isCorrect: false,
             consequence: 'The form asked for your name, student ID, phone number, email, Aadhaar number, and bank account details for "scholarship disbursement." You submitted everything. The data was harvested. Three days later you received calls from unknown numbers offering fake loan schemes — your details had been sold.',
@@ -1766,14 +1766,14 @@ export const SIMULATIONS = {
             terminalState: true,
           },
           {
-            id: 'checked_official_account',
+            id: 'b',
             text: 'You searched Instagram for the real official SRM account to compare.',
             isCorrect: true,
             consequence: 'You found the real @srm_university account — blue verified tick, 87,400 followers, posts going back 6 years. No scholarship post like this one. You reported the fake account via Instagram\'s "Report > Pretending to be someone else" option and warned your college WhatsApp group.',
             tip: 'Always verify institutional accounts by checking: (1) blue verified tick, (2) follower count consistent with the institution\'s size, (3) account age visible in posts, (4) matching domain in the bio. Real college accounts don\'t run scholarship deadlines through sponsored posts.',
           },
           {
-            id: 'reported_account',
+            id: 'c',
             text: 'You reported the account for impersonation without clicking the link.',
             isCorrect: true,
             consequence: 'You reported the account. Instagram removes it within 48 hours. You also posted a warning in your batch WhatsApp group — 3 classmates who had almost submitted their details saw it in time.',
@@ -1830,7 +1830,7 @@ export const SIMULATIONS = {
         },
         choices: [
           {
-            id: 'sent_money',
+            id: 'a',
             text: 'You sent ₹3,000 to the UPI ID — Arjun sounded desperate.',
             isCorrect: false,
             consequence: 'You transferred ₹3,000. An hour later you called Arjun on his saved number — he was in college, completely unaware. His Instagram was public and the scammer had scraped his name and photo, then messaged everyone from a new number. The ₹3,000 is unrecoverable.',
@@ -1838,14 +1838,14 @@ export const SIMULATIONS = {
             terminalState: true,
           },
           {
-            id: 'called_original_number',
+            id: 'b',
             text: 'You called Arjun on his saved number before sending anything.',
             isCorrect: true,
             consequence: 'Arjun answered immediately from the college library. He had no idea what you were talking about. His Instagram was public and the scammer had scraped his name and photo. You warned him, and he locked his Instagram account and posted a warning for others.',
             tip: 'One phone call to the original saved number takes 20 seconds and catches 100% of these scams. The moment a new number asks you not to call the old one, that instruction itself is the red flag.',
           },
           {
-            id: 'asked_verification_question',
+            id: 'c',
             text: 'You replied asking something only the real Arjun would know.',
             isCorrect: true,
             consequence: 'You asked: "What\'s the name of our project group in Teams?" The scammer replied with something generic. You knew it was wrong and blocked the number. Arjun\'s real answer would have been immediate and specific.',
@@ -1985,7 +1985,7 @@ export const SIMULATIONS = {
         },
         choices: [
           {
-            id: 'ignored_request',
+            id: 'a',
             text: 'You ignored the connection request and did nothing.',
             isCorrect: false,
             consequence: 'You ignored it. Over the next 3 days, the clone account connects with 23 of your contacts and collects employee IDs, personal emails, and project details from 6 colleagues who assumed it was really you. By the time a colleague flags it, significant data has already been harvested.',
@@ -1993,14 +1993,14 @@ export const SIMULATIONS = {
             terminalState: true,
           },
           {
-            id: 'reported_clone',
+            id: 'b',
             text: 'You reported the cloned profile to LinkedIn for impersonation.',
             isCorrect: true,
             consequence: 'You reported the profile using LinkedIn\'s "Report > Pretending to be someone else > Me" option. LinkedIn removes the clone within 24 hours. You also posted a brief warning on your own profile and messaged your closest connections directly. No colleague data was compromised.',
             tip: 'Reporting a clone on LinkedIn is quick: go to the profile → three dots (···) → Report → Pretending to be someone else → Me. LinkedIn takes impersonation seriously and acts within 24–48 hours. Report first, then alert your network.',
           },
           {
-            id: 'alerted_contacts',
+            id: 'c',
             text: 'You posted a public warning on your real profile and messaged your connections.',
             isCorrect: true,
             consequence: 'You posted "Someone has cloned my LinkedIn profile. Please do not accept connection requests or share any information with a profile that is not linkedin.com/in/priya-sharma-infosys." Several colleagues who had already accepted the clone request immediately withdrew the connection. You also reported the profile to LinkedIn.',

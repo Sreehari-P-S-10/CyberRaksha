@@ -11,6 +11,7 @@ import { useParams, useNavigate, Link } from 'react-router-dom'
 import s from './SimulationPlayerPage.module.css'
 import SimulationEngine from '../simulations/SimulationEngine.jsx'
 import { SIMULATIONS, CATEGORY_ROUTE_MAP, DIFF_COLORS } from '../simulations/simulationsData.js'
+import { api } from '../utils/api.js'
 
 /* ─── SVG Icons ─── */
 const paths = {
@@ -166,10 +167,21 @@ export default function SimulationPlayerPage() {
   const categoryId = sim ? CATEGORY_ROUTE_MAP[sim.category] : null
   const diffColor  = sim ? (DIFF_COLORS[sim.difficulty] || 'var(--amber)') : 'var(--amber)'
 
-  function handleComplete(decs) {
+  async function handleComplete(decs) {
     setDecisions(decs)
     setComplete(true)
     window.scrollTo({ top: 0, behavior: 'smooth' })
+    if (sim) {
+      const totalSteps   = decs.length || sim.steps.length
+      const correctCount = decs.filter(d => d.isCorrect).length
+      const xpEarned     = Math.round((sim.xp * correctCount) / (totalSteps || 1))
+      api.post('/progress/complete', {
+        simulation_id:       simId,
+        simulation_title:    sim.title,
+        simulation_category: sim.category,
+        points_earned:       xpEarned,
+      }).catch(err => console.warn('Progress save failed (non-fatal):', err))
+    }
   }
 
   function handleBack() {

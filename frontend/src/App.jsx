@@ -7,18 +7,22 @@ import SimulationCategoryPage from './pages/SimulationCategoryPage.jsx'
 import SimulationPlayerPage from './pages/SimulationPlayerPage.jsx'
 import LearnPage from './pages/LearnPage.jsx'
 import QuizPage from './pages/QuizPage.jsx'
+import ProtectedRoute from './components/ProtectedRoute.jsx'
 
 export default function App() {
   return (
     <Routes>
-      <Route path="/"                      element={<LandingPage />} />
-      <Route path="/login"                 element={<LoginPage />} />
-      <Route path="/register"              element={<RegisterPage />} />
-      <Route path="/dashboard"             element={<DashboardPage />} />
-      <Route path="/category/:categoryId"  element={<SimulationCategoryPage />} />
-      <Route path="/simulation/:simId"     element={<SimulationPlayerPage />} />
-      <Route path="/learn/:simId"          element={<LearnPage />} />
-      <Route path="/quiz/:simId"           element={<QuizPage />} />
+      {/* Public */}
+      <Route path="/"         element={<LandingPage />} />
+      <Route path="/login"    element={<LoginPage />} />
+      <Route path="/register" element={<RegisterPage />} />
+
+      {/* Protected — require login */}
+      <Route path="/dashboard"            element={<ProtectedRoute><DashboardPage /></ProtectedRoute>} />
+      <Route path="/category/:categoryId" element={<ProtectedRoute><SimulationCategoryPage /></ProtectedRoute>} />
+      <Route path="/simulation/:simId"    element={<ProtectedRoute><SimulationPlayerPage /></ProtectedRoute>} />
+      <Route path="/learn/:simId"         element={<ProtectedRoute><LearnPage /></ProtectedRoute>} />
+      <Route path="/quiz/:simId"          element={<ProtectedRoute><QuizPage /></ProtectedRoute>} />
     </Routes>
   )
 }

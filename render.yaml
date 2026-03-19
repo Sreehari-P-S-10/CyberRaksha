@@ -1,0 +1,30 @@
+# render.yaml — CyberRaksha backend deployment config for Render.com
+# Docs: https://render.com/docs/infrastructure-as-code
+#
+# How to use:
+#   1. Push this repo to GitHub
+#   2. Go to https://dashboard.render.com → New → Blueprint
+#   3. Connect your repo — Render reads this file automatically
+#   4. Set the environment variables listed below in the Render dashboard
+#      (DATABASE_URL, JWT_SECRET, CLIENT_URL)
+
+services:
+  - type: web
+    name: cyberraksha-api
+    runtime: node
+    rootDir: backend
+    buildCommand: npm install
+    startCommand: npm start
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 10000
+      - key: DATABASE_URL
+        sync: false          # set manually in Render dashboard → Environment
+      - key: JWT_SECRET
+        sync: false          # set manually in Render dashboard → Environment
+      - key: CLIENT_URL
+        sync: false          # set to your Vercel frontend URL
+    healthCheckPath: /api/health
+    autoDeploy: true
