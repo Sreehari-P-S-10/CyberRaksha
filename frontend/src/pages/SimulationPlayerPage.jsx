@@ -10,7 +10,8 @@ import { useState } from 'react'
 import { useParams, useNavigate, Link } from 'react-router-dom'
 import s from './SimulationPlayerPage.module.css'
 import SimulationEngine from '../simulations/SimulationEngine.jsx'
-import { SIMULATIONS, CATEGORY_ROUTE_MAP, DIFF_COLORS } from '../simulations/simulationsData.js'
+import { CATEGORY_ROUTE_MAP, DIFF_COLORS } from '../simulations/simulationsData.js'
+import { useSimulation } from '../hooks/useSimulation.js'
 import { api } from '../utils/api.js'
 
 /* ─── SVG Icons ─── */
@@ -163,7 +164,9 @@ export default function SimulationPlayerPage() {
   const [complete, setComplete]   = useState(false)
   const [decisions, setDecisions] = useState([])
 
-  const sim       = SIMULATIONS[simId]
+  // metadata (title, category, difficulty, xp, type) comes from DB via API
+  // steps/choices still come from simulationsData.js — merged inside the hook
+  const { sim } = useSimulation(simId)
   const categoryId = sim ? CATEGORY_ROUTE_MAP[sim.category] : null
   const diffColor  = sim ? (DIFF_COLORS[sim.difficulty] || 'var(--amber)') : 'var(--amber)'
 

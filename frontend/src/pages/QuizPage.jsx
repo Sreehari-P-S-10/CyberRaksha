@@ -2,18 +2,19 @@
  * QuizPage.jsx
  * ─────────────────────────────────────────────────────────────────
  * Quiz page for a simulation module.
- * Loads questions from quizData.js, tracks answers,
- * shows per-question feedback, and renders a results screen.
+ * CHANGED: Questions now fetched from GET /api/quizzes/:simId
+ *          instead of the hardcoded quizData.js file.
+ * UI structure is completely unchanged.
  *
  * Route: /quiz/:simId
  * ─────────────────────────────────────────────────────────────────
  */
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useParams, useNavigate, Link } from 'react-router-dom'
 import s from './QuizPage.module.css'
-import { SIMULATIONS, CATEGORY_ROUTE_MAP, DIFF_COLORS } from '../simulations/simulationsData.js'
-import { QUIZZES } from '../simulations/quizData.js'
+import { CATEGORY_ROUTE_MAP, DIFF_COLORS } from '../simulations/simulationsData.js'
+import { useSimulation } from '../hooks/useSimulation.js'
 import { api } from '../utils/api.js'
 
 /* ─── SVG Icons ─── */
@@ -46,22 +47,61 @@ export default function QuizPage() {
   const { simId }  = useParams()
   const navigate   = useNavigate()
 
-  const sim   = SIMULATIONS[simId]
-  const quiz  = QUIZZES[simId]
+  // metadata from DB, steps not needed (quiz doesn't use sim.steps)
+  const { sim } = useSimulation(simId)
   const categoryId = sim ? CATEGORY_ROUTE_MAP[sim.category] : null
+
+  /* ── API state (replaces quizData.js import) ── */
+  const [quiz,       setQuiz]       = useState(null)   // { simId, passMark, xp, questions }
+  const [quizLoading, setQuizLoading] = useState(true)
+  const [quizError,  setQuizError]  = useState(null)
+
+  useEffect(() => {
+    if (!simId) return
+    setQuizLoading(true)
+    setQuizError(null)
+
+    api.get(`/quizzes/${simId}`)
+      .then(async (res) => {
+        if (!res) return   // api.js handles 401/403 redirect
+        if (!res.ok) {
+          const err = await res.json().catch(() => ({}))
+          throw new Error(err.error || `HTTP ${res.status}`)
+        }
+        return res.json()
+      })
+      .then((data) => {
+        setQuiz(data)
+      })
+      .catch((err) => {
+        console.error('Quiz fetch error:', err)
+        setQuizError(err.message || 'Failed to load quiz')
+      })
+      .finally(() => setQuizLoading(false))
+  }, [simId])
 
   /* Quiz state */
   const [questionIdx, setQuestionIdx] = useState(0)
-  const [selectedId,  setSelectedId]  = useState(null)   // option id chosen this question
+  const [selectedId,  setSelectedId]  = useState(null)
   const [answered,    setAnswered]     = useState(false)
-  const [results,     setResults]      = useState([])     // { questionId, selectedId, isCorrect }[]
+  const [results,     setResults]      = useState([])
   const [complete,    setComplete]     = useState(false)
 
-  if (!sim || !quiz) {
+  /* ── Loading screen ── */
+  if (quizLoading) {
+    return (
+      <div style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'var(--ink)', fontFamily: 'var(--sans)', color: 'var(--text-2)' }}>
+        Loading quiz…
+      </div>
+    )
+  }
+
+  /* ── Error / not found screen ── */
+  if (quizError || !sim || !quiz) {
     return (
       <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 16, fontFamily: 'var(--sans)', color: 'var(--text-2)', background: 'var(--ink)' }}>
         <Icon name="alertTri" size={32} color="var(--text-3)" />
-        <p>Quiz not found for this module.</p>
+        <p>{quizError || 'Quiz not found for this module.'}</p>
         <button onClick={() => navigate(-1)} style={{ display: 'flex', alignItems: 'center', gap: 7, padding: '10px 20px', borderRadius: 6, border: '1px solid var(--border-lt)', color: 'var(--text-2)', fontSize: 13, fontFamily: 'var(--sans)', background: 'none', cursor: 'pointer' }}>
           <Icon name="arrowLeft" size={14} /> Go back
         </button>
@@ -75,16 +115,16 @@ export default function QuizPage() {
   const progressPct = Math.round(((answered ? questionIdx + 1 : questionIdx) / totalQ) * 100)
 
   /* ── Derived results stats ── */
-  const correctCount = results.filter(r => r.isCorrect).length
+  const correctCount  = results.filter(r => r.isCorrect).length
   const totalAnswered = results.length
-  const scorePct     = totalAnswered > 0 ? Math.round((correctCount / totalAnswered) * 100) : 0
-  const passed       = scorePct >= quiz.passMark
-  const xpEarned     = passed ? quiz.xp : Math.round(quiz.xp * (scorePct / 100))
+  const scorePct      = totalAnswered > 0 ? Math.round((correctCount / totalAnswered) * 100) : 0
+  const passed        = scorePct >= quiz.passMark
+  const xpEarned      = passed ? quiz.xp : Math.round(quiz.xp * (scorePct / 100))
 
   const grade =
-    scorePct === 100 ? { label: 'Perfect',  color: '#2EB87A', icon: 'award'     } :
-    scorePct >= 60   ? { label: 'Passed',   color: '#D4891A', icon: 'checkCircle'} :
-                       { label: 'Try again', color: '#C94E4E', icon: 'alertTri'  }
+    scorePct === 100 ? { label: 'Perfect',   color: '#2EB87A', icon: 'award'      } :
+    scorePct >= 60   ? { label: 'Passed',    color: '#D4891A', icon: 'checkCircle' } :
+                       { label: 'Try again', color: '#C94E4E', icon: 'alertTri'   }
 
   /* ── Handlers ── */
   function handleSelect(optId) {
@@ -104,8 +144,14 @@ export default function QuizPage() {
       const finalCorrect = results.filter(r => r.isCorrect).length
       const finalPct     = totalQ > 0 ? Math.round((finalCorrect / totalQ) * 100) : 0
       const finalXp      = finalPct >= quiz.passMark ? quiz.xp : Math.round(quiz.xp * (finalPct / 100))
-      api.post(`/quizzes/${simId}/submit`, { xp_earned: finalXp })
-        .catch(err => console.warn('Quiz XP save failed (non-fatal):', err))
+      const finalPassed  = finalPct >= quiz.passMark
+      api.post(`/quizzes/${simId}/submit`, {
+        xp_earned:       finalXp,
+        score_pct:       finalPct,
+        correct_count:   finalCorrect,
+        total_questions: totalQ,
+        passed:          finalPassed,
+      }).catch(err => console.warn('Quiz XP save failed (non-fatal):', err))
       setComplete(true)
       window.scrollTo({ top: 0, behavior: 'smooth' })
     }
@@ -205,7 +251,7 @@ export default function QuizPage() {
             <div className={s.answerReview}>
               <h3 className={s.answerReviewTitle}>Your answers</h3>
               {results.map((r, i) => {
-                const q = questions.find(q => q.id === r.questionId)
+                const q      = questions.find(q => q.id === r.questionId)
                 const chosen = q.options.find(o => o.id === r.selectedId)
                 return (
                   <div key={i} className={`${s.answerItem} ${r.isCorrect ? s.answerOk : s.answerBad}`}>
@@ -282,9 +328,9 @@ export default function QuizPage() {
               {currentQ.options.map((opt, i) => {
                 let cls = s.optionBtn
                 if (answered) {
-                  if (opt.id === currentQ.correctId)              cls += ' ' + s.optionCorrect
-                  else if (opt.id === selectedId)                 cls += ' ' + s.optionWrong
-                  else                                            cls += ' ' + s.optionFaded
+                  if (opt.id === currentQ.correctId)  cls += ' ' + s.optionCorrect
+                  else if (opt.id === selectedId)     cls += ' ' + s.optionWrong
+                  else                                cls += ' ' + s.optionFaded
                 }
                 return (
                   <button

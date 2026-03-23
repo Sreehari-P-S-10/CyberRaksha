@@ -11,7 +11,8 @@
 
 import { useParams, useNavigate, Link } from 'react-router-dom'
 import s from './LearnPage.module.css'
-import { SIMULATIONS, CATEGORY_ROUTE_MAP, DIFF_COLORS } from '../simulations/simulationsData.js'
+import { CATEGORY_ROUTE_MAP, DIFF_COLORS } from '../simulations/simulationsData.js'
+import { useSimulation } from '../hooks/useSimulation.js'
 
 /* ─── SVG Icons ─── */
 const paths = {
@@ -1061,7 +1062,9 @@ export default function LearnPage() {
   const { simId }  = useParams()
   const navigate   = useNavigate()
 
-  const sim     = SIMULATIONS[simId]
+  // metadata (title, category, difficulty, xp) comes from DB via API
+  // steps still live in simulationsData.js — this page only needs metadata
+  const { sim } = useSimulation(simId)
   const content = LEARN_CONTENT[simId]
   const categoryId = sim ? CATEGORY_ROUTE_MAP[sim.category] : null
   const diffColor  = sim ? (DIFF_COLORS[sim.difficulty] || 'var(--amber)') : 'var(--amber)'

@@ -20,7 +20,7 @@
  */
 
 import { useState, useEffect, useRef } from 'react'
-import { SIMULATIONS } from './simulationsData.js'
+import { useSimulation } from '../hooks/useSimulation.js'
 import SimulationRenderer from './SimulationRenderer.jsx'
 import './VisualSim.css'
 
@@ -89,7 +89,9 @@ function OutcomeBlock({ choice, onContinue, isTerminal, isLastStep }) {
    MAIN ENGINE
 ══════════════════════════════════════════════════════════ */
 export default function SimulationEngine({ simId, onComplete, onBack }) {
-  const sim = SIMULATIONS[simId]
+  // sim.steps/choices come from simulationsData.js (JS stays as engine content).
+  // sim.title/category/difficulty/xp/type are overwritten with live DB values via API.
+  const { sim } = useSimulation(simId)
 
   const [stepIndex, setStepIndex]           = useState(0)
   const [chosenId, setChosenId]             = useState(null)

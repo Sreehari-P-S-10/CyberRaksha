@@ -1,40 +1,46 @@
-require('dotenv').config();
-const fs = require('fs/promises');
-const path = require('path');
-const pool = require('../config/db');
+/**
+ * database/migrate.js
+ * Runs all SQL migration files in order.
+ * Usage: npm run migrate
+ */
 
-async function runMigrations() {
-  const migrationsDir = path.resolve(__dirname, '../../database/migrations');
-  const files = (await fs.readdir(migrationsDir))
-    .filter((file) => file.endsWith('.sql'))
+require('dotenv').config();
+const { Pool } = require('pg');
+const fs   = require('fs');
+const path = require('path');
+
+const pool = new Pool({
+  connectionString: process.env.DATABASE_URL,
+  ssl: process.env.NODE_ENV === 'production' ? { rejectUnauthorized: false } : false,
+});
+
+async function migrate() {
+  const migrationsDir = path.join(__dirname, 'migrations');
+
+  // Read migration files sorted alphabetically
+  const files = fs.readdirSync(migrationsDir)
+    .filter(f => f.endsWith('.sql'))
     .sort();
 
-  if (files.length === 0) {
-    console.log('No migration files found.');
-    return;
-  }
+  console.log(`🛡️  Running ${files.length} migration(s)…`);
 
-  const client = await pool.connect();
-
-  try {
-    for (const file of files) {
-      const filePath = path.join(migrationsDir, file);
-      const sql = await fs.readFile(filePath, 'utf8');
-      await client.query(sql);
-      console.log(`Applied migration: ${file}`);
+  for (const file of files) {
+    const filePath = path.join(migrationsDir, file);
+    const sql      = fs.readFileSync(filePath, 'utf8');
+    console.log(`   → ${file}`);
+    try {
+      await pool.query(sql);
+    } catch (err) {
+      console.error(`   ✗ Failed on ${file}:`, err.message);
+      process.exit(1);
     }
-
-    console.log('Migrations completed successfully.');
-  } finally {
-    client.release();
   }
+
+  console.log('✅  Migrations complete.');
+  await pool.end();
 }
 
-runMigrations()
-  .catch((error) => {
-    console.error('Migration failed:', error.message);
-    process.exitCode = 1;
-  })
-  .finally(async () => {
-    await pool.end();
-  });
+migrate().catch(err => {
+  console.error('Migration error:', err);
+  process.exit(1);
+});

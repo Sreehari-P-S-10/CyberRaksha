@@ -1,40 +1,47 @@
-require('dotenv').config();
-const fs = require('fs/promises');
-const path = require('path');
-const pool = require('../config/db');
+/**
+ * database/seed.js
+ * Runs all seed SQL files in order.
+ * Usage: npm run seed
+ *
+ * Run migrations first: npm run migrate
+ */
 
-async function runSeeds() {
-  const seedsDir = path.resolve(__dirname, '../../database/seeds');
-  const files = (await fs.readdir(seedsDir))
-    .filter((file) => file.endsWith('.sql'))
+require('dotenv').config();
+const { Pool } = require('pg');
+const fs   = require('fs');
+const path = require('path');
+
+const pool = new Pool({
+  connectionString: process.env.DATABASE_URL,
+  ssl: process.env.NODE_ENV === 'production' ? { rejectUnauthorized: false } : false,
+});
+
+async function seed() {
+  const seedsDir = path.join(__dirname, 'seeds');
+
+  const files = fs.readdirSync(seedsDir)
+    .filter(f => f.endsWith('.sql'))
     .sort();
 
-  if (files.length === 0) {
-    console.log('No seed files found.');
-    return;
-  }
+  console.log(`🌱  Running ${files.length} seed file(s)…`);
 
-  const client = await pool.connect();
-
-  try {
-    for (const file of files) {
-      const filePath = path.join(seedsDir, file);
-      const sql = await fs.readFile(filePath, 'utf8');
-      await client.query(sql);
-      console.log(`Applied seed: ${file}`);
+  for (const file of files) {
+    const filePath = path.join(seedsDir, file);
+    const sql      = fs.readFileSync(filePath, 'utf8');
+    console.log(`   → ${file}`);
+    try {
+      await pool.query(sql);
+    } catch (err) {
+      console.error(`   ✗ Failed on ${file}:`, err.message);
+      process.exit(1);
     }
-
-    console.log('Seeding completed successfully.');
-  } finally {
-    client.release();
   }
+
+  console.log('✅  Seeding complete.');
+  await pool.end();
 }
 
-runSeeds()
-  .catch((error) => {
-    console.error('Seeding failed:', error.message);
-    process.exitCode = 1;
-  })
-  .finally(async () => {
-    await pool.end();
-  });
+seed().catch(err => {
+  console.error('Seed error:', err);
+  process.exit(1);
+});

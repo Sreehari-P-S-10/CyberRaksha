@@ -76,490 +76,8 @@ const CATEGORY_META = {
     Structure: SIMULATIONS[categoryId][ageGroup] = array of simulation objects
     Each simulation: { id, level, difficulty, title, desc, duration, objectives }
 ─── */
-const SIMULATIONS = {
-  'financial-security': {
-    student: [
 
-      {
-        id: 'fs-v-otp-1', level: 5, difficulty: 'beginner',
-        title: 'OTP Sharing Fraud',
-        desc: 'Your bank calls asking for an OTP to verify your identity. Realise why sharing an OTP is always a mistake — it authorises transactions.',
-        duration: '10 min', objectives: ['Understand OTP security', 'Identify vishing attacks', 'Know the correct bank verification process'],
-        badge: 'New',
-      },
-
-    ],
-    professional: [
-
-      {
-        id: 'fs-v-kyc-1', level: 6, difficulty: 'beginner',
-        title: 'Bank KYC Update Scam',
-        desc: 'Your bank sends an SMS asking to update KYC details with a link. Spot the phishing attempt and verify through official channels.',
-        duration: '10 min', objectives: ['Identify SMS phishing patterns', 'Verify bank communications', 'Know when banks ask for documentation'],
-        badge: 'New',
-      },
-      {
-        id: 'fs-v-otp-1', level: 7, difficulty: 'beginner',
-        title: 'OTP Sharing Fraud',
-        desc: 'Your bank calls asking for an OTP to verify your identity. Realise why sharing an OTP is always a mistake — it authorises transactions.',
-        duration: '10 min', objectives: ['Understand OTP security', 'Identify vishing attacks', 'Know the correct bank verification process'],
-        badge: 'New',
-      },
-      {
-        id: 'fs-v-invest-1', level: 8, difficulty: 'advanced',
-        title: 'Investment / Trading Scam',
-        desc: 'An ad promises 50% monthly returns on a trading platform. Screenshot profits flood a group. Spot the manufactured trust and fee escalation patterns.',
-        duration: '12 min', objectives: ['Identify investment red flags', 'Verify regulatory registration', 'Test withdrawals before depositing large sums'],
-        badge: 'New',
-      },
-    ],
-    elderly: [
-      {
-        id: 'fs-v-kyc-1', level: 4, difficulty: 'beginner',
-        title: 'Bank KYC Update Scam',
-        desc: 'Your bank sends an SMS asking to update KYC details with a link. Spot the phishing attempt and verify through official channels.',
-        duration: '10 min', objectives: ['Identify SMS phishing patterns', 'Verify bank communications', 'Know when banks ask for documentation'],
-        badge: 'New',
-      },
-      {
-        id: 'fs-v-otp-1', level: 5, difficulty: 'beginner',
-        title: 'OTP Sharing Fraud',
-        desc: 'Your bank calls asking for an OTP to verify your identity. Realise why sharing an OTP is always a mistake — it authorises transactions.',
-        duration: '10 min', objectives: ['Understand OTP security', 'Identify vishing attacks', 'Know the correct bank verification process'],
-        badge: 'New',
-      },
-      {
-        id: 'fs-v-lottery-1', level: 6, difficulty: 'beginner',
-        title: 'Lottery / Prize Scam',
-        desc: 'You receive an SMS claiming you won a lottery. A link asks for a "processing fee" to claim your ₹5,00,000 prize. Spot the advance-fee trap.',
-        duration: '10 min', objectives: ['Identify advance-fee fraud', 'Recognise lottery scam patterns', 'Know you cannot win a lottery you didn\'t enter'],
-        badge: 'New',
-      },
-      {
-        id: 'fs-v-pension-1', level: 7, difficulty: 'beginner',
-        title: 'Pension / Government Benefits Scam',
-        desc: 'A fake government portal asks for your Aadhaar and bank details to verify your pension. Spot the domain spoofing and verify through official channels.',
-        duration: '10 min', objectives: ['Identify government portal phishing', 'Verify government communications', 'Protect Aadhaar and banking details'],
-        badge: 'New',
-      },
-    ],
-  },
-
-  'identity-impersonation': {
-    student: [
-      {
-        id: 'ii-s-1', level: 1, difficulty: 'beginner',
-        title: 'Fake College Admin Account',
-        desc: 'An Instagram account impersonating your college admin is asking students to submit personal details for a "scholarship portal." Spot the fake.',
-        duration: '8 min', objectives: ['Verify official social accounts', 'Identify information harvesting', 'Report impersonation attempts'],
-      },
-      {
-        id: 'ii-s-2', level: 2, difficulty: 'intermediate',
-        title: 'WhatsApp Classmate Impersonation',
-        desc: 'A contact using your classmate\'s photo and name asks to borrow money urgently. Their real number was recently changed. Verify before you act.',
-        duration: '10 min', objectives: ['Verify identity through secondary channels', 'Recognise account takeover signs', 'Respond without escalating risk'],
-      },
-      {
-        id: 'ii-s-3', level: 3, difficulty: 'advanced',
-        title: 'Aadhaar Identity Theft',
-        desc: 'Your Aadhaar details were shared carelessly. Walk through how an attacker could misuse them and what protective steps you can take immediately.',
-        duration: '15 min', objectives: ['Understand Aadhaar misuse vectors', 'Lock Aadhaar biometrics correctly', 'File an identity theft complaint'],
-      },
-      {
-        id: 'ii-fake-medical-1', level: 4, difficulty: 'intermediate',
-        title: 'Fake Medical Assistance Scam',
-        desc: 'A spoofed hospital billing portal demands urgent payment or a procedure is cancelled. Inspect the domain, verify the UPI ID, and call the hospital directly.',
-        duration: '12 min', objectives: [
-          'Identify fake medical billing portals',
-          'Verify hospital bills through official channels',
-          'Recognise insurance renewal SMS fraud',
-        ],
-        targetGroups: ['Professionals', 'Elderly', 'Students'],
-        badge: 'New',
-      },
-      {
-        id: 'ii-urgency-pressure-1', level: 5, difficulty: 'advanced',
-        title: 'Urgency Pressure Attack',
-        desc: 'Simultaneous email, SMS and phone calls claim your bank account will be frozen in 10 minutes. A live countdown runs as you decide what to do.',
-        duration: '15 min', objectives: [
-          'Identify multi-channel coordinated social engineering',
-          'Recognise manufactured urgency as a manipulation tool',
-          'Respond correctly after credentials are compromised',
-        ],
-        targetGroups: ['Professionals', 'Elderly', 'Students'],
-        badge: 'New',
-      },
-    ],
-    professional: [
-      {
-        id: 'ii-p-1', level: 1, difficulty: 'beginner',
-        title: 'LinkedIn Profile Cloning',
-        desc: 'Someone has cloned your LinkedIn profile and is approaching your contacts. Identify, report, and mitigate the reputational damage.',
-        duration: '10 min', objectives: ['Detect profile cloning', 'Alert contacts safely', 'Use LinkedIn reporting tools'],
-      },
-      {
-        id: 'ii-authority-1', level: 2, difficulty: 'intermediate',
-        title: 'Authority Impersonation Scam',
-        desc: 'A threatening Income Tax email, a TRAI officer\'s call, and a fake government portal all target you in one campaign. Navigate each step without losing money or data.',
-        duration: '15 min', objectives: [
-          'Spot spoofed government email domains',
-          'Respond safely to authority impersonation calls',
-          'Verify government portals using .gov.in domains',
-        ],
-        targetGroups: ['Professionals', 'Elderly'],
-        badge: 'New',
-      },
-      {
-        id: 'ii-fake-medical-1', level: 3, difficulty: 'intermediate',
-        title: 'Fake Medical Assistance Scam',
-        desc: 'A spoofed hospital billing portal demands ₹12,800 within 2 hours or your procedure is cancelled. Inspect the domain, verify the UPI, and call the hospital directly.',
-        duration: '12 min', objectives: [
-          'Identify fake medical billing portals',
-          'Verify hospital bills through official channels',
-          'Recognise insurance renewal SMS fraud',
-        ],
-        targetGroups: ['Professionals', 'Elderly', 'Students'],
-        badge: 'New',
-      },
-      {
-        id: 'ii-urgency-pressure-1', level: 4, difficulty: 'advanced',
-        title: 'Urgency Pressure Attack',
-        desc: 'Simultaneous email, SMS and phone calls claim your account will be frozen in 10 minutes. A live countdown runs as you decide. Test your response under maximum pressure.',
-        duration: '15 min', objectives: [
-          'Identify multi-channel coordinated social engineering',
-          'Recognise manufactured urgency as a manipulation tool',
-          'Respond correctly after credentials are compromised',
-        ],
-        targetGroups: ['Professionals', 'Elderly', 'Students'],
-        badge: 'New',
-      },
-    ],
-    elderly: [
-      {
-        id: 'ii-relative-emergency-1', level: 1, difficulty: 'beginner',
-        title: 'Relative Emergency Scam',
-        desc: 'A WhatsApp message and call claim your son is at the police station needing urgent bail money. Panic sets in — but so does suspicion. Navigate it.',
-        duration: '10 min', objectives: [
-          'Recognise the "don\'t call my real number" trick',
-          'Verify identity through an independent channel',
-          'Protect others about to be scammed',
-        ],
-        targetGroups: ['Elderly'],
-        badge: 'New',
-      },
-      {
-        id: 'ii-authority-1', level: 2, difficulty: 'intermediate',
-        title: 'Authority Impersonation Scam',
-        desc: 'A threatening Income Tax email, a TRAI officer\'s call, and a fake government portal — all in one scam campaign. Walk through each interactive step.',
-        duration: '15 min', objectives: [
-          'Spot spoofed government email domains',
-          'Respond safely to authority impersonation calls',
-          'Verify government portals using .gov.in domains',
-        ],
-        targetGroups: ['Professionals', 'Elderly'],
-        badge: 'New',
-      },
-      {
-        id: 'ii-fake-medical-1', level: 3, difficulty: 'intermediate',
-        title: 'Fake Medical Assistance Scam',
-        desc: 'A spoofed hospital billing portal demands urgent payment or a procedure is cancelled. The domain, UPI and timer are all fabricated.',
-        duration: '12 min', objectives: [
-          'Identify fake medical billing portals',
-          'Verify hospital bills through official channels',
-          'Recognise insurance renewal SMS fraud',
-        ],
-        targetGroups: ['Professionals', 'Elderly', 'Students'],
-        badge: 'New',
-      },
-      {
-        id: 'ii-urgency-pressure-1', level: 4, difficulty: 'advanced',
-        title: 'Urgency Pressure Attack',
-        desc: 'Simultaneous email, SMS and phone calls claim your account will be frozen in 10 minutes. A live countdown runs as pressure mounts. Test your composure.',
-        duration: '15 min', objectives: [
-          'Identify multi-channel coordinated social engineering',
-          'Recognise manufactured urgency as a manipulation tool',
-          'Respond correctly after credentials are compromised',
-        ],
-        targetGroups: ['Professionals', 'Elderly', 'Students'],
-        badge: 'New',
-      },
-    ],
-  },
-
-  'malware-device-safety': {
-    /* ── STUDENT: Virus (USB + email), Adware, Trojan ── */
-    student: [
-      {
-        id: 'mal-virus-student', level: 1, difficulty: 'beginner',
-        title: 'Computer Virus: USB Autorun',
-        desc: 'A classmate hands you a USB drive with "notes". Plugging it in triggers an autorun script that tries to spread across your folders. See what happens before you click.',
-        duration: '10 min', objectives: ['Understand USB autorun virus mechanics', 'Identify autorun-based infection vectors', 'Respond correctly to a friend\'s infected device'],
-        badge: 'Interactive',
-      },
-      {
-        id: 'mal-virus-student-email', level: 2, difficulty: 'beginner',
-        title: 'Computer Virus: Email Attachment Trap',
-        desc: 'A forwarded exam-material email includes a "viewer" attachment that asks for macros. Interact with the inbox and document warning before the virus spreads.',
-        duration: '11 min', objectives: ['Identify suspicious email domains and attachments', 'Handle macro warnings safely on desktop', 'Contain spread after a macro-based infection'],
-        badge: 'Interactive',
-      },
-      {
-        id: 'mal-adware-student', level: 3, difficulty: 'beginner',
-        title: 'Adware & PUP: Browser Hijack',
-        desc: 'A free desktop converter bundles a toolbar and search hijacker. Use the browser-style simulation to spot red flags and prevent popup-storm infections.',
-        duration: '10 min', objectives: ['Identify bundled adware in free installers', 'Recognise browser hijack indicators', 'Remove PUPs and restore browser settings safely'],
-        badge: 'Interactive',
-      },
-      {
-        id: 'mal-trojan-student', level: 4, difficulty: 'intermediate',
-        title: 'Trojan Horse: Cracked Game Download',
-        desc: 'A free download of a paid game looks professional — verified badges, thousands of reviews. Click through the installer and watch what silently installs alongside the game.',
-        duration: '14 min', objectives: ['Identify Trojan payloads in free software installers', 'Read installer screens before clicking Next', 'Detect and remove a keylogger from your system'],
-        badge: 'Interactive',
-      },
-    ],
-    /* ── PROFESSIONAL: Virus (beginner) + Trojan (intermediate) + Ransomware (advanced) ── */
-    professional: [
-      {
-        id: 'mal-virus-pro', level: 1, difficulty: 'beginner',
-        title: 'Computer Virus: Office Macro Attack',
-        desc: 'A vendor email arrives with a Word attachment that "requires macros". Enabling them triggers a virus that spreads itself across your organisation\'s contact list in seconds.',
-        duration: '10 min', objectives: ['Identify spoofed sender domains', 'Understand how macro viruses spread', 'Contain an active email virus in a corporate setting'],
-        badge: 'Interactive',
-      },
-      {
-        id: 'mal-trojan-pro', level: 2, difficulty: 'intermediate',
-        title: 'Trojan Horse: Fake IT Security Patch',
-        desc: 'An urgent email from "IT Support" links to a critical Windows patch. The installer looks like Microsoft. A Remote Access Trojan installs alongside — giving attackers full system control.',
-        duration: '14 min', objectives: ['Verify patch authenticity before installing', 'Identify Remote Access Trojan (RAT) behaviour', 'Execute incident response for a RAT compromise'],
-        badge: 'Interactive',
-      },
-      {
-        id: 'mal-ransomware-pro', level: 3, difficulty: 'advanced',
-        title: 'Ransomware: Office File Encryption',
-        desc: 'Files on your work desktop begin locking one by one. A ransom note appears with a countdown timer. Every second you stay connected, more files — including shared drives — are at risk.',
-        duration: '18 min', objectives: ['Respond to live ransomware encryption in real time', 'Isolate the infected machine before network spread', 'Recover using backups — not by paying the ransom'],
-        badge: 'Interactive',
-      },
-    ],
-    /* ── ELDERLY: Virus (beginner) + Ransomware (advanced) + Adware (beginner) ── */
-    elderly: [
-      {
-        id: 'mal-virus-elderly', level: 1, difficulty: 'beginner',
-        title: 'Computer Virus: Forwarded Email Trap',
-        desc: 'A trusted family member forwards a "government health scheme" email with an attachment. The file is a virus that silently spreads itself to your contact list the moment you open it.',
-        duration: '10 min', objectives: ['Recognise virus delivery through trusted contacts', 'Verify government scheme authenticity before opening', 'Help a family member clean an infected device'],
-        badge: 'Interactive',
-      },
-      {
-        id: 'mal-adware-elderly', level: 2, difficulty: 'beginner',
-        title: 'Adware: Fake App from Outside Play Store',
-        desc: 'A "free flashlight app" arrives as an APK via WhatsApp. After install it floods your screen with ads every 15 seconds, requests access to your contacts and location, and triggers fake support calls.',
-        duration: '12 min', objectives: ['Identify dangerous app permissions', 'Understand APK sideloading risks', 'Remove adware apps and stop fake support scams'],
-        badge: 'Interactive',
-      },
-      {
-        id: 'mal-ransomware-elderly', level: 3, difficulty: 'advanced',
-        title: 'Ransomware: Phone Locked by Fake Police',
-        desc: 'A WhatsApp APK installs ransomware that locks your Android screen with a fake Ministry of Home Affairs notice demanding ₹3,500. It looks official. It is entirely fake.',
-        duration: '14 min', objectives: ['Identify government impersonation screen-locker ransomware', 'Remove mobile ransomware using Android Safe Mode', 'Report UPI fraud and recover from a payment mistake'],
-        badge: 'Interactive',
-      },
-    ],
-  },
-
-    'online-commerce-safety': {
-
-    /* ── STUDENT: sees Gaming Account + Fake E-commerce + Courier Delivery ── */
-    student: [
-      {
-        id: 'oc-gaming-1',
-        level: 1,
-        difficulty: 'beginner',
-        title: 'Gaming Account Scam',
-        desc: 'A Discord message promises free in-game skins via a giveaway link. Clicking it opens a fake gaming login page that harvests your credentials.',
-        duration: '10 min',
-        objectives: [
-          'Identify phishing via gaming chat platforms',
-          'Recognise fake login page indicators',
-          'Protect gaming account credentials',
-        ],
-        targetGroups: ['Students'],
-      },
-      {
-        id: 'oc-ecommerce-1',
-        level: 2,
-        difficulty: 'beginner',
-        title: 'Fake E-commerce Scam',
-        desc: 'A social media ad promises 90% off on branded shoes. Clicking it opens a convincing fake store that collects payment details and never ships the product.',
-        duration: '12 min',
-        objectives: [
-          'Spot unrealistic discounts and fake urgency tactics',
-          'Verify e-commerce domain and seller authenticity',
-          'Identify fake reviews and countdown pressure',
-        ],
-        targetGroups: ['Students', 'Professionals', 'Elderly'],
-      },
-      {
-        id: 'oc-courier-1',
-        level: 3,
-        difficulty: 'beginner',
-        title: 'Courier Delivery Scam',
-        desc: 'An SMS claims your package delivery failed and asks you to pay a ₹99 re-delivery fee via a link. The link leads to a fake courier site that steals your card details.',
-        duration: '10 min',
-        objectives: [
-          'Identify SMS phishing (smishing) in delivery contexts',
-          'Verify courier communication through official apps',
-          'Never pay re-delivery fees via SMS links',
-        ],
-        targetGroups: ['Students', 'Professionals', 'Elderly'],
-      },
-    ],
-
-    /* ── PROFESSIONAL: sees Fake E-commerce + Courier Delivery + Fake Tech Support ── */
-    professional: [
-      {
-        id: 'oc-ecommerce-1',
-        level: 1,
-        difficulty: 'beginner',
-        title: 'Fake E-commerce Scam',
-        desc: 'A social media ad promises 90% off on branded shoes. Clicking it opens a convincing fake store that collects payment details and never ships the product.',
-        duration: '12 min',
-        objectives: [
-          'Spot unrealistic discounts and fake urgency tactics',
-          'Verify e-commerce domain and seller authenticity',
-          'Identify fake reviews and countdown pressure',
-        ],
-        targetGroups: ['Students', 'Professionals', 'Elderly'],
-      },
-      {
-        id: 'oc-courier-1',
-        level: 2,
-        difficulty: 'beginner',
-        title: 'Courier Delivery Scam',
-        desc: 'An SMS claims your package delivery failed and asks you to pay a ₹99 re-delivery fee via a link. The link leads to a fake courier site that steals your card details.',
-        duration: '10 min',
-        objectives: [
-          'Identify SMS phishing (smishing) in delivery contexts',
-          'Verify courier communication through official apps',
-          'Never pay re-delivery fees via SMS links',
-        ],
-        targetGroups: ['Students', 'Professionals', 'Elderly'],
-      },
-      {
-        id: 'oc-techsupport-1',
-        level: 3,
-        difficulty: 'intermediate', 
-        title: 'Fake Tech Support Scam',
-        desc: 'While browsing, a fullscreen popup warns your computer is infected and displays a tech support number. Calling it connects you to scammers who ask for remote access and payment.',
-        duration: '14 min',
-        objectives: [
-          'Identify fake security alert popups in browsers',
-          'Understand why legitimate companies never cold-call for support',
-          'Safely close rogue browser warnings without calling the number',
-        ],
-        targetGroups: ['Professionals', 'Elderly'],
-      },
-    ],
-
-    /* ── ELDERLY: sees Fake E-commerce + Courier Delivery + Fake Tech Support ── */
-    elderly: [
-      {
-        id: 'oc-ecommerce-1',
-        level: 1,
-        difficulty: 'beginner',
-        title: 'Fake E-commerce Scam',
-        desc: 'A social media ad promises 90% off on branded shoes. Clicking it opens a convincing fake store that collects payment details and never ships the product.',
-        duration: '12 min',
-        objectives: [
-          'Spot unrealistic discounts and fake urgency tactics',
-          'Verify e-commerce domain and seller authenticity',
-          'Identify fake reviews and countdown pressure',
-        ],
-        targetGroups: ['Students', 'Professionals', 'Elderly'],
-      },
-      {
-        id: 'oc-courier-1',
-        level: 2,
-        difficulty: 'beginner',
-        title: 'Courier Delivery Scam',
-        desc: 'An SMS claims your package delivery failed and asks you to pay a ₹99 re-delivery fee via a link. The link leads to a fake courier site that steals your card details.',
-        duration: '10 min',
-        objectives: [
-          'Identify SMS phishing (smishing) in delivery contexts',
-          'Verify courier communication through official apps',
-          'Never pay re-delivery fees via SMS links',
-        ],
-        targetGroups: ['Students', 'Professionals', 'Elderly'],
-      },
-      {
-        id: 'oc-techsupport-1',
-        level: 3,
-        difficulty: 'intermediate',
-        title: 'Fake Tech Support Scam',
-        desc: 'While browsing, a fullscreen popup warns your computer is infected and displays a tech support number. Calling it connects you to scammers who ask for remote access and payment.',
-        duration: '14 min',
-        objectives: [
-          'Identify fake security alert popups in browsers',
-          'Understand why legitimate companies never cold-call for support',
-          'Safely close rogue browser warnings without calling the number',
-        ],
-        targetGroups: ['Professionals', 'Elderly'],
-      },
-    ],
-  },
-
-  'career-education-opportunity': {
-    student: [
-      {
-        id: 'ceo-v-job-1', level: 1, difficulty: 'intermediate',
-        title: 'Fake Job Offer Scam',
-        desc: 'You receive an official-looking job offer email from a prestigious company. They ask you to complete registration on a recruitment portal with a fee.',
-        duration: '12 min', objectives: ['Identify recruitment scam patterns', 'Verify job offers through official channels', 'Know legitimate companies never charge job applicants'],
-        badge: 'New',
-      },
-      {
-        id: 'ceo-v-scholarship-1', level: 2, difficulty: 'beginner',
-        title: 'Scholarship Scam',
-        desc: 'You receive a congratulations email about a scholarship you never applied for. A "verification link" asks for Aadhaar and a processing fee.',
-        duration: '10 min', objectives: ['Spot unsolicited scholarship offers', 'Verify through official government portals', 'Never pay fees for legitimate scholarships'],
-        badge: 'New',
-      },
-      {
-        id: 'ceo-v-exam-phone-1', level: 3, difficulty: 'beginner',
-        title: 'Exam Result Phishing (Phone)',
-        desc: 'You get an SMS claiming your exam results are ready with a link to check them. The fake portal asks for your university login credentials.',
-        duration: '10 min', objectives: ['Identify phishing via SMS', 'Never click links in unsolicited messages', 'Access university portals directly'],
-        badge: 'New',
-      },
-      {
-        id: 'ceo-v-exam-desktop-1', level: 3, difficulty: 'beginner',
-        title: 'Exam Result Phishing (Desktop)',
-        desc: 'You receive an email claiming your exam results are ready. A "login link" is actually a phishing page asking for your credentials.',
-        duration: '10 min', objectives: ['Identify phishing via email', 'Verify sender legitimacy', 'Access university portals directly'],
-        badge: 'New',
-      },
-      {
-        id: 'ceo-v-giveaway-1', level: 4, difficulty: 'beginner',
-        title: 'Giveaway / Influencer Scam',
-        desc: 'A popular Instagram influencer is giving away iPhones. You just need to claim your prize via a link, which asks for a "handling fee."',
-        duration: '10 min', objectives: ['Verify influencer accounts', 'Spot fake giveaways', 'Know real prizes never require upfront fees'],
-        badge: 'New',
-      },
-    ],
-    professional: [
-      {
-        id: 'ceo-v-job-1', level: 1, difficulty: 'intermediate',
-        title: 'Fake Job Offer Scam',
-        desc: 'You receive an official-looking job offer email from a prestigious company. They ask you to complete registration on a recruitment portal with a fee.',
-        duration: '12 min', objectives: ['Identify recruitment scam patterns', 'Verify job offers through official channels', 'Know legitimate companies never charge job applicants'],
-        badge: 'New',
-      },
-    ],
-    elderly: [],
-  },
-}
-
+/* ─── Difficulty
 /* ─── Difficulty label & colour ─── */
 const DIFF_META = {
   beginner:     { label: 'Beginner',     color: '#2EB87A', bg: 'rgba(46,184,122,0.10)' },
@@ -586,7 +104,22 @@ export default function SimulationCategoryPage() {
   const expertise = user?.expertise_level || 'beginner'
 
   const [completed, setCompleted] = useState(new Set())
+  const [sims,      setSims]      = useState([])
+  const [simsLoading, setSimsLoading] = useState(true)
 
+  // Fetch simulation cards from DB
+  useEffect(() => {
+    if (!categoryId || !ageGroup) return
+    setSimsLoading(true)
+    api.get(`/catalogue/${categoryId}/${ageGroup}`)
+      .then(async res => {
+        if (res?.ok) setSims(await res.json())
+      })
+      .catch(() => { /* non-fatal — page still renders empty grid */ })
+      .finally(() => setSimsLoading(false))
+  }, [categoryId, ageGroup])
+
+  // Fetch completed simulation IDs for this user
   useEffect(() => {
     async function loadProgress() {
       try {
@@ -601,7 +134,6 @@ export default function SimulationCategoryPage() {
   }, [])
 
   const meta = CATEGORY_META[categoryId]
-  const sims = SIMULATIONS[categoryId]?.[ageGroup] ?? []
   const unlockedDiffs = UNLOCKED[expertise]
 
   // Scroll to top on category change
@@ -622,7 +154,13 @@ export default function SimulationCategoryPage() {
       next.add(simId)
       return next
     })
-    // TODO: POST /api/progress/complete { simulation_id: simId }
+    const simMeta = sims.find(s => s.id === simId)
+    api.post('/progress/complete', {
+      simulation_id:       simId,
+      simulation_title:    simMeta?.title    ?? simId,
+      simulation_category: meta?.title       ?? '',
+      points_earned:       0,
+    }).catch(err => console.warn('Progress mark failed (non-fatal):', err))
   }
 
   const completedCount = sims.filter(sim => completed.has(sim.id)).length
@@ -738,7 +276,16 @@ export default function SimulationCategoryPage() {
               Choose your simulation
             </h2>
 
-            <div className={s.simGrid}>
+            {simsLoading ? (
+              <div style={{ padding: '40px', textAlign: 'center', color: 'var(--text-3)', fontFamily: 'var(--mono)', fontSize: '13px' }}>
+                Loading simulations…
+              </div>
+            ) : sims.length === 0 ? (
+              <div style={{ padding: '40px', textAlign: 'center', color: 'var(--text-3)', fontFamily: 'var(--mono)', fontSize: '13px' }}>
+                No simulations available for this category.
+              </div>
+            ) : null}
+          <div className={s.simGrid}>
               {sims.map((sim) => {
                 const isUnlocked = unlockedDiffs.includes(sim.difficulty)
                 const isDone = completed.has(sim.id)

@@ -66,61 +66,24 @@ const tips = [
 
 
 
-/* ─── Simulation Data ─── */
-/* CHANGE 1: added categoryRoute to each entry */
-const simulations = [
-  {
-    id: 'financial',
-    categoryRoute: 'financial-security',
-    icon: 'creditCard',
-    cat: 'Finance',
-    title: 'Financial Security',
-    desc: 'Banking, payments, OTP, UPI, and money-related fraud patterns.',
-    scenarios: 8,
-    completed: false,
-  },
-  {
-    id: 'identity',
-    categoryRoute: 'identity-impersonation',
-    icon: 'user',
-    cat: 'Social Eng.',
-    title: 'Identity & Impersonation',
-    desc: 'Scams involving fake authorities, relatives, or trusted persons.',
-    scenarios: 6,
-    completed: false,
-  },
-  {
-    id: 'commerce',
-    categoryRoute: 'online-commerce-safety',
-    icon: 'shoppingCart',
-    cat: 'Commerce',
-    title: 'Online Commerce Safety',
-    desc: 'Shopping, delivery, refunds, and marketplace fraud.',
-    scenarios: 5,
-    completed: false,
-  },
-  {
-    id: 'investment',
-    categoryRoute: 'career-education-opportunity',
-    icon: 'trendingUp',
-    cat: 'Education & Career',
-    title: 'Career, Education & Opportunity',
-    desc: 'Job offers, scholarships, earning schemes and career development scams.',
-    scenarios: 7,
-    completed: false,
-  },
-
-  {
-    id: 'malware',
-    categoryRoute: 'malware-device-safety',
-    icon: 'cpu',
-    cat: 'Malware',
-    title: 'Malware & Device Security',
-    desc: 'Protection against malicious software that infects devices to steal data.',
-    scenarios: 6,
-    completed: false,
-  },
+/* ─── Simulation Category Cards ─── */
+/* `completed` is derived dynamically from live progress API — not hardcoded */
+const CATEGORY_CARDS = [
+  { id: 'financial',  categoryRoute: 'financial-security',          icon: 'creditCard',   cat: 'Finance',            title: 'Financial Security',              desc: 'Banking, payments, OTP, UPI, and money-related fraud patterns.',                  scenarios: 8 },
+  { id: 'identity',   categoryRoute: 'identity-impersonation',      icon: 'user',         cat: 'Social Eng.',        title: 'Identity & Impersonation',        desc: 'Scams involving fake authorities, relatives, or trusted persons.',                scenarios: 6 },
+  { id: 'commerce',   categoryRoute: 'online-commerce-safety',      icon: 'shoppingCart', cat: 'Commerce',           title: 'Online Commerce Safety',          desc: 'Shopping, delivery, refunds, and marketplace fraud.',                             scenarios: 5 },
+  { id: 'investment', categoryRoute: 'career-education-opportunity', icon: 'trendingUp',  cat: 'Education & Career', title: 'Career, Education & Opportunity', desc: 'Job offers, scholarships, earning schemes and career development scams.',         scenarios: 7 },
+  { id: 'malware',    categoryRoute: 'malware-device-safety',       icon: 'cpu',          cat: 'Malware',            title: 'Malware & Device Security',       desc: 'Protection against malicious software that infects devices to steal data.',       scenarios: 6 },
 ]
+
+/* Maps DB simulation_category values to CATEGORY_CARDS categoryRoute keys */
+const CATEGORY_TO_ROUTE = {
+  'Financial Security':                'financial-security',
+  'Identity & Impersonation':          'identity-impersonation',
+  'Online Commerce Safety':            'online-commerce-safety',
+  'Career, Education & Opportunity':   'career-education-opportunity',
+  'Malware & Device Safety':           'malware-device-safety',
+}
 
 const DIFF_META = {
   Beginner:     { color: '#2EB87A', bg: 'rgba(46,184,122,0.1)',  border: 'rgba(46,184,122,0.22)' },
@@ -128,11 +91,7 @@ const DIFF_META = {
   Advanced:     { color: '#C94E4E', bg: 'rgba(201,78,78,0.1)',   border: 'rgba(201,78,78,0.22)'  },
 }
 
-const recentActivity = [
-  { icon: 'checkCircle', label: 'Completed Financial Security — Module 1', time: '2h ago', ok: true },
-  { icon: 'activity',    label: 'Started Identity & Impersonation training', time: 'Yesterday', ok: true },
-  { icon: 'rotCcw',      label: 'OTP Scam Simulation — retry recommended', time: '3 days ago', ok: false },
-]
+/* recentActivity is now derived inside DashboardPage component from live API data */
 
 /* ─── Nav ─── */
 function NavBar({ onLogout, user }) {
@@ -509,6 +468,30 @@ export default function DashboardPage() {
 
   const completedCount = progress.filter(p => p.status === 'completed').length
   const totalPoints    = user?.total_points ?? 0
+
+  // Derive which category cards are "completed" (user finished ≥1 sim in that category)
+  const completedCategories = new Set(
+    progress
+      .filter(p => p.status === 'completed' && p.simulation_category)
+      .map(p => CATEGORY_TO_ROUTE[p.simulation_category])
+      .filter(Boolean)
+  )
+
+  // Enrich CATEGORY_CARDS with live `completed` flag — no hardcoded values
+  const simulations = CATEGORY_CARDS.map(c => ({
+    ...c,
+    completed: completedCategories.has(c.categoryRoute),
+  }))
+
+  // Build recent activity list from live progress records (last 3)
+  const recentActivity = progress.slice(0, 3).map(p => ({
+    icon:  p.status === 'completed' ? 'checkCircle' : 'activity',
+    label: `${p.status === 'completed' ? 'Completed' : 'Started'} — ${p.simulation_title ?? p.simulation_id}`,
+    time:  p.completed_at
+             ? new Date(p.completed_at).toLocaleDateString('en-IN', { day: 'numeric', month: 'short' })
+             : new Date(p.updated_at).toLocaleDateString('en-IN',  { day: 'numeric', month: 'short' }),
+    ok: p.status === 'completed',
+  }))
 
   function handleLogout() {
     logout()
