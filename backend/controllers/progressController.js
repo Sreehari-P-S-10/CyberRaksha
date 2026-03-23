@@ -28,14 +28,19 @@ async function getProgress(req, res) {
 }
 
 // POST /api/progress/complete
-// Body: { simulation_id, simulation_title, simulation_category, points_earned }
+// Body: { simulation_id, simulation_title, simulation_category, points_earned, status }
+// status must be 'completed' (100% score) or 'failed' (partial score)
 async function completeSimulation(req, res) {
   const {
     simulation_id,
     simulation_title,
     simulation_category,
     points_earned = 0,
+    status = 'failed',                          // frontend always sends this now
   } = req.body;
+
+  // Normalise — only accept known values
+  const incomingStatus = status === 'completed' ? 'completed' : 'failed';
 
   if (!simulation_id) {
     return res.status(400).json({ error: 'simulation_id is required' });
@@ -52,17 +57,21 @@ async function completeSimulation(req, res) {
       [req.user.id, simulation_id]
     );
 
-    const alreadyCompleted = existing.rows[0]?.status === 'completed';
+    const prevStatus       = existing.rows[0]?.status ?? null;
+    const alreadyCompleted = prevStatus === 'completed';
 
     if (existing.rows.length === 0) {
-      // First attempt — insert and award XP
+      // ── First attempt: insert with whatever status the frontend sent ──
       await client.query(
         `INSERT INTO user_progress
            (user_id, simulation_id, simulation_title, simulation_category,
             status, points_earned, completed_at, updated_at)
-         VALUES ($1, $2, $3, $4, 'completed', $5, NOW(), NOW())`,
-        [req.user.id, simulation_id, simulation_title, simulation_category, points_earned]
+         VALUES ($1, $2, $3, $4, $5, $6,
+                 ${incomingStatus === 'completed' ? 'NOW()' : 'NULL'}, NOW())`,
+        [req.user.id, simulation_id, simulation_title, simulation_category,
+         incomingStatus, points_earned]
       );
+      // Award XP for any first attempt (partial XP for failed, full XP for completed)
       if (points_earned > 0) {
         await client.query(
           'UPDATE users SET total_points = total_points + $1 WHERE id = $2',
@@ -70,14 +79,17 @@ async function completeSimulation(req, res) {
         );
       }
     } else if (!alreadyCompleted) {
-      // Was in_progress — complete it and award XP
+      // ── Previously failed/in_progress — update status and award XP ──
+      // Never downgrade: if new attempt is completed, upgrade; if still failed, keep failed
       await client.query(
         `UPDATE user_progress
-         SET status = 'completed', points_earned = $1,
-             simulation_title = $2, simulation_category = $3,
-             completed_at = NOW(), updated_at = NOW()
-         WHERE user_id = $4 AND simulation_id = $5`,
-        [points_earned, simulation_title, simulation_category, req.user.id, simulation_id]
+         SET status = $1, points_earned = $2,
+             simulation_title = $3, simulation_category = $4,
+             completed_at = ${incomingStatus === 'completed' ? 'NOW()' : 'NULL'},
+             updated_at = NOW()
+         WHERE user_id = $5 AND simulation_id = $6`,
+        [incomingStatus, points_earned, simulation_title, simulation_category,
+         req.user.id, simulation_id]
       );
       if (points_earned > 0) {
         await client.query(
@@ -86,7 +98,7 @@ async function completeSimulation(req, res) {
         );
       }
     } else {
-      // Replay — update metadata, no extra XP
+      // ── Replay of an already-completed sim — update metadata, no extra XP ──
       await client.query(
         `UPDATE user_progress
          SET points_earned = $1, simulation_title = $2,
@@ -96,18 +108,38 @@ async function completeSimulation(req, res) {
       );
     }
 
-    await client.query('COMMIT');
-
-    const userResult = await pool.query(
-      'SELECT total_points FROM users WHERE id = $1',
+    // ── Expertise level upgrade check (Approach B — XP threshold) ──
+    // Thresholds: 800 XP → intermediate, 1400 XP → advanced
+    // Only ever upgrades, never downgrades.
+    const userResult = await client.query(
+      'SELECT total_points, expertise_level FROM users WHERE id = $1',
       [req.user.id]
     );
+    const { total_points, expertise_level } = userResult.rows[0] ?? {};
+
+    let newLevel = expertise_level;
+    if (total_points >= 1400 && expertise_level !== 'advanced') {
+      newLevel = 'advanced';
+    } else if (total_points >= 800 && expertise_level === 'beginner') {
+      newLevel = 'intermediate';
+    }
+
+    if (newLevel !== expertise_level) {
+      await client.query(
+        'UPDATE users SET expertise_level = $1 WHERE id = $2',
+        [newLevel, req.user.id]
+      );
+    }
+
+    await client.query('COMMIT');
 
     return res.json({
       success:          true,
       xp_awarded:       alreadyCompleted ? 0 : points_earned,
       first_completion: !alreadyCompleted,
-      total_points:     userResult.rows[0]?.total_points ?? 0,
+      total_points,
+      expertise_level:  newLevel,
+      level_upgraded:   newLevel !== expertise_level,
     });
   } catch (err) {
     await client.query('ROLLBACK');

@@ -177,12 +177,16 @@ export default function SimulationPlayerPage() {
     if (sim) {
       const totalSteps   = decs.length || sim.steps.length
       const correctCount = decs.filter(d => d.isCorrect).length
-      const xpEarned     = Math.round((sim.xp * correctCount) / (totalSteps || 1))
+      const isPerfect    = correctCount === totalSteps
+      const xpEarned     = isPerfect
+        ? sim.xp
+        : Math.round((sim.xp * correctCount) / (totalSteps || 1))
       api.post('/progress/complete', {
         simulation_id:       simId,
         simulation_title:    sim.title,
         simulation_category: sim.category,
         points_earned:       xpEarned,
+        status:              isPerfect ? 'completed' : 'failed',
       }).catch(err => console.warn('Progress save failed (non-fatal):', err))
     }
   }

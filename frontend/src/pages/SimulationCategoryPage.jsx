@@ -370,8 +370,6 @@ export default function SimulationCategoryPage() {
                           </button>
                         ) : (
                           <button className={s.btnStart} onClick={() => {
-                            // Mark as complete for demo; real app navigates to sim page
-                            handleComplete(sim.id)
                             navigate(`/simulation/${sim.id}`)
                           }}>
                             Start <Icon name="arrowRight" size={13} />
