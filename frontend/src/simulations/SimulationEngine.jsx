@@ -53,7 +53,7 @@ function ChoicePanel({ choices, chosenId, onChoose }) {
 }
 
 /* ── consequence + tip block ── */
-function OutcomeBlock({ choice, onContinue, isTerminal, isLastStep }) {
+function OutcomeBlock({ choice, onContinue, isTerminal, isLastStep, isWrong }) {
   const ref = useRef(null)
   useEffect(() => {
     setTimeout(() => ref.current?.scrollIntoView({ behavior: 'smooth', block: 'nearest' }), 80)
@@ -73,7 +73,7 @@ function OutcomeBlock({ choice, onContinue, isTerminal, isLastStep }) {
       )}
       {!isTerminal && (
         <button className="vsim-continue-btn" onClick={onContinue}>
-          {isLastStep ? 'See results →' : 'Continue →'}
+          {(isLastStep || isWrong) ? 'See results →' : 'Continue →'}
         </button>
       )}
       {isTerminal && (
@@ -150,10 +150,11 @@ export default function SimulationEngine({ simId, onComplete, onBack }) {
   function handleContinue() {
     const choice = currentStep.choices.find(c => c.id === chosenId)
     const isTerminal = choice?.terminalState
+    const isWrong    = !choice?.isCorrect
     const isLastStep = stepIndex >= sim.steps.length - 1
 
-    if (isTerminal || isLastStep) {
-      // decisions already has this step recorded from handleChoose — pass as-is
+    // End immediately on: wrong answer, terminalState flag, or last step reached
+    if (isWrong || isTerminal || isLastStep) {
       onComplete(decisions)
     } else {
       setStepIndex(i => i + 1)
@@ -214,6 +215,7 @@ export default function SimulationEngine({ simId, onComplete, onBack }) {
           onContinue={handleContinue}
           isTerminal={!!chosenChoice.terminalState}
           isLastStep={isLastStep}
+          isWrong={!chosenChoice.isCorrect}
         />
       )}
     </div>
