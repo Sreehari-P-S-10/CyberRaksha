@@ -520,7 +520,7 @@ export default function LandingPage() {
           </div>
 
           <div className={s.footerBottom}>
-            <span>© 2025 CyberRaksha · Mini Project · B.Tech CSE</span>
+            <span>© 2026 CyberRaksha · Mini Project · B.Tech CSE</span>
             <span className={s.footerTeam}>Adith · Sreehari · Neeraj</span>
           </div>
         </div>

@@ -166,8 +166,8 @@ export default function RegisterPage() {
                 <select style={sel} value={ageCategory} onChange={e => setAgeCategory(e.target.value)} required>
                   <option value="">Select your age group</option>
                   <option value="student">Student</option>
-                  <option value="professional">Working Professional / Adult</option>
-                  <option value="elderly">Senior Citizen (60+)</option>
+                  <option value="professional">Professional</option>
+                  <option value="elderly">Senior Citizen </option>
                 </select>
               </div>
               <div>
