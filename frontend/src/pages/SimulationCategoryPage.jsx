@@ -16,7 +16,7 @@ const paths = {
   target:      <><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></>,
   bookOpen:    <><path d="M2 3h6a4 4 0 014 4v14a3 3 0 00-3-3H2z"/><path d="M22 3h-6a4 4 0 00-4 4v14a3 3 0 013-3h7z"/></>,
   award:       <><circle cx="12" cy="8" r="6"/><path d="M15.477 12.89L17 22l-5-3-5 3 1.523-9.11"/></>,
-  bell:        <><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 01-3.46 0"/></>,
+ // bell:        <><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 01-3.46 0"/></>,
   user:        <><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></>,
   mail:        <><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M2 7l10 7 10-7"/></>,
   phone:       <path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.81a19.79 19.79 0 01-3.07-8.63A2 2 0 012 1h3a2 2 0 012 1.72c.12 1.05.37 2.05.7 3.01a2 2 0 01-.45 2.11L6.09 9a16 16 0 006.91 6.91l1.16-1.16a2 2 0 012.11-.45c.96.33 1.96.58 3.01.7A2 2 0 0122 16.92z"/>,
@@ -182,9 +182,9 @@ export default function SimulationCategoryPage() {
           </Link>
 
           <div className={s.topbarRight}>
-            <button className={s.topbarIcon} aria-label="Notifications">
+            {/* <button className={s.topbarIcon} aria-label="Notifications">
               <Icon name="bell" size={18} color="var(--text-3)" />
-            </button>
+            </button> */}
             <div className={s.topbarUser}>
               <div className={s.topbarUserInfo}>
                 <span className={s.topbarUserName}>{user?.name || 'Trainee'}</span>
@@ -320,16 +320,7 @@ export default function SimulationCategoryPage() {
                     <div className={s.simCardTop}>
                       <span className={s.simLevel}>Level {sim.level}</span>
                       <div style={{ display: 'flex', gap: 6, alignItems: 'center' }}>
-                        {sim.badge && (
-                          <span style={{
-                            fontSize: 10, fontWeight: 700, letterSpacing: '0.08em',
-                            padding: '2px 7px', borderRadius: 4,
-                            background: 'rgba(212,137,26,0.15)',
-                            color: 'var(--amber-lt)',
-                            border: '1px solid rgba(212,137,26,0.3)',
-                            textTransform: 'uppercase',
-                          }}>{sim.badge}</span>
-                        )}
+                        {}
                         {isUnlocked && (
                           <span className={s.simDiff} style={{ color: diff.color, background: diff.bg }}>
                             {diff.label}

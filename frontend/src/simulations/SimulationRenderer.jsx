@@ -32,6 +32,11 @@ import { AdwareBrowserEnv, AdwareMobileEnv } from './components/AdwareUI.jsx'
 import { LotteryPaymentEnv } from './components/LotteryPaymentEnv.jsx'
 import { GiveawayScamEnv, GiveawayPortalEnv } from './components/GiveawayScamEnv.jsx'
 import {
+  FakeJobPortalEnv,
+  FakeScholarshipPortalEnv,
+  FakeUniversityPortalEnv,
+} from './components/FakeJobPortalUI.jsx'
+import {
   InvestmentAdEnv,
   TradingPlatformEnv,
   TelegramInvestEnv,
@@ -170,6 +175,18 @@ export default function SimulationRenderer({ step, onInteract }) {
     /* ── Fake prize claim portal (step 2) ── */
     case 'giveawayPortal':
       return <GiveawayPortalEnv envProps={envProps} onInteract={onInteract} />
+
+    /* ── Fake corporate onboarding portal with fee requests ── */
+    case 'fakeJobPortal':
+      return <FakeJobPortalEnv envProps={envProps} onInteract={onInteract} />
+
+    /* ── Fake scholarship/government benefits portal ── */
+    case 'fakeScholarshipPortal':
+      return <FakeScholarshipPortalEnv envProps={envProps} onInteract={onInteract} />
+
+    /* ── Fake university exam results login page ── */
+    case 'fakeUniversityPortal':
+      return <FakeUniversityPortalEnv envProps={envProps} onInteract={onInteract} />
 
     default:
       return (

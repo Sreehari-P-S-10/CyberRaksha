@@ -120,7 +120,7 @@ export function OfficialEmailEnv({ envProps, onInteract }) {
                 {subject}
               </div>
               <div style={{ fontSize: 12, color: '#8e8e93', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
-                Dear Taxpayer, you have an outstanding notice that requires immediate attention...
+                {bodyLines.length >= 2 ? `${bodyLines[0]} ${bodyLines[1]}...` : bodyLines[0] ? `${bodyLines[0]}...` : 'No preview available.'}
               </div>
             </div>
           </div>

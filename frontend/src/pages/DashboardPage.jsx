@@ -6,7 +6,7 @@ import { api } from '../utils/api.js'
 /* ─── SVG Icon System — matches LandingPage exactly ─── */
 const paths = {
   shield:       <path d="M12 2L3 7v5c0 5.25 3.75 10.15 9 11.25C17.25 22.15 21 17.25 21 12V7L12 2z"/>,
-  bell:         <><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></>,
+  //bell:         <><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></>,
   logOut:       <><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></>,
   arrowRight:   <><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></>,
   checkCircle:  <><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></>,
@@ -127,14 +127,6 @@ function NavBar({ onLogout, user }) {
         </Link>
 
         <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-          <button style={{
-            width: '34px', height: '34px', borderRadius: '7px',
-            background: 'transparent', border: '1px solid rgba(255,255,255,0.07)',
-            display: 'flex', alignItems: 'center', justifyContent: 'center',
-            cursor: 'pointer',
-          }}>
-            <Icon name="bell" size={16} color="var(--text-2)" />
-          </button>
 
           <div style={{
             width: '34px', height: '34px', borderRadius: '50%',
@@ -453,28 +445,66 @@ export default function DashboardPage() {
   const navigate = useNavigate()
   const { user, logout, refreshUser } = useAuth()
 
-  const [progress, setProgress] = useState([])
+  const [progress, setProgress]             = useState([])
+  const [catalogueCounts, setCatalogueCounts] = useState({}) // { [categoryRoute]: number }
 
   useEffect(() => {
     async function fetchData() {
       try {
         await refreshUser()
-        const res = await api.get('/progress')
-        if (res?.ok) setProgress(await res.json())
+
+        const [progressRes] = await Promise.all([
+          api.get('/progress'),
+        ])
+        if (progressRes?.ok) setProgress(await progressRes.json())
       } catch (err) { /* non-fatal */ }
     }
     fetchData()
   }, []) // eslint-disable-line
 
+  // Once we know the user's age_category, fetch how many sims they have per category
+  useEffect(() => {
+    if (!user?.age_category) return
+    async function fetchCounts() {
+      try {
+        const results = await Promise.all(
+          CATEGORY_CARDS.map(c =>
+            api.get(`/catalogue/${c.categoryRoute}/${user.age_category}`)
+              .then(r => r?.ok ? r.json() : [])
+              .then(data => [c.categoryRoute, Array.isArray(data) ? data.length : 0])
+          )
+        )
+        setCatalogueCounts(Object.fromEntries(results))
+      } catch (err) { /* non-fatal */ }
+    }
+    fetchCounts()
+  }, [user?.age_category]) // eslint-disable-line
+
   const completedCount = progress.filter(p => p.status === 'completed').length
   const totalPoints    = user?.total_points ?? 0
 
-  // Derive which category cards are "completed" (user finished ≥1 sim in that category)
+  // Derive which category cards are "completed":
+  // user has completed ALL sims available to them in that category
+  const completedSimIdsByRoute = progress
+    .filter(p => p.status === 'completed' && p.simulation_category)
+    .reduce((acc, p) => {
+      const route = CATEGORY_TO_ROUTE[p.simulation_category]
+      if (route) {
+        if (!acc[route]) acc[route] = new Set()
+        acc[route].add(p.simulation_id)
+      }
+      return acc
+    }, {})
+
   const completedCategories = new Set(
-    progress
-      .filter(p => p.status === 'completed' && p.simulation_category)
-      .map(p => CATEGORY_TO_ROUTE[p.simulation_category])
-      .filter(Boolean)
+    CATEGORY_CARDS
+      .filter(c => {
+        const available  = catalogueCounts[c.categoryRoute] ?? 0
+        const completed  = completedSimIdsByRoute[c.categoryRoute]?.size ?? 0
+        // Only mark complete if we know the count AND user has finished all of them
+        return available > 0 && completed >= available
+      })
+      .map(c => c.categoryRoute)
   )
 
   // Enrich CATEGORY_CARDS with live `completed` flag — no hardcoded values
