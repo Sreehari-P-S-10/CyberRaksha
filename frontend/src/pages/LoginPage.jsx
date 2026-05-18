@@ -38,6 +38,7 @@ export default function LoginPage() {
     e.preventDefault()
     setError('')
     if (!email.trim() || !password) { setError('Please enter your email and password.'); return }
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim())) { setError('Please enter a valid email address.'); return }
     setLoading(true)
     try {
       const res = await api.post('/auth/login', { email: email.trim(), password })

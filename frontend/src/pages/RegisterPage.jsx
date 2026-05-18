@@ -46,6 +46,7 @@ export default function RegisterPage() {
     setError('')
     if (!name.trim())        { setError('Please enter your name.'); return }
     if (!email.trim())       { setError('Please enter your email.'); return }
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim())) { setError('Please enter a valid email address.'); return }
     if (password.length < 8) { setError('Password must be at least 8 characters.'); return }
     setStep(2)
   }
