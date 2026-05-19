@@ -48,228 +48,273 @@ Before running the project, install the following.
 ```bash
 node -v
 npm -v
+```
 
-Expected:
+Expected: v18.x or higher, npm 9.x or higher
 
-v18.x or higher
-9.x or higher
-⭐ 2. Install PostgreSQL (Required)
-📌 Why?
+---
 
-Database stores:
+## ⭐ 2. Install PostgreSQL (Required)
 
-users
+### 📌 Why?
 
-quiz questions
+- Stores users  
+- Stores quiz questions  
+- Tracks simulation progress  
+- Analytics & XP data
 
-simulation progress
+### 📥 Installation Steps (Windows)
 
-XP & analytics
+1. Visit: https://www.postgresql.org/download/windows/
+2. Download installer
+3. Select components:
+   - ✅ PostgreSQL Server
+   - ✅ pgAdmin
+   - ✅ Command Line Tools
+   - ❌ Stack Builder (optional)
+4. Set password (e.g., Username: `postgres`, Password: `1234`)
+5. Keep default port: `5432`
 
-📥 Installation Steps (Windows)
+### ✅ Verify PostgreSQL
 
-Visit: https://www.postgresql.org/download/windows/
-
-Download installer
-
-Select components:
-
-✅ PostgreSQL Server
-
-✅ pgAdmin
-
-✅ Command Line Tools
-
-❌ Stack Builder (not required)
-
-🔐 Set Password
-
-Example:
-
-Username: postgres
-Password: 1234
-🔌 Keep Default Port
-5432
-✅ Verify PostgreSQL
+```bash
 psql --version
+```
 
-If not recognized:
+If not recognized, add to PATH: `C:\Program Files\PostgreSQL\16\bin` → Environment Variables → restart terminal.
 
-Add to PATH:
+---
 
-C:\Program Files\PostgreSQL\16\bin
+## ⭐ 3. Install Git (Recommended)
 
-Environment Variables → System Variables → Path → Add.
+1. Download: https://git-scm.com/downloads
+2. Verify: `git --version`
 
-Restart terminal.
+---
 
-⭐ 3. Install Git (Recommended)
+## ⭐ 4. Create Required Accounts (For Production Deployment)
 
-Download:
+- GitHub: https://github.com
+- Neon: https://neon.tech (PostgreSQL hosting)
+- Render: https://render.com (Backend hosting)
+- Vercel: https://vercel.com (Frontend hosting)
 
-https://git-scm.com/downloads
+---
 
-Verify:
+## 💻 Local Development Setup
 
-git --version
-⭐ 4. Create Required Accounts (For Deployment)
+### ⭐ Step 1 — Create Local Database
 
-GitHub → https://github.com
-
-Neon → https://neon.tech
-
-Render → https://render.com
-
-Vercel → https://vercel.com
-
-💻 Local Development Setup
-⭐ Step 1 — Create Local Database
+```bash
 psql -U postgres
+```
 
-Then:
+Then in the PostgreSQL prompt:
 
+```sql
 CREATE DATABASE cyberraksha;
 \q
-⭐ Step 2 — Configure Backend Environment
+```
+
+### ⭐ Step 2 — Configure Backend Environment
+
+```bash
 cd backend
-copy .env.example .env
+cp .env.example .env
+```
 
-Edit .env:
+Edit `.env` with your local values:
 
+```env
 DATABASE_URL=postgresql://postgres:1234@localhost:5432/cyberraksha
 JWT_SECRET=cyberraksha_dev_secret_key
 CLIENT_URL=http://localhost:5173
 NODE_ENV=development
-⭐ Step 3 — Install Backend Dependencies
+PORT=5000
+```
+
+### ⭐ Step 3 — Install Backend Dependencies
+
+```bash
 npm install
-⭐ Step 4 — Run Database Migration
+```
+
+### ⭐ Step 4 — Run Database Migration
+
+```bash
 npm run migrate
+```
 
 Tables created automatically:
+- `users`
+- `simulations`
+- `quiz_questions`
+- `user_progress`
+- `user_quiz_attempts`
 
-users
+### ⭐ Step 5 — Start Backend Server
 
-simulations
-
-quiz_questions
-
-user_progress
-
-⭐ Step 5 — Start Backend Server
+```bash
 npm run dev
+```
 
-Backend runs at:
+Backend runs at: http://localhost:5000
 
-http://localhost:5000
+Health check: http://localhost:5000/api/health
 
-Health Check:
+### ⭐ Step 6 — Start Frontend
 
-http://localhost:5000/api/health
-⭐ Step 6 — Start Frontend
+Open a new terminal:
 
-Open new terminal:
-
+```bash
 cd frontend
 npm install
 npm run dev
+```
 
-Frontend runs at:
+Frontend runs at: http://localhost:5173
 
-http://localhost:5173
-⭐ Step 7 — Test Full Flow
+### ⭐ Step 7 — Test Full Flow
 
-Open frontend URL
+1. Open http://localhost:5173 in browser
+2. Register a new user
+3. Login → Dashboard
+4. Start a simulation
+5. Complete quiz
+6. Verify progress is saved in database
 
-Register new user
+---
 
-Login → Dashboard
+## ☁️ Production Deployment
 
-Start simulation
+### ⭐ Step 1 — Create Neon Database
 
-Complete quiz
+1. Login to https://neon.tech
+2. Create a new project named `cyberraksha`
+3. Copy the connection string (format: `postgresql://user:password@...`)
+4. Run the migration from your local machine:
 
-Verify progress saved
+```bash
+psql "postgresql://user:password@ep-xxxx.us-east-2.aws.neon.tech/cyberraksha?sslmode=require" -f backend/database/migrations/001_initial_schema.sql
+```
 
-☁️ Production Deployment
-⭐ Step 1 — Create Neon Database
+Or, from the `backend` directory:
 
-Login → https://neon.tech
+```bash
+psql "your_neon_connection_string" -f database/migrations/001_initial_schema.sql
+```
 
-Create project → cyberraksha
+> This creates all necessary tables in production.
 
-Copy connection string
+### ⭐ Step 2 — Deploy Backend on Render
 
-Run migration:
+1. Connect your GitHub repository to Render
+2. Create a new Web Service
+3. Configure:
 
-psql "connection_string" -f database/migrations/001_initial_schema.sql
-⭐ Step 2 — Deploy Backend on Render
+**Settings:**
+- **Root Directory:** `backend`
+- **Build Command:** `npm install`
+- **Start Command:** `npm start`
 
-Settings:
-
-Root Directory → backend
-Build Command → npm install
-Start Command → npm start
-
-Environment Variables:
-
+**Environment Variables:**
+```env
 NODE_ENV=production
-DATABASE_URL=your_neon_url
-JWT_SECRET=random_secret
-CLIENT_URL=vercel_url
-⭐ Step 3 — Deploy Frontend on Vercel
+DATABASE_URL=<your_neon_connection_string>
+JWT_SECRET=<generate_strong_random_secret>
+CLIENT_URL=<your_vercel_frontend_url>
+PORT=5000
+```
 
-Settings:
+> Generate JWT_SECRET: `node -e "console.log(require('crypto').randomBytes(48).toString('hex'))"`
 
-Framework → Vite
-Root → frontend
-Build → npm run build
-Output → dist
+**Important:** After Vercel frontend is deployed, update `CLIENT_URL` and redeploy backend.
 
-Environment Variable:
+### ⭐ Step 3 — Deploy Frontend on Vercel
 
-VITE_API_URL=render_backend_url
-⭐ Step 4 — Update Backend CORS
+1. Connect your GitHub repository to Vercel
+2. Configure:
 
-Update:
+**Settings:**
+- **Framework:** Vite
+- **Root Directory:** `frontend`
+- **Build Command:** `npm run build`
+- **Output Directory:** `dist`
 
-CLIENT_URL=vercel_url
+**Environment Variables:**
+```env
+VITE_API_URL=https://<your-render-backend-url>
+```
 
-Redeploy backend.
+> Example: `VITE_API_URL=https://cyberraksha-api.onrender.com`
 
-⭐ Step 5 — Verify Production
+### ⭐ Step 4 — Update Backend CORS (if needed)
 
-Register user
+After Vercel URL is ready:
 
-Complete simulation
+1. Update Render environment variable: `CLIENT_URL=<vercel_url>`
+2. Trigger redeploy on Render
+3. Test CORS by accessing frontend
 
-Check Neon dashboard
+### ⭐ Step 5 — Verify Production Deployment
 
-Verify user_progress row
+1. Navigate to frontend URL (Vercel)
+2. Register a new user
+3. Complete a simulation
+4. Check Neon dashboard to verify data is saved in `user_progress` table
 
-🔐 Security Features
+---
 
-bcrypt password hashing
+## 🔐 Security Features
 
-JWT authentication
+- **Password Hashing:** bcryptjs (10 salt rounds)
+- **Authentication:** JWT tokens with expiration
+- **Protected Routes:** API endpoints require valid JWT
+- **XP Anti-Duplication:** Prevents double-crediting for repeated quiz attempts
+- **Database Security:** SSL required for Neon connections
+- **CORS:** Configured to only accept requests from frontend URL
+- **Environment Secrets:** JWT_SECRET not committed to repository
 
-Protected API routes
+---
 
-XP anti-duplication logic
+## ✅ Troubleshooting
 
-SSL DB connections in production
+### Backend won't start
+- Ensure PostgreSQL service is running: `psql --version`
+- Check correct password in `.env` DATABASE_URL
+- Verify port 5000 is free: `netstat -an | grep 5000` (or `lsof -i :5000` on Mac)
+- Run `npm run migrate` to create tables
 
-Security headers enabled
+### Migration fails
+- Verify connection string is correct
+- Check PostgreSQL is running locally
+- For Neon: verify SSL mode (`?sslmode=require`)
+- Run migration from `backend` directory or use full path to SQL file
 
-✅ Beginner Troubleshooting
+### Frontend can't reach backend
+- Ensure backend is running: http://localhost:5000/api/health
+- Check `CLIENT_URL` in backend `.env` matches frontend origin
+- Verify `VITE_API_URL` is set correctly in production (Vercel env vars)
+- Check browser console for CORS errors
 
-Ensure:
+### User registration/login fails
+- Verify `users` table exists: `psql cyberraksha -c "\dt"`
+- Check Node.js version ≥ 18: `node -v`
+- Review backend logs for database errors
 
-PostgreSQL service running
+### Verify project is ready for deployment
 
-Correct DB password in .env
+Before pushing to production:
 
-Node version ≥ 18
+```bash
+# 1. Backend health check
+curl http://localhost:5000/api/health
 
-Backend port free
+# 2. Database connection
+npm run migrate
 
-Tables created after migration
+# 3. Frontend builds
+npm run build
+
+# 4. No console errors in browser
+```
