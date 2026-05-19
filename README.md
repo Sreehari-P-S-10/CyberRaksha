@@ -506,9 +506,9 @@ Contributions are welcome! Please follow these steps:
 
 <table>
   <tr>
-    <td align="center"><strong>Adith <!-- REPLACE: add full name --></strong><br/>Developer</td>
+    <td align="center"><strong>Adith K A</strong><br/>Developer</td>
     <td align="center"><strong>Sreehari P S</strong><br/>Developer</td>
-    <td align="center"><strong>Neeraj <!-- REPLACE: add full name --></strong><br/>Developer</td>
+    <td align="center"><strong>Neeraj Krishnan</strong><br/>Developer</td>
   </tr>
 </table>
 
