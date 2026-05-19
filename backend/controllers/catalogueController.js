@@ -35,7 +35,7 @@ async function getCatalogue(req, res) {
          -- difficulty comes from simulations table, lowercased to match JS object
          LOWER(s.difficulty_level) AS difficulty,
          s.title,
-         COALESCE(s.description, '')  AS desc,
+         COALESCE(s.card_desc, '')  AS desc,
          sc.duration,
          COALESCE(s.objectives, ARRAY[]::TEXT[])    AS objectives,
          sc.badge
