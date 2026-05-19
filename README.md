@@ -12,7 +12,9 @@
 
 **An interactive, simulation-driven cybersecurity awareness platform that trains users to recognize and resist cyber threats through realistic, decision-based scenarios.**
 
-[Live Demo](#-deployment) • [Documentation](DEPLOYMENT.md) • [Report Bug](https://github.com/Sreehari-P-S-10/CyberRaksha/issues) • [Request Feature](https://github.com/Sreehari-P-S-10/CyberRaksha/issues)
+[🚀 Live Demo](https://cyber-raksha-eta.vercel.app) • [Documentation](DEPLOYMENT.md) • [Report Bug](https://github.com/Sreehari-P-S-10/CyberRaksha/issues) • [Request Feature](https://github.com/Sreehari-P-S-10/CyberRaksha/issues)
+
+> 🎓 **Mini Project** — B.Tech Computer Science & Engineering, Government Engineering College Thrissur (APJ Abdul Kalam Technological University)
 
 </div>
 
@@ -22,6 +24,7 @@
 
 - [About the Project](#-about-the-project)
 - [Key Features](#-key-features)
+- [Screenshots](#-screenshots)
 - [Architecture](#-architecture)
 - [Tech Stack](#-tech-stack)
 - [Project Structure](#-project-structure)
@@ -65,6 +68,21 @@ Each simulation presents decision points where users must choose how to respond.
 | 🔐 **Secure Authentication** | JWT-based auth with bcrypt password hashing |
 | 📱 **Responsive Design** | Works on desktop, tablet, and mobile devices |
 
+---
+
+## 📸 Screenshots
+
+### Landing Page
+![Landing Page](docs/screenshots/landing.png)
+
+### Dashboard
+![Dashboard](docs/screenshots/dashboard.png)
+
+### Simulation Categories
+![Simulations](docs/screenshots/simulations.png)
+
+### Simulation in Action
+![Simulation Player](docs/screenshots/simulation-player.png)
 ---
 
 ## 🏗️ Architecture
@@ -484,11 +502,13 @@ Contributions are welcome! Please follow these steps:
 
 ## 👥 Team
 
+> 🎓 B.Tech Computer Science & Engineering — Government Engineering College Thrissur (APJ Abdul Kalam Technological University)
+
 <table>
   <tr>
-    <td align="center"><strong>Adith</strong><br/>Developer</td>
-    <td align="center"><strong>Sreehari</strong><br/>Developer</td>
-    <td align="center"><strong>Neeraj</strong><br/>Developer</td>
+    <td align="center"><strong>Adith <!-- REPLACE: add full name --></strong><br/>Developer</td>
+    <td align="center"><strong>Sreehari P S</strong><br/>Developer</td>
+    <td align="center"><strong>Neeraj <!-- REPLACE: add full name --></strong><br/>Developer</td>
   </tr>
 </table>
 
